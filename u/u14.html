@@ -1,0 +1,450 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 상관</a><a href="#e2">2 PCA</a><a href="#e3">3 스크리</a><a href="#e4">4 MDS</a><a href="#e5">5 변동 요인</a><a href="#e6">6 정상성</a><a href="#e7">7 평활화</a><a href="#e8">8 AR·MA</a><a href="#e9">9 ARIMA</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 14장 · 26~28쪽 · 이야기로 읽기</span>
+  <h1>원장님, 항목은 줄이고 내년 등록생은 내다보다</h1>
+  <p>13장에서 원장님은 공부 시간과 점수 사이에 선을 그었어요. 14장은 두 가지 고민이에요. <b>"평가 항목이 너무 많아 머리가 아프다"</b>(상관, 차원 축소)와 <b>"다음 달 등록생이 몇 명일까"</b>(시계열).</p>
+  <div class="speed">
+    <div><b>시간 없을 때 10분</b>검은 상자 + 그림만</div>
+    <div><b>보통 25분</b>필기 연결 칸까지</div>
+    <div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div>
+  </div>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>여러 변수가 <b>같이 움직이는 정도를 재고</b>(상관), 겹치는 항목은 <b>핵심 몇 개로 압축하고</b>(PCA, MDS), 시간 순서 데이터는 <b>평평하게 만든 뒤</b>(정상성, 차분) 과거 값과 과거 잡음으로 <b>미래를 예측</b>한다(AR, MA, ARIMA).</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 26쪽</span><span class="t">같이 움직이나?</span><span class="q">피어슨, 스피어만</span></a>
+  <a href="#e2"><span class="n">2~3화 · 26~27쪽</span><span class="t">항목 10개를 2개로?</span><span class="q">주성분분석, 스크리플롯</span></a>
+  <a href="#e4"><span class="n">4화 · 27쪽</span><span class="t">거리표로 지도를?</span><span class="q">다차원척도법, Stress</span></a>
+  <a href="#e5"><span class="n">5화 · 27쪽</span><span class="t">그래프가 왜 출렁이나?</span><span class="q">추세, 계절, 순환, 불규칙</span></a>
+  <a href="#e6"><span class="n">6~7화 · 27~28쪽</span><span class="t">어떻게 평평하게?</span><span class="q">정상성, 차분, 평활화</span></a>
+  <a href="#e8"><span class="n">8~9화 · 28쪽</span><span class="t">무엇으로 예측하나?</span><span class="q">AR, MA, ARIMA</span></a>
+</div>
+
+<p class="part">PART 1 · 변수가 많을 때 (26~27쪽)</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>모의고사와 수능, 같이 움직일까</h2><span class="pg">26쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>두 변수가 같이 움직이는 정도를 −1 ~ +1로 나타낸 게 상관계수. <b>숫자 그대로 직선에 얼마나 붙나</b>를 보면 피어슨, <b>등수(순위)가 얼마나 같은 순서인가</b>를 보면 스피어만.</div>
+  <div class="fig">
+    <svg viewBox="0 0 340 220" style="max-width:400px" role="img" aria-label="계속 올라가지만 끝에서 확 꺾여 오르는 곡선 점 6개. 직선에서 벗어나 피어슨은 0.80, 순서는 완전히 일치해 스피어만은 1">
+      <line x1="40" y1="190" x2="320" y2="190" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="40" y1="190" x2="40" y2="20" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="49" y1="192" x2="301" y2="75" stroke="var(--muted)" stroke-width="2" stroke-dasharray="6 4"/>
+      <polyline points="62,164 108,160.8 152,157.6 198,151.2 242,132 288,36" fill="none" stroke="var(--omr)" stroke-width="2"/>
+      <g fill="var(--blue)"><circle cx="62" cy="164" r="6"/><circle cx="108" cy="160.8" r="6"/><circle cx="152" cy="157.6" r="6"/><circle cx="198" cy="151.2" r="6"/><circle cx="242" cy="132" r="6"/><circle cx="288" cy="36" r="6"/></g>
+      <text class="svgmut" x="60" y="40">점선 = 피어슨이 재는 직선</text>
+      <text class="svgmut" x="60" y="56">점들은 직선에서 꽤 벗어남</text>
+      <text class="svgtxt" x="180" y="208" text-anchor="middle" font-weight="700">X 주말 특강 횟수</text>
+      <text class="svgtxt" x="16" y="105" text-anchor="middle" font-weight="700" transform="rotate(-90 16 105)">Y 점수</text>
+    </svg>
+    <div class="calc">
+      <div class="ln"><span>점수: 50, 51, 52, 54, 60, 90 (특강 1~6회)</span><span class="num">계속 오르지만 곡선</span></div>
+      <div class="ln"><span>피어슨: 숫자가 직선에 얼마나 붙나</span><span class="num">≈ +0.80</span></div>
+      <div class="ln"><span>스피어만: X 순위 1~6, Y 순위도 1~6, 순서가 완전히 같음</span><span class="num">+1</span></div>
+    </div>
+  </div>
+  <div class="two" style="margin-top:12px">
+    <div class="box"><span class="tag blue">숫자 그대로</span><h4>피어슨</h4><p><b>양적(연속형)</b> 척도. <b>선형</b> 관계의 크기. 키, 몸무게, 점수.</p></div>
+    <div class="box"><span class="tag green">등수로 바꿔서</span><h4>스피어만</h4><p><b>순서(서열)</b> 척도. 순위 기반이라 곡선이라도 한 방향이면(<b>비선형, 단조</b>) 잡아냄. 반 등수, 만족도 1~5단계.</p></div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">상관계수</span><span>+1 같이 오름, −1 반대로 움직임, 0 관계 없음</span></div>
+    <div class="row"><span class="term">공분산</span><span>같이 움직이는 방향은 알지만 <b>단위에 따라 크기가 바뀜</b>(cm냐 m냐). 그래서 −1 ~ +1로 맞춘 게 상관계수</span></div>
+    <div class="row"><span class="term">단조 관계</span><span>꺾이긴 해도 <b>한 방향으로만</b> 가는 관계 (계속 오르거나, 계속 내리거나)</span></div>
+  </div>
+  <div class="trap">"곡선인데 계속 증가" 짝 문제: <b>피어슨 +0.8, 스피어만 +1</b>. 반대(피어슨 +1, 스피어만 +0.8)로 바꾼 보기가 함정이에요. 피어슨이 1이면 완벽한 직선이라 순서도 당연히 완벽하게 같아요.</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>평가 항목 10개, 핵심 2개로 요약하기</h2><span class="pg">26쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>국어, 영어, 수학 점수는 서로 같이 움직이고(상관 높음), 출석, 숙제도 같이 움직인다. 겹치는 항목들을 <b>섞어서(선형 결합) 새 항목 몇 개</b>로 만들면 정보는 거의 그대로, 항목 수는 확 준다. 이게 <b>주성분분석(PCA)</b>.</div>
+  <div class="fig">
+    <svg viewBox="0 0 420 250" style="max-width:480px" role="img" aria-label="왼쪽 항목 10개가 오른쪽 주성분 2개로 모임. 과목 점수들은 제1주성분, 출석과 숙제 등은 제2주성분 쪽">
+      <g font-family="var(--font)" font-size="12">
+        <g fill="var(--blue-soft)" stroke="var(--blue)">
+          <rect x="10" y="8" width="96" height="20" rx="5"/><rect x="10" y="32" width="96" height="20" rx="5"/><rect x="10" y="56" width="96" height="20" rx="5"/><rect x="10" y="80" width="96" height="20" rx="5"/><rect x="10" y="104" width="96" height="20" rx="5"/><rect x="10" y="128" width="96" height="20" rx="5"/>
+        </g>
+        <g fill="var(--amber-soft)" stroke="var(--amber)">
+          <rect x="10" y="152" width="96" height="20" rx="5"/><rect x="10" y="176" width="96" height="20" rx="5"/><rect x="10" y="200" width="96" height="20" rx="5"/><rect x="10" y="224" width="96" height="20" rx="5"/>
+        </g>
+        <g class="svgtxt" text-anchor="middle">
+          <text x="58" y="22">국어</text><text x="58" y="46">영어</text><text x="58" y="70">수학</text><text x="58" y="94">과학</text><text x="58" y="118">사회</text><text x="58" y="142">모의고사</text>
+          <text x="58" y="166">출석률</text><text x="58" y="190">숙제 제출</text><text x="58" y="214">자습 시간</text><text x="58" y="238">질문 횟수</text>
+        </g>
+        <g stroke="var(--blue)" stroke-width="1.2" opacity=".7">
+          <line x1="106" y1="18" x2="270" y2="75"/><line x1="106" y1="42" x2="270" y2="75"/><line x1="106" y1="66" x2="270" y2="75"/><line x1="106" y1="90" x2="270" y2="75"/><line x1="106" y1="114" x2="270" y2="75"/><line x1="106" y1="138" x2="270" y2="75"/>
+        </g>
+        <g stroke="var(--amber)" stroke-width="1.2" opacity=".8">
+          <line x1="106" y1="162" x2="270" y2="185"/><line x1="106" y1="186" x2="270" y2="185"/><line x1="106" y1="210" x2="270" y2="185"/><line x1="106" y1="234" x2="270" y2="185"/>
+        </g>
+        <rect x="270" y="50" width="140" height="50" rx="10" fill="var(--ink)"/>
+        <text x="340" y="71" text-anchor="middle" fill="var(--bg)" font-weight="700" font-size="13">제1주성분 PC1</text>
+        <text x="340" y="88" text-anchor="middle" fill="var(--bg)" font-size="11.5">"학업 실력" 분산 최대</text>
+        <rect x="270" y="160" width="140" height="50" rx="10" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
+        <text class="svgtxt" x="340" y="181" text-anchor="middle" font-weight="700" font-size="13">제2주성분 PC2</text>
+        <text class="svgmut" x="340" y="198" text-anchor="middle">"성실도" PC1과 직교</text>
+      </g>
+    </svg>
+    <p class="cap">"학업 실력", "성실도" 같은 이름은 원장님이 붙인 해석이에요. 기계는 섞는 비율만 계산해요.</p>
+  </div>
+  <p class="linkh">제1주성분은 왜 "분산이 가장 큰 방향"일까</p>
+  <div class="fig">
+    <svg viewBox="0 0 400 210" style="max-width:460px" role="img" aria-label="길쭉하게 퍼진 점 구름. 가장 길게 퍼진 대각선 방향이 PC1, 그에 수직인 짧은 방향이 PC2">
+      <g fill="var(--blue)" opacity=".75"><circle cx="247" cy="26" r="4"/><circle cx="193" cy="88" r="4"/><circle cx="160" cy="114" r="4"/><circle cx="95" cy="152" r="4"/><circle cx="167" cy="163" r="4"/><circle cx="187" cy="96" r="4"/><circle cx="164" cy="104" r="4"/><circle cx="134" cy="127" r="4"/><circle cx="198" cy="90" r="4"/><circle cx="218" cy="79" r="4"/><circle cx="191" cy="122" r="4"/><circle cx="199" cy="86" r="4"/><circle cx="176" cy="116" r="4"/><circle cx="258" cy="54" r="4"/><circle cx="177" cy="122" r="4"/><circle cx="142" cy="124" r="4"/><circle cx="220" cy="90" r="4"/><circle cx="188" cy="110" r="4"/><circle cx="70" cy="186" r="4"/><circle cx="129" cy="110" r="4"/><circle cx="196" cy="106" r="4"/><circle cx="155" cy="104" r="4"/></g>
+      <line x1="77" y1="167" x2="283" y2="43" stroke="var(--omr)" stroke-width="3"/>
+      <line x1="157" y1="66" x2="203" y2="144" stroke="var(--ink)" stroke-width="2.5"/>
+      <rect x="174" y="98" width="9" height="9" fill="none" stroke="var(--ink)" stroke-width="1.2" transform="rotate(-31 180 105)"/>
+      <text x="290" y="40" fill="var(--omr)" font-size="12" font-weight="700" font-family="var(--font)">PC1</text>
+      <text class="svgmut" x="290" y="55">가장 길게 퍼진 방향</text>
+      <text class="svgtxt" x="210" y="160" font-weight="700">PC2</text>
+      <text class="svgmut" x="210" y="174">PC1과 직각(직교)</text>
+      <text class="svgmut" x="180" y="204" text-anchor="middle">점 하나 = 학생 한 명 (국어 점수, 영어 점수)</text>
+    </svg>
+  </div>
+  <div class="say"><p>학생들이 가장 넓게 퍼진 방향 = <b>학생들 차이가 가장 잘 드러나는 방향</b>이에요. 그 줄 위 위치 하나만 봐도 학생을 꽤 구별할 수 있으니 정보를 제일 많이 담은 축이죠. 제2주성분은 PC1이 못 담은 나머지를, <b>PC1과 겹치지 않게(직교)</b> 담아요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">주성분분석 PCA</span><span>상관성 높은 변수들을 <b>선형 결합</b>해 새 변수(주성분)를 만드는 <b>차원 축소</b></span></div>
+    <div class="row"><span class="term">제1주성분</span><span>분산이 <b>가장 큰</b> 방향</span></div>
+    <div class="row"><span class="term">제2주성분</span><span>제1주성분과 <b>직교</b>하면서 다음으로 분산이 큰 방향</span></div>
+    <div class="row"><span class="term">선형 결합</span><span>항목마다 비율을 곱해서 더하기. 예: 0.4 × 국어 + 0.4 × 영어 + 0.2 × 수학</span></div>
+  </div>
+  <div class="memo">짐 싸기: 옷 20벌을 다 못 넣으니 <b>"제일 자주 입는 조합"</b> 2~3개로 압축. 13장 다중공선성(닮은 변수끼리 문제)의 해결책으로도 PCA가 나왔어요.</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>주성분, 몇 개까지 남길까</h2><span class="pg">26~27쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>주성분은 뒤로 갈수록 담는 정보가 줄어든다. <b>누적 설명력이 70~90%</b>쯤 되거나, <b>스크리플롯이 평평해지기 직전</b>까지만 남긴다.</div>
+  <div class="fig">
+    <p class="linkh" style="margin-top:0">R 결과 · prcomp(data, center = T, scale. = T) 후 summary</p>
+    <p class="cap" style="text-align:left;margin:0 0 8px">교재 숫자는 PC1 63.72%와 PC2까지 누적 약 80%예요. 나머지 칸과 스크리플롯 값은 설명을 위해 맞춰 넣은 예시예요.</p>
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th>Importance of components</th><th>PC1</th><th>PC2</th><th>PC3</th><th>PC4</th></tr>
+        <tr><td>Standard deviation</td><td class="num">2.5243</td><td class="num">1.2767</td><td class="num">0.7874</td><td class="num">0.6708</td></tr>
+        <tr><td>Proportion of Variance</td><td class="num"><mark>0.6372</mark></td><td class="num">0.1630</td><td class="num">0.0620</td><td class="num">0.0450</td></tr>
+        <tr><td>Cumulative Proportion</td><td class="num">0.6372</td><td class="num"><mark>0.8002</mark></td><td class="num">0.8622</td><td class="num">0.9072</td></tr>
+      </table>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>PC1 혼자 설명하는 비율 (Proportion)</span><span class="num">63.72%</span></div>
+      <div class="ln"><span>PC1 + PC2 누적 (Cumulative) = 0.6372 + 0.1630</span><span class="num">80.02% ≈ 80%</span></div>
+      <div class="ln"><span>70~90% 기준에 들어옴 → 항목 10개를 주성분 2개로</span><span class="num">2개</span></div>
+    </div>
+    <svg viewBox="0 0 400 245" style="max-width:440px;margin-top:14px" role="img" aria-label="스크리플롯: 1번에서 2번으로 크게 떨어지고 3번부터 평평해짐. 평평해지기 직전인 2개를 선택">
+      <line x1="50" y1="200" x2="375" y2="200" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="50" y1="200" x2="50" y2="25" stroke="var(--ink)" stroke-width="1.5"/>
+      <text class="svgmut" x="44" y="204" text-anchor="end">0</text>
+      <text class="svgmut" x="44" y="132" text-anchor="end">3</text>
+      <text class="svgmut" x="44" y="60" text-anchor="end">6</text>
+      <line x1="50" y1="128" x2="375" y2="128" stroke="var(--line)" stroke-dasharray="2 4"/>
+      <line x1="50" y1="56" x2="375" y2="56" stroke="var(--line)" stroke-dasharray="2 4"/>
+      <rect x="56" y="30" width="62" height="168" rx="6" fill="var(--ok-soft)"/>
+      <polyline points="70,47.1 102,160.9 134,185.1 166,189.2 198,192.8 230,194.5 262,196.4 294,197.4 326,198.1 358,198.6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+      <g fill="var(--ok)"><circle cx="70" cy="47.1" r="5"/><circle cx="102" cy="160.9" r="5"/></g>
+      <g fill="var(--muted)"><circle cx="134" cy="185.1" r="4"/><circle cx="166" cy="189.2" r="4"/><circle cx="198" cy="192.8" r="4"/><circle cx="230" cy="194.5" r="4"/><circle cx="262" cy="196.4" r="4"/><circle cx="294" cy="197.4" r="4"/><circle cx="326" cy="198.1" r="4"/><circle cx="358" cy="198.6" r="4"/></g>
+      <g class="svgmut" text-anchor="middle"><text x="70" y="215">1</text><text x="102" y="215">2</text><text x="134" y="215">3</text><text x="166" y="215">4</text><text x="198" y="215">5</text><text x="230" y="215">6</text><text x="262" y="215">7</text><text x="294" y="215">8</text><text x="326" y="215">9</text><text x="358" y="215">10</text></g>
+      <text class="svgtxt" x="140" y="168" font-weight="700">← 3부터 평평(팔꿈치)</text>
+      <text x="87" y="24" text-anchor="middle" fill="var(--ok)" font-size="12" font-weight="700" font-family="var(--font)">여기까지 2개 선택</text>
+      <text class="svgtxt" x="212" y="236" text-anchor="middle" font-weight="700">x축 주성분 번호(개수)</text>
+      <text class="svgtxt" x="16" y="112" text-anchor="middle" font-weight="700" transform="rotate(-90 16 112)">y축 분산</text>
+    </svg>
+    <p class="cap">산비탈(가파른 부분)이 끝나고 자갈밭(평평한 부분)이 시작되기 <b>직전</b>까지 남겨요.</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">누적 설명력</span><span><b>70~90%</b> 수준까지 주성분 개수 결정</span></div>
+    <div class="row"><span class="term">스크리플롯</span><span>x축 주성분 개수, y축 분산. 기울기가 <b>완만해지기 직전</b>까지 선택. 3~4에서 완만해지면 2개</span></div>
+    <div class="row"><span class="term">center = T</span><span>항목마다 평균을 빼서 <b>평균 0</b>으로 맞춤 (중심화)</span></div>
+    <div class="row"><span class="term">scale. = T</span><span>항목마다 흩어짐도 1로 맞춤 (<b>표준화</b>). 100점 만점 점수와 10회짜리 질문 횟수의 단위 차이를 없앰</span></div>
+  </div>
+  <details><summary>Proportion은 Standard deviation에서 어떻게 나오나</summary><div class="in">
+    <p>표준화(scale. = T)하면 항목 하나의 분산이 1이라, 항목 10개면 전체 분산이 <b>10</b>이에요. 분산 = 표준편차의 제곱.</p>
+    <div class="calc">
+      <div class="ln"><span>PC1 분산 = 2.5243²</span><span class="num">≈ 6.372</span></div>
+      <div class="ln"><span>PC1 비율 = 6.372 ÷ 10</span><span class="num">0.6372</span></div>
+      <div class="ln"><span>PC2 분산 = 1.2767² ≈ 1.630, 비율 1.630 ÷ 10</span><span class="num">0.1630</span></div>
+    </div>
+  </div></details>
+  <div class="trap">주성분 개수는 정답이 딱 정해진 게 아니라 <b>연구자 판단</b>이에요. 그리고 스크리플롯은 "가장 가파른 지점"이 아니라 <b>"완만해지기 직전"</b>이 기준.</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>거리표만 있을 때 지도를 그리는 법</h2><span class="pg">27쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>원장님 손에 "학원끼리 몇 km" <b>거리표만</b> 있다. 거리를 최대한 지키면서 점을 종이(2차원) 위에 찍으면 지도가 된다. 이게 <b>다차원척도법(MDS)</b>. 얼마나 잘 지켰나는 <b>Stress</b>(0에 가까울수록 좋음).</div>
+  <div class="fig">
+    <div class="two">
+      <div>
+        <div class="tblwrap">
+          <table class="act">
+            <tr><th>km</th><th>우리</th><th>가</th><th>나</th><th>다</th></tr>
+            <tr><td>우리</td><td class="num">0</td><td class="num">6</td><td class="num">8</td><td class="num">10</td></tr>
+            <tr><td>가</td><td class="num">6</td><td class="num">0</td><td class="num">10</td><td class="num">8</td></tr>
+            <tr><td>나</td><td class="num">8</td><td class="num">10</td><td class="num">0</td><td class="num">6</td></tr>
+            <tr><td>다</td><td class="num">10</td><td class="num">8</td><td class="num">6</td><td class="num">0</td></tr>
+          </table>
+        </div>
+        <p class="cap">입력: 숫자만 있는 거리표 (위치는 모름)</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 200 170" style="max-width:240px" role="img" aria-label="거리표를 지킨 지도: 우리와 가는 6, 우리와 나는 8, 대각선은 10 떨어진 직사각형 배치">
+          <g stroke="var(--line)" stroke-width="1.5"><line x1="40" y1="130" x2="130" y2="130"/><line x1="40" y1="130" x2="40" y2="10"/><line x1="130" y1="130" x2="130" y2="10"/><line x1="40" y1="10" x2="130" y2="10"/></g>
+          <line x1="40" y1="130" x2="130" y2="10" stroke="var(--muted)" stroke-dasharray="4 3"/>
+          <circle cx="40" cy="130" r="9" fill="var(--omr)"/><circle cx="130" cy="130" r="8" fill="var(--blue)"/><circle cx="40" cy="10" r="8" fill="var(--blue)"/><circle cx="130" cy="10" r="8" fill="var(--blue)"/>
+          <text class="svgtxt" x="40" y="152" text-anchor="middle" font-weight="700">우리</text>
+          <text class="svgtxt" x="130" y="152" text-anchor="middle">가</text>
+          <text class="svgtxt" x="22" y="14" text-anchor="end">나</text>
+          <text class="svgtxt" x="146" y="14">다</text>
+          <text class="svgmut" x="85" y="144" text-anchor="middle">6</text>
+          <text class="svgmut" x="30" y="74" text-anchor="end">8</text>
+          <text class="svgmut" x="98" y="82">10</text>
+        </svg>
+        <p class="cap">출력: 거리를 지킨 2차원 지도 (Stress 0)</p>
+      </div>
+    </div>
+  </div>
+  <div class="say"><p>거리 대신 <b>"얼마나 비슷한가"</b>를 넣어도 돼요. 학생 설문으로 "A학원과 B학원은 비슷하다"를 모아 지도를 그리면, 가까이 찍힌 학원끼리 경쟁 상대예요. 이 예시는 거리가 딱 맞게 그려져 Stress가 0이지만, 실제 데이터는 완벽히 못 지켜서 조금씩 어긋나요.</p></div>
+  <div class="two" style="margin-top:12px">
+    <div class="box"><span class="tag blue">숫자 거리</span><h4>계량적 MDS</h4><p><b>양적 척도</b>. 실제 거리(km, 점수 차이) 그대로 지킴.</p></div>
+    <div class="box"><span class="tag green">순서만</span><h4>비계량적 MDS</h4><p><b>순서 척도</b>. "가장 비슷, 두 번째로 비슷"처럼 순서만 지킴.</p></div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">다차원척도법 MDS</span><span>개체 간 <b>거리(유사성)</b>를 보존하며 저차원(2차원 등)으로 시각화</span></div>
+    <div class="row"><span class="term">Stress</span><span>지도와 원래 거리표가 어긋난 정도. <b>0에 가까울수록</b> 적합도 좋음 (0이면 완벽)</span></div>
+  </div>
+  <div class="memo">Stress = 스트레스. <b>스트레스는 적을수록 좋다.</b> PCA는 "변수(항목)를 줄이기", MDS는 "개체 사이 거리를 지도로 보기".</div>
+</section>
+
+<p class="part">PART 2 · 시계열, 시간 순서로 예측하기 (27~28쪽)</p>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>월별 등록생 그래프는 왜 출렁일까</h2><span class="pg">27쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>원장님은 다음 달 강사를 몇 명 뽑을지 정해야 한다. 지난 몇 년 월별 등록생 그래프를 보니 출렁임이 <b>네 가지 원인</b>으로 쪼개진다. 시간 순서가 있는 이런 데이터가 <b>시계열</b>.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">추세</span><h4>장기적으로 오르거나 내림</h4>
+        <svg viewBox="0 0 160 75" style="max-width:220px;margin:6px auto" role="img" aria-label="들쭉날쭉하면서 꾸준히 올라가는 선"><line x1="8" y1="70" x2="152" y2="70" stroke="var(--line)"/><polyline points="8,60 14,57 20,58 26,57 32,57 38,53 44,49 50,47 56,49 62,49 68,44 74,38 80,37 86,41 92,36 98,29 104,31 110,27 116,26 122,25 128,22 134,23 140,20 146,17 152,17" fill="none" stroke="var(--blue)" stroke-width="2"/></svg>
+        <p>입소문이 나서 몇 년째 학생이 늘어남</p></div>
+      <div class="box"><span class="tag green">계절</span><h4>주기가 <b>정해진</b> 반복</h4>
+        <svg viewBox="0 0 160 75" style="max-width:220px;margin:6px auto" role="img" aria-label="같은 간격으로 똑같이 반복되는 물결"><line x1="8" y1="70" x2="152" y2="70" stroke="var(--line)"/><polyline points="8,38 14,22 20,22 26,38 32,54 38,54 44,38 50,22 56,22 62,38 68,54 74,54 80,38 86,22 92,22 98,38 104,54 110,54 116,38 122,22 128,22 134,38 140,54 146,54 152,38" fill="none" stroke="var(--ok)" stroke-width="2"/></svg>
+        <p>방학마다 특강생 증가. 요일, 월, 계절처럼 <b>고정 주기</b></p></div>
+      <div class="box"><span class="tag red">순환</span><h4>주기를 <b>모르는</b> 큰 물결</h4>
+        <svg viewBox="0 0 160 75" style="max-width:220px;margin:6px auto" role="img" aria-label="길고 간격이 일정하지 않은 큰 물결"><line x1="8" y1="70" x2="152" y2="70" stroke="var(--line)"/><polyline points="8,38 14,30 20,23 26,19 32,18 38,21 44,28 50,36 56,45 62,53 68,57 74,57 80,53 86,45 92,36 98,26 104,20 110,18 116,21 122,29 128,39 134,49 140,56 146,58 152,54" fill="none" stroke="var(--omr)" stroke-width="2"/></svg>
+        <p>경기가 좋으면 사교육비 증가, 나쁘면 감소. 언제 다시 올지 <b>정해져 있지 않음</b></p></div>
+      <div class="box"><span class="tag red">불규칙</span><h4>위 셋으로 설명 안 되는 것</h4>
+        <svg viewBox="0 0 160 75" style="max-width:220px;margin:6px auto" role="img" aria-label="무늬 없이 들쭉날쭉한 선"><line x1="8" y1="70" x2="152" y2="70" stroke="var(--line)"/><polyline points="8,47 14,20 20,35 26,27 32,36 38,24 44,38 50,38 56,35 62,26 68,34 74,26 80,23 86,40 92,26 98,51 104,46 110,16 116,41 122,26 128,38 134,38 140,16 146,35 152,35" fill="none" stroke="var(--muted)" stroke-width="2"/></svg>
+        <p>폭설로 휴원, 근처 학원 폐업 같은 우연</p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">시계열</span><span>기온, 주가, 월별 매출처럼 <b>시간 순서</b>로 기록된 데이터</span></div>
+    <div class="row"><span class="term">추세 요인</span><span>장기적으로 증가·감소</span></div>
+    <div class="row"><span class="term">계절 요인</span><span><b>고정된 주기</b> (요일, 월, 계절)</span></div>
+    <div class="row"><span class="term">순환 요인</span><span><b>알려지지 않은 주기</b> (경기 순환)</span></div>
+    <div class="row"><span class="term">불규칙 요인</span><span>위 셋으로 설명 안 되는 나머지</span></div>
+  </div>
+  <div class="memo"><b>"추운 계절의 순환이 불규칙하다"</b> = 추세, 계절, 순환, 불규칙. 계절은 달력에 있으니 주기를 <b>앎</b>, 순환은 경기라서 주기를 <b>모름</b>.</div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>예측하려면 먼저 그래프를 평평하게</h2><span class="pg">27쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>시계열 모형은 "과거 패턴이 앞으로도 똑같이 반복된다"고 믿고 예측한다. 그러려면 <b>평균과 흩어짐이 시간이 지나도 일정</b>해야 한다(정상성). 아니면 <b>차분</b>(평균 맞추기)이나 <b>변환</b>(흩어짐 맞추기)으로 고쳐 쓴다.</div>
+  <div class="fig">
+    <div class="three">
+      <div class="box"><span class="tag green">정상</span>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="평균선 주변에서 일정한 폭으로 흔들림"><rect x="8" y="26" width="144" height="28" fill="var(--ok-soft)"/><line x1="8" y1="40" x2="152" y2="40" stroke="var(--ok)" stroke-width="1.5" stroke-dasharray="5 3"/><polyline points="8,49 14,29 20,47 26,30 32,37 38,32 44,53 50,45 56,62 62,46 68,48 74,48 80,35 86,39 92,52 98,36 104,42 110,40 116,45 122,37 128,39 134,42 140,41 146,32 152,48" fill="none" stroke="var(--ink)" stroke-width="1.6"/></svg>
+        <p>평균 일정, 흩어진 폭 일정. <b>예측 가능</b></p></div>
+      <div class="box"><span class="tag red">평균이 변함</span>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="평균선 자체가 위로 기울어 올라감"><line x1="8" y1="60" x2="152" y2="16" stroke="var(--omr)" stroke-width="1.5" stroke-dasharray="5 3"/><polyline points="8,58 14,57 20,54 26,66 32,56 38,50 44,47 50,55 56,44 62,40 68,50 74,37 80,40 86,40 92,35 98,36 104,42 110,29 116,22 122,17 128,25 134,22 140,24 146,17 152,15" fill="none" stroke="var(--ink)" stroke-width="1.6"/></svg>
+        <p>추세가 있음 → <b>차분</b></p></div>
+      <div class="box"><span class="tag red">흩어짐이 변함</span>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="뒤로 갈수록 흔들림 폭이 나팔처럼 커짐"><path d="M8 38 L152 8 L152 72 L8 42 Z" fill="var(--omr-soft)"/><polyline points="8,39 14,39 20,40 26,39 32,40 38,50 44,43 50,28 56,54 62,43 68,31 74,50 80,40 86,32 92,31 98,26 104,41 110,57 116,34 122,48 128,76 134,16 140,45 146,33 152,16" fill="none" stroke="var(--ink)" stroke-width="1.6"/></svg>
+        <p>폭이 커짐 → <b>변환</b>(로그 등)</p></div>
+    </div>
+  </div>
+  <p class="linkh">차분 = "어제와의 차이"로 바꿔서 추세 없애기</p>
+  <div class="fig">
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th></th><th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th></tr>
+        <tr><td>등록생 수</td><td class="num">100</td><td class="num">105</td><td class="num">112</td><td class="num">118</td><td class="num">125</td><td class="num">131</td></tr>
+        <tr><td>이번 달 − 지난달</td><td class="num">·</td><td class="num">5</td><td class="num">7</td><td class="num">6</td><td class="num">7</td><td class="num">6</td></tr>
+      </table>
+    </div>
+    <svg viewBox="0 0 360 120" style="max-width:420px;margin-top:10px" role="img" aria-label="왼쪽 원래 값은 100에서 131로 계속 오르는 선, 오른쪽 차분 값은 5에서 7 사이에서 평평">
+      <line x1="20" y1="100" x2="160" y2="100" stroke="var(--line)"/>
+      <polyline points="25,90 52,80 79,66 106,54 133,40 160,28" fill="none" stroke="var(--omr)" stroke-width="2.5"/>
+      <g fill="var(--omr)"><circle cx="25" cy="90" r="3.5"/><circle cx="52" cy="80" r="3.5"/><circle cx="79" cy="66" r="3.5"/><circle cx="106" cy="54" r="3.5"/><circle cx="133" cy="40" r="3.5"/><circle cx="160" cy="28" r="3.5"/></g>
+      <text class="svgtxt" x="92" y="116" text-anchor="middle" font-weight="700">원래: 100 → 131 계속 오름</text>
+      <text class="svgtxt" x="182" y="64" text-anchor="middle" font-weight="700">→</text>
+      <line x1="205" y1="100" x2="345" y2="100" stroke="var(--line)"/>
+      <rect x="205" y="54" width="140" height="24" fill="var(--ok-soft)"/>
+      <polyline points="237,74 264,58 291,66 318,58 345,66" fill="none" stroke="var(--ok)" stroke-width="2.5"/>
+      <g fill="var(--ok)"><circle cx="237" cy="74" r="3.5"/><circle cx="264" cy="58" r="3.5"/><circle cx="291" cy="66" r="3.5"/><circle cx="318" cy="58" r="3.5"/><circle cx="345" cy="66" r="3.5"/></g>
+      <text class="svgtxt" x="275" y="116" text-anchor="middle" font-weight="700">차분 후: 5~7 사이 평평</text>
+    </svg>
+    <div class="calc">
+      <div class="ln"><span>원래 값: 매달 평균이 올라감 (100에서 131)</span><span class="num">비정상</span></div>
+      <div class="ln"><span>차분 값의 평균: (5+7+6+7+6) ÷ 5</span><span class="num">6.2명</span></div>
+      <div class="ln"><span>뜻: "매달 약 6명씩 늘어난다"가 일정한 패턴이 됨</span><span class="num">정상에 가까움</span></div>
+    </div>
+  </div>
+  <div class="say"><p>원래 값은 계속 올라가서 "평균"이 정해지지 않아요. 차이로 바꾸니 5~7을 오가는 평평한 그래프가 됐어요. 이렇게 <b>한 번 빼면 1차 차분</b>, 그래도 기울어 있으면 한 번 더 빼서 2차 차분.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">정상성</span><span>모든 시점에서 <b>평균과 분산이 일정</b>, 공분산은 <b>시차에만 의존</b></span></div>
+    <div class="row"><span class="term">공분산은 시차에만 의존</span><span>1월과 2월의 관계 = 7월과 8월의 관계. <b>몇 칸 떨어졌나</b>만 중요하고 언제인지는 상관없음</span></div>
+    <div class="row"><span class="term">차분</span><span>평균이 일정하지 않을 때. <b>현재 − 이전</b></span></div>
+    <div class="row"><span class="term">변환</span><span>분산이 일정하지 않을 때. <b>로그, 제곱근, Box-Cox</b></span></div>
+  </div>
+  <details><summary>로그 변환은 왜 흩어짐을 줄여 주나</summary><div class="in">
+    <p>로그는 큰 수일수록 더 많이 눌러 줘요. log₁₀10 = 1, log₁₀100 = 2, log₁₀1000 = 3. 990이나 차이 나던 10과 1000이 1과 3, <b>2 차이</b>가 돼요. 그래서 뒤로 갈수록 커지던 흔들림 폭이 고르게 눌려요.</p>
+  </div></details>
+  <div class="memo"><b>평균 → 차분, 분산 → 변환.</b> "평차, 분변"으로 묶어 두세요.</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>들쭉날쭉한 그래프, 흐름만 보고 싶다</h2><span class="pg">28쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>불규칙한 출렁임을 걷어 내고 흐름만 보려고 <b>평균을 내서 부드럽게</b> 만든다(평활화). 최근 몇 달을 <b>똑같이</b> 평균 내면 이동평균법, <b>최근일수록 더 크게</b> 쳐 주면 지수평활법.</div>
+  <div class="fig">
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th></th><th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th></tr>
+        <tr><td>신규 상담 건수</td><td class="num">20</td><td class="num">26</td><td class="num">23</td><td class="num">29</td><td class="num">26</td><td class="num">32</td></tr>
+        <tr><td>3개월 이동평균</td><td class="num">·</td><td class="num">·</td><td class="num">23</td><td class="num">26</td><td class="num">26</td><td class="num">29</td></tr>
+      </table>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>3월 이동평균: (20 + 26 + 23) ÷ 3</span><span class="num">23</span></div>
+      <div class="ln"><span>4월 이동평균: 한 칸 밀어서 (26 + 23 + 29) ÷ 3</span><span class="num">26</span></div>
+      <div class="ln"><span>원래는 +6, −3이 반복되던 출렁임이, 이동평균에선 내려가는 달 없이 오르는 흐름으로</span><span class="num">23 → 29</span></div>
+    </div>
+    <p class="linkh" style="margin-top:14px">최근 값에 주는 비중 비교 (지수평활 α = 0.5)</p>
+    <svg viewBox="0 0 380 130" style="max-width:420px" role="img" aria-label="이동평균은 최근 3달에 똑같이 3분의 1씩, 지수평활은 이번 달 0.5, 지난달 0.25, 그 전 0.125처럼 반씩 줄어듦">
+      <line x1="20" y1="95" x2="170" y2="95" stroke="var(--ink)"/>
+      <g fill="var(--blue)"><rect x="35" y="55" width="30" height="40"/><rect x="80" y="55" width="30" height="40"/><rect x="125" y="55" width="30" height="40"/></g>
+      <g class="svgmut" text-anchor="middle"><text x="50" y="50">1/3</text><text x="95" y="50">1/3</text><text x="140" y="50">1/3</text><text x="50" y="110">2달 전</text><text x="95" y="110">지난달</text><text x="140" y="110">이번 달</text></g>
+      <text class="svgtxt" x="95" y="126" text-anchor="middle" font-weight="700">이동평균: 똑같이</text>
+      <line x1="200" y1="95" x2="370" y2="95" stroke="var(--ink)"/>
+      <g fill="var(--omr)"><rect x="210" y="89" width="28" height="6"/><rect x="250" y="83" width="28" height="12"/><rect x="290" y="71" width="28" height="24"/><rect x="330" y="35" width="28" height="60"/></g>
+      <g class="svgmut" text-anchor="middle"><text x="224" y="84">0.0625</text><text x="264" y="78">0.125</text><text x="304" y="66">0.25</text><text x="344" y="30">0.5</text><text x="224" y="110">3달 전</text><text x="264" y="110">2달 전</text><text x="304" y="110">지난달</text><text x="344" y="110">이번 달</text></g>
+      <text class="svgtxt" x="285" y="126" text-anchor="middle" font-weight="700">지수평활: 최근일수록 크게</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">평활화</span><span>들쭉날쭉한 변동을 부드럽게 해서 흐름을 보기</span></div>
+    <div class="row"><span class="term">이동평균법</span><span>일정 기간(예: 3개월)을 <b>똑같은 비중</b>으로 평균, 한 칸씩 밀며 계산</span></div>
+    <div class="row"><span class="term">지수평활법</span><span><b>최근 데이터에 더 큰 가중치</b>. 과거로 갈수록 비중이 지수적으로(반씩) 줄어듦</span></div>
+  </div>
+  <div class="trap">8화의 <b>MA(이동평균) 모형</b>은 이름만 같고 여기 이동평균법과 다른 것이에요. 평활화의 이동평균은 "값의 평균", MA 모형은 "과거 잡음의 결합".</div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="ep" id="e8">
+  <div class="eph"><span class="no">8화</span><h2>무엇으로 다음 달을 맞힐까: 과거 값, 과거 잡음</h2><span class="pg">28쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>패턴을 다 뽑아내고 남은 <b>아무 무늬 없는 잡음</b>이 백색잡음. 예측 재료는 둘. <b>내 과거 값</b>으로 맞히면 <b>AR</b>, <b>과거에 튄 잡음</b>으로 맞히면 <b>MA</b>. 어느 쪽인지는 <b>PACF, ACF 그래프가 뚝 끊기는 곳</b>으로 고른다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 230 74" style="max-width:300px" role="img" aria-label="평균 0선 주변에서 무늬 없이 일정한 폭으로 흔들리는 백색잡음">
+      <line x1="10" y1="40" x2="210" y2="40" stroke="var(--muted)" stroke-dasharray="4 3"/>
+      <polyline points="10,30 17,40 24,44 31,35 38,41 44,47 51,43 58,49 65,45 72,45 79,58 86,46 93,41 100,47 107,31 113,37 120,48 127,46 134,55 141,40 148,25 155,59 162,51 169,29 176,54 182,40 189,22 196,36 203,35 210,56" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
+      <text class="svgmut" x="214" y="44">0</text>
+    </svg>
+    <p class="cap">백색잡음: 평균 0, 폭 일정, 다음 값을 짐작할 단서 없음</p>
+  </div>
+  <div class="two" style="margin-top:10px">
+    <div class="box"><span class="tag blue">AR(자기회귀)</span><h4>"지난달 많았으면 이번 달도 많다"</h4><p>이번 달 = 0.7 × 지난달 + 잡음. <b>자기 과거 값</b>으로 설명.</p></div>
+    <div class="box"><span class="tag green">MA(이동평균)</span><h4>"지난달 튄 일의 여파가 남는다"</h4><p>이번 달 = 이번 잡음 + 0.7 × 지난달 잡음. <b>과거 백색잡음들의 선형결합</b>. 지난달 폭설 휴원의 보강 수업이 이번 달까지 영향.</p></div>
+  </div>
+  <p class="linkh">ACF, PACF: 몇 칸 전 값과 얼마나 닮았나 (계수 0.7인 1차 모형 예시)</p>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><h4>AR(1)의 ACF</h4>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="0.7, 0.49, 0.34, 0.24, 0.17로 서서히 줄어듦"><line x1="20" y1="50" x2="150" y2="50" stroke="var(--ink)"/><g fill="var(--muted)"><rect x="30" y="22" width="14" height="28"/><rect x="55" y="30.4" width="14" height="19.6"/><rect x="80" y="36.4" width="14" height="13.6"/><rect x="105" y="40.4" width="14" height="9.6"/><rect x="130" y="43.2" width="14" height="6.8"/></g><g class="svgmut" text-anchor="middle"><text x="37" y="64">1</text><text x="62" y="64">2</text><text x="87" y="64">3</text><text x="112" y="64">4</text><text x="137" y="64">5</text></g><text class="svgmut" x="85" y="78" text-anchor="middle">시차(몇 칸 전)</text></svg>
+        <p>서서히 줄어듦</p></div>
+      <div class="box" style="border-color:var(--blue);border-width:2px"><h4>AR(1)의 PACF</h4>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="시차 1만 0.7이고 2부터 0으로 뚝 끊김"><line x1="20" y1="50" x2="150" y2="50" stroke="var(--ink)"/><rect x="30" y="22" width="14" height="28" fill="var(--blue)"/><text x="100" y="40" text-anchor="middle" fill="var(--blue)" font-size="12" font-weight="700" font-family="var(--font)">2부터 뚝</text><g class="svgmut" text-anchor="middle"><text x="37" y="64">1</text><text x="62" y="64">2</text><text x="87" y="64">3</text><text x="112" y="64">4</text><text x="137" y="64">5</text></g><text class="svgmut" x="85" y="78" text-anchor="middle">시차(몇 칸 전)</text></svg>
+        <p><b>p+1(=2) 시점부터 급격히 감소</b> → AR(1)</p></div>
+      <div class="box" style="border-color:var(--ok);border-width:2px"><h4>MA(1)의 ACF</h4>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="시차 1만 0.47이고 2부터 0으로 뚝 끊김"><line x1="20" y1="50" x2="150" y2="50" stroke="var(--ink)"/><rect x="30" y="31.2" width="14" height="18.8" fill="var(--ok)"/><text x="100" y="40" text-anchor="middle" fill="var(--ok)" font-size="12" font-weight="700" font-family="var(--font)">2부터 뚝</text><g class="svgmut" text-anchor="middle"><text x="37" y="64">1</text><text x="62" y="64">2</text><text x="87" y="64">3</text><text x="112" y="64">4</text><text x="137" y="64">5</text></g><text class="svgmut" x="85" y="78" text-anchor="middle">시차(몇 칸 전)</text></svg>
+        <p><b>q+1(=2) 시점부터 급격히 감소</b> → MA(1)</p></div>
+      <div class="box"><h4>MA(1)의 PACF</h4>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="0.47, −0.28, 0.19, −0.13, 0.09로 부호를 바꾸며 서서히 줄어듦"><line x1="20" y1="50" x2="150" y2="50" stroke="var(--ink)"/><g fill="var(--muted)"><rect x="30" y="31.2" width="14" height="18.8"/><rect x="55" y="50" width="14" height="11.2"/><rect x="80" y="42.4" width="14" height="7.6"/><rect x="105" y="50" width="14" height="5.2"/><rect x="130" y="46.4" width="14" height="3.6"/></g><g class="svgmut" text-anchor="middle"><text x="37" y="72">1</text><text x="62" y="72">2</text><text x="87" y="72">3</text><text x="112" y="72">4</text><text x="137" y="72">5</text></g></svg>
+        <p>오르내리며 서서히 줄어듦</p></div>
+    </div>
+    <p class="cap">"뚝 끊기는" 그래프가 어느 쪽이냐로 모형을 고르고, 끊기기 직전 칸 번호가 차수(p 또는 q)예요.</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">백색잡음</span><span>평균 0, 분산 일정, <b>자기상관 없음</b>(정상성 만족). 시계열 모형의 오차항</span></div>
+    <div class="row"><span class="term">가우시안 백색잡음</span><span>백색잡음이 <b>정규분포를 따를 때</b></span></div>
+    <div class="row"><span class="term">ACF 자기상관함수</span><span>k칸 전 값과 얼마나 닮았나 (중간 칸 영향 포함)</span></div>
+    <div class="row"><span class="term">PACF 부분자기상관함수</span><span>중간 칸 영향을 <b>빼고</b> k칸 전 값과 직접 닮은 정도</span></div>
+    <div class="row"><span class="term">AR(p)</span><span>자기 과거 값으로 설명. <b>PACF</b>가 p+1 시점부터 급격히 감소</span></div>
+    <div class="row"><span class="term">MA(q)</span><span>과거 백색잡음의 선형결합. <b>ACF</b>가 q+1 시점부터 급격히 감소</span></div>
+  </div>
+  <div class="fix">요약노트의 "평균이 0이면 가우시안 백색잡음"은 틀린 설명이에요. 평균 0은 <b>모든 백색잡음</b>의 조건이고, 가우시안은 그 백색잡음이 <b>정규분포(가우시안 분포)를 따를 때</b>예요.</div>
+  <details><summary>AR(1)의 ACF는 왜 서서히 줄고, PACF는 뚝 끊기나</summary><div class="in">
+    <p>이번 달이 지난달을 0.7만큼 닮고, 지난달은 그 전 달을 0.7만큼 닮아요. 그래서 2칸 전과는 0.7 × 0.7 = <b>0.49</b>, 3칸 전과는 약 <b>0.34</b>. 줄 서서 말 전달하듯 조금씩 남아 있으니 ACF는 서서히 줄어요.</p>
+    <p>PACF는 "지난달을 거쳐 온 영향"을 빼고 봐요. AR(1)은 2칸 전 값이 <b>지난달을 통해서만</b> 영향을 주니, 그걸 빼면 남는 게 0. 그래서 2부터 뚝 끊겨요.</p>
+  </div></details>
+  <div class="memo"><b>글자가 엇갈린다</b>: AR ↔ <b>P</b>ACF, MA ↔ <b>A</b>CF. "AR은 P, MA는 A".</div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="ep" id="e9">
+  <div class="eph"><span class="no">9화</span><h2>다 합친 모형, ARIMA(p, d, q)</h2><span class="pg">28쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>실제 등록생 그래프는 추세가 있어 평평하지 않다. 그래서 <b>d번 차분해서 평평하게 만든 뒤(I), 과거 값(AR)과 과거 잡음(MA)을 함께</b> 쓴다. 괄호 안 세 숫자는 각각 "몇 개, 몇 번, 몇 개".</div>
+  <div class="fig">
+    <div class="pipe">
+      <div class="st"><span class="nm">AR</span><span class="rg">p</span><span class="ex">과거 <b>값</b>을<br>몇 개 쓰나</span></div>
+      <div class="st hi"><span class="nm">I</span><span class="rg">d</span><span class="ex"><b>차분</b>을<br>몇 번 하나</span></div>
+      <div class="st"><span class="nm">MA</span><span class="rg">q</span><span class="ex">과거 <b>잡음</b>을<br>몇 개 쓰나</span></div>
+      <div class="st"><span class="nm">S</span><span class="rg">계절</span><span class="ex">계절 주기가<br>있으면 SARIMA</span></div>
+    </div>
+    <p class="arrowline">ARIMA = AR + I(Integrated, 누적: 차분의 반대말) + MA</p>
+    <div class="tblwrap" style="margin-top:10px">
+      <table class="act">
+        <tr><th>어떤 글자가 0?</th><th>빠지는 것</th><th>이름</th><th>예</th></tr>
+        <tr><td>d = 0</td><td>차분 안 함 (이미 평평)</td><td><b>ARMA</b>(p, q)</td><td>ARIMA(1, 0, 2) = ARMA(1, 2)</td></tr>
+        <tr><td>p = 0</td><td>과거 값 안 씀</td><td><b>IMA</b>(d, q)</td><td>ARIMA(0, 1, 1) = IMA(1, 1)</td></tr>
+        <tr><td>q = 0</td><td>과거 잡음 안 씀</td><td><b>ARI</b>(p, d)</td><td>ARIMA(2, 1, 0) = ARI(2, 1)</td></tr>
+        <tr><td>계절성 있음</td><td>계절 주기를 따로 붙임</td><td><b>SARIMA</b></td><td>방학마다 반복되는 등록생</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="say"><p>이름 붙이는 법은 간단해요. <b>0이 된 글자를 이름에서 지우면</b> 돼요. d가 0이면 I를 지워서 ARMA, p가 0이면 AR을 지워서 IMA, q가 0이면 MA를 지워서 ARI.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">ARIMA(p, d, q)</span><span>p = AR 차수, <b>d = 차분 횟수</b>, q = MA 차수. 비정상 시계열을 d번 차분하면 ARMA(p, q)가 됨</span></div>
+    <div class="row"><span class="term">SARIMA</span><span>계절성(Seasonal)이 있을 때 쓰는 ARIMA</span></div>
+  </div>
+  <div class="trap">"ARIMA(p, d, q)에서 d의 의미는?" → <b>차분 횟수</b>. 계절 주기나 AR 차수로 바꾼 보기가 자주 나와요.</div>
+  <div class="memo">순서 그대로 <b>"값, 빼기, 잡음"</b>: 과거 값(p), 차분(d), 과거 잡음(q).</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 5개 이상 떠오르면 오늘은 충분해요.</p>
+  <div class="quiz">
+    <details><summary>순서 척도 자료, 비선형(단조) 관계도 잡는 상관계수는? 곡선인데 계속 증가하면 두 값은?</summary><div class="in"><p><b>스피어만</b>(순위 기반). 곡선 증가면 <b>피어슨 +0.8, 스피어만 +1</b>. 순서는 완벽하지만 직선은 아니라서.</p></div></details>
+    <details><summary>PCA의 제1주성분은 분산이 가장 큰 방향? 작은 방향? 제2주성분과의 관계는?</summary><div class="in"><p><b>가장 큰</b> 방향. 제2주성분은 제1주성분과 <b>직교</b>하면서 다음으로 분산이 큰 방향.</p></div></details>
+    <details><summary>주성분 개수 결정 기준 두 가지는?</summary><div class="in"><p>누적 설명력 <b>70~90%</b>, 스크리플롯이 <b>완만해지기 직전</b>. 3~4에서 완만해지면 2개.</p></div></details>
+    <details><summary>MDS의 Stress는 클수록 좋을까?</summary><div class="in"><p>아니요. <b>0에 가까울수록</b> 적합도가 좋아요. 거리표와 지도가 덜 어긋났다는 뜻.</p></div></details>
+    <details><summary>주기가 알려지지 않은 채 반복되는 변동은? 평균이 일정하지 않을 때 쓰는 방법은?</summary><div class="in"><p><b>순환</b> 요인(경기 순환, 주기 고정이면 계절). 평균 → <b>차분</b>, 분산 → 변환(로그 등).</p></div></details>
+    <details><summary>최근 데이터에 더 큰 가중치를 주는 평활화는? 가우시안 백색잡음이란?</summary><div class="in"><p><b>지수평활법</b>. 가우시안 백색잡음은 백색잡음이 <b>정규분포를 따를 때</b>(평균 0이라서가 아님).</p></div></details>
+    <details><summary>PACF가 p+1 시점부터 급격히 감소하면 어떤 모형?</summary><div class="in"><p><b>AR(p)</b>. 엇갈림: AR ↔ PACF, MA ↔ ACF.</p></div></details>
+    <details><summary>ARIMA(p, d, q)의 d는? ARIMA(1, 0, 2)는 무엇과 같나?</summary><div class="in"><p>d = <b>차분 횟수</b>. d = 0이라 I가 빠져서 <b>ARMA(1, 2)</b>.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>14장 한 문장</h3>
+    <p>원장님이 변수들이 <b>같이 움직이는 정도</b>(피어슨, 스피어만)를 재고, 겹치는 항목 10개를 <b>분산 큰 방향 2개로 압축</b>(PCA, 70~90%, 스크리플롯)하거나 거리표로 <b>지도</b>(MDS, Stress)를 그린 뒤, 등록생 시계열을 <b>추세·계절·순환·불규칙</b>으로 쪼개고 <b>차분으로 평평하게(정상성)</b> 만들어 <b>AR(PACF), MA(ACF), ARIMA(p, d, q)</b>로 다음 달을 예측한다.</p>
+  </div>
+</section>

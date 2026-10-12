@@ -1,0 +1,184 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 출현 배경</a><a href="#e2">2 3V</a><a href="#e3">3 비유</a><a href="#e4">4 바뀐 것</a><a href="#e5">5 가치 산정</a><a href="#e6">6 분석기법</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 3장 · 4~6쪽 · 이야기로 읽기</span>
+  <h1>편의점 사장님, 데이터 홍수를 만나다</h1>
+  <p>2장에서 사장님은 창고(DB)와 보관소(DW)를 잘 지어 놨어요. 그런데 배달앱 주문, SNS 리뷰, 냉장고 온도 센서까지 데이터가 <b>창고가 감당 못 할 만큼</b> 밀려오기 시작해요. 3장은 이 홍수(빅데이터)가 무엇이고, 일하는 방식을 어떻게 바꿨는지에 대한 이야기예요.</p>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>스마트폰, SNS, 센서로 데이터가 <b>많고(Volume), 다양하고(Variety), 빠르게(Velocity)</b> 쏟아지자, "일부만 골라 조사하고 원인을 따지던" 방식에서 <b>"전부 모아 두고 같이 움직이는 패턴을 찾는"</b> 방식으로 바뀌었다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 4쪽</span><span class="t">홍수는 왜 터졌나?</span><span class="q">출현 배경, 데이터 단위</span></a>
+  <a href="#e2"><span class="n">2화 · 5쪽</span><span class="t">무엇이 "빅"인가?</span><span class="q">3V, 추가 V</span></a>
+  <a href="#e3"><span class="n">3화 · 5쪽</span><span class="t">빅데이터는 무엇과 닮았나?</span><span class="q">석탄·철, 원유, 렌즈, 플랫폼</span></a>
+  <a href="#e4"><span class="n">4화 · 5쪽</span><span class="t">일하는 방식이 어떻게?</span><span class="q">변화 4가지 전후양상</span></a>
+  <a href="#e5"><span class="n">5화 · 5쪽</span><span class="t">값을 왜 못 매기나?</span><span class="q">가치 산정의 어려움</span></a>
+  <a href="#e6"><span class="n">6화 · 5~6쪽</span><span class="t">어떤 분석을 쓰나?</span><span class="q">연관규칙, 유전자 알고리즘…</span></a>
+</div>
+<p class="maphint">1과목 줄거리: 1장 영수증(데이터) → 2장 창고(DB) → <b>3장 홍수(빅데이터)</b> → 4장 경고등(위기, 개인정보) → 5장 사람(데이터 사이언티스트).</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>홍수는 왜 하필 지금 터졌나</h2><span class="pg">4쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>데이터가 <b>생기는 곳</b>(스마트폰, SNS, 센서)이 폭발했고, 동시에 그걸 <b>싸게 담고 처리하는 기술</b>(클라우드, 하둡)이 나왔다. 둘 중 하나만 있었으면 빅데이터는 없었다.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">데이터가 쏟아지는 쪽</span><h4>생기는 곳이 폭발</h4><p><b>모바일</b> 보급: 앱 주문, 위치<br><b>비정형 데이터</b> 확산: SNS 리뷰, 사진, 영상<br><b>IoT</b>(사물인터넷): 냉장고 온도 센서<br>모든 것의 <b>디지털화</b></p></div>
+      <div class="box"><span class="tag green">감당할 수 있게 된 쪽</span><h4>담고 처리하는 기술</h4><p><b>클라우드 컴퓨팅</b>: 서버를 빌려 쓰기<br><b>하둡</b> 분산 처리: 2장의 여러 대 묶기<br>저장 장치 가격 <b>하락</b>: 다 모아도 부담 적음</p></div>
+    </div>
+  </div>
+  <div class="trap">"저장 장치 가격 <b>상승</b>", "저장 비용이 계속 <b>비싸짐</b>"은 오답이에요. 값이 <b>싸졌기 때문에</b> 다 모을 수 있게 된 거예요.</div>
+
+  <p class="linkh">얼마나 많길래: 데이터 단위 (한 칸 오를 때마다 약 1,000배)</p>
+  <div class="fig">
+    <svg viewBox="0 0 520 150" style="max-width:540px" role="img" aria-label="데이터 단위 계단: KB, MB, GB, TB, PB, EB, ZB, YB 순서로 커짐. TB 다음 페타, 엑사, 제타, 요타가 시험 범위">
+      <g fill="var(--sunk)" stroke="var(--line)">
+        <rect x="10" y="100" width="56" height="30" rx="5"/><rect x="72" y="88" width="56" height="42" rx="5"/><rect x="134" y="76" width="56" height="54" rx="5"/><rect x="196" y="64" width="56" height="66" rx="5"/>
+      </g>
+      <g fill="var(--omr-soft)" stroke="var(--omr)">
+        <rect x="258" y="52" width="56" height="78" rx="5"/><rect x="320" y="40" width="56" height="90" rx="5"/><rect x="382" y="28" width="56" height="102" rx="5"/><rect x="444" y="16" width="56" height="114" rx="5"/>
+      </g>
+      <text class="svgtxt" x="38" y="120" text-anchor="middle" font-weight="700">KB</text>
+      <text class="svgtxt" x="100" y="120" text-anchor="middle" font-weight="700">MB</text>
+      <text class="svgtxt" x="162" y="120" text-anchor="middle" font-weight="700">GB</text>
+      <text class="svgtxt" x="224" y="120" text-anchor="middle" font-weight="700">TB</text>
+      <text class="svgtxt" x="286" y="104" text-anchor="middle" font-weight="700">PB</text>
+      <text class="svgtxt" x="286" y="120" text-anchor="middle">페타</text>
+      <text class="svgtxt" x="348" y="104" text-anchor="middle" font-weight="700">EB</text>
+      <text class="svgtxt" x="348" y="120" text-anchor="middle">엑사</text>
+      <text class="svgtxt" x="410" y="104" text-anchor="middle" font-weight="700">ZB</text>
+      <text class="svgtxt" x="410" y="120" text-anchor="middle">제타</text>
+      <text class="svgtxt" x="472" y="104" text-anchor="middle" font-weight="700">YB</text>
+      <text class="svgtxt" x="472" y="120" text-anchor="middle">요타</text>
+      <text class="svgmut" x="130" y="146" text-anchor="middle">평소에 쓰는 단위</text>
+      <text class="svgmut" x="380" y="146" text-anchor="middle">시험에 나오는 순서: 페 → 엑 → 제 → 요</text>
+    </svg>
+  </div>
+  <div class="memo"><b>페엑제요</b> (TB 다음부터). 요약노트의 "패지요!"만 외우면 <b>엑사(EB)</b>를 빠뜨리기 쉬우니 "페, <b>엑</b>, 제, 요" 네 글자로. 2의 승수로는 PB 2⁵⁰, EB 2⁶⁰, ZB 2⁷⁰, YB 2⁸⁰ (10씩 올라감).</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>무엇이 "빅"인가: 3V</h2><span class="pg">5쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"크다"는 양만 뜻하지 않는다. 사장님 가게로 보면 <b>양이 많고</b>(하루 수만 건), <b>종류가 다양하고</b>(표, 리뷰, 사진, 센서 값), <b>빨리 생긴다</b>(초 단위). 이 셋이 3V.</div>
+  <div class="fig">
+    <div class="three">
+      <div class="box"><span class="tag blue">V1</span><h4>Volume 규모</h4><p>데이터 <b>양</b> 증가. 영수증 하루 100장 → 앱 로그 하루 수만 건.</p></div>
+      <div class="box"><span class="tag blue">V2</span><h4>Variety 다양성</h4><p>데이터 <b>유형</b> 증가. 1장의 정형, 반정형, 비정형이 다 섞임.</p></div>
+      <div class="box"><span class="tag blue">V3</span><h4>Velocity 속도</h4><p>생성, 처리 <b>속도</b> 증가. 냉장고 센서는 초마다 값을 보냄.</p></div>
+    </div>
+    <p class="linkh" style="margin-top:14px">여기에 더 붙이면 5V, 7V</p>
+    <div class="two">
+      <div class="box"><span class="tag green">추가 V</span><h4>Value 가치</h4><p>결국 쓸모(가치)를 만들어야 의미가 있음</p></div>
+      <div class="box"><span class="tag green">추가 V</span><h4>Veracity 신뢰성</h4><p>데이터가 정확한가, 믿을 만한가</p></div>
+      <div class="box"><span class="tag green">추가 V</span><h4>Validity 유효성</h4><p>목적에 맞게 쓸 수 있는 데이터인가</p></div>
+      <div class="box"><span class="tag green">추가 V</span><h4>Volatility 휘발성</h4><p>데이터가 의미 있는 기간이 얼마나 되나</p></div>
+    </div>
+  </div>
+  <div class="trap">"3V에 해당하지 않는 것은?" 보기에 <b>Value</b>가 끼어 있으면 그게 정답이에요. 3V는 <b>가트너</b>(당시 META Group의 더그 레이니)가 정의한 Volume, Variety, Velocity 셋뿐.</div>
+  <div class="memo">3V는 "<b>많고, 여러 가지고, 빠르다</b>". 그 셋으로 부족해서 나중에 "그래서 가치는? 믿을 만해?"를 붙인 게 추가 V.</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>빅데이터는 무엇과 닮았나: 비유 4가지</h2><span class="pg">5쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>빅데이터가 세상에서 하는 역할을 네 가지 물건에 빗댄다. <b>바탕 재료</b>(석탄·철), <b>연료</b>(원유), <b>보는 도구</b>(렌즈), <b>올라타는 판</b>(플랫폼). 시험은 "이 사례는 어느 비유?"로 나온다.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">기반</span><h4>산업혁명의 석탄·철</h4><p>석탄과 철이 모든 산업의 바탕이 됐듯, 데이터가 <b>모든 산업의 기반</b>이 됨.</p></div>
+      <div class="box"><span class="tag blue">연료</span><h4>21세기의 원유</h4><p>원유처럼 정제해 쓰면 <b>생산성 향상</b>, 새 산업의 연료.</p></div>
+      <div class="box"><span class="tag green">보는 도구</span><h4>렌즈</h4><p>현미경이 생물학을 바꿨듯 <b>세상을 보는 방식</b>을 바꿈.<br>예: <b>구글 Ngram Viewer</b> (수백 년 책 속 단어 빈도를 들여다봄)</p></div>
+      <div class="box"><span class="tag green">올라타는 판</span><h4>플랫폼</h4><p>공동 활용을 위한 구조물. <b>제3자(써드파티)</b> 회사가 그 위에서 사업.<br>예: <b>카카오톡, 페이스북</b></p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">써드파티 (Third Party)</span><span>원천 기술(플랫폼)을 활용해 <b>파생 상품을 만드는 제3자 회사</b>. 카카오톡 위에서 게임, 선물하기를 파는 회사들.</span></div>
+  </div>
+  <div class="memo">짝으로 외우기: <b>Ngram Viewer = 렌즈</b>(들여다봄), <b>카카오, 페이스북 = 플랫폼</b>(올라탐). 석탄·철과 원유는 "산업의 재료와 연료"라 사례 문제가 거의 없어요.</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>사장님의 일하는 방식이 바뀌었다</h2><span class="pg">5쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>예전엔 저장이 비싸서 <b>필요한 것만 골라, 일부만 조사하고, 깔끔한 데이터로, 원인을 따졌다</b>. 이제 다 담을 수 있으니 <b>일단 다 모아 두고, 전부 보고, 양으로 밀어붙이고, 같이 움직이는 패턴만 알아도 된다</b>.</div>
+  <div class="fig">
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th>예전 (데이터가 귀할 때)</th><th>→</th><th>지금 (빅데이터)</th><th>사장님 가게에서</th></tr>
+        <tr><td>사전처리</td><td>→</td><td><b>사후처리</b></td><td>미리 필요한 칸만 정해 저장하던 걸, 일단 다 저장하고 필요할 때 가공</td></tr>
+        <tr><td>표본조사</td><td>→</td><td><b>전수조사</b></td><td>손님 100명 설문 대신 전체 결제 기록을 다 봄</td></tr>
+        <tr><td>질</td><td>→</td><td><b>양</b></td><td>몇 건 틀린 기록이 섞여도 수백만 건이면 전체 흐름은 맞음</td></tr>
+        <tr><td>인과관계</td><td>→</td><td><b>상관관계</b></td><td>"치킨 사는 손님은 맥주도 산다". 이유는 몰라도 옆에 진열하면 매출이 오름</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">상관관계 (Correlation)</span><span>둘이 <b>같이 움직이는</b> 관계</span></div>
+    <div class="row"><span class="term">인과관계 (Causation)</span><span>하나가 <b>원인</b>, 다른 하나가 <b>결과</b>인 관계</span></div>
+  </div>
+  <div class="trap">"<b>양 → 질</b>", "상관 → 인과"처럼 <b>화살표를 뒤집은</b> 보기가 단골 함정이에요. 빅데이터는 늘 오른쪽(사후, 전수, 양, 상관)으로 갔어요.</div>
+  <div class="memo"><b>전후양상</b>: <b>전</b>수, 사<b>후</b>, <b>양</b>, <b>상</b>관. 넷 다 "빅데이터 쪽" 단어만 모은 거예요.</div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>이 데이터, 값을 얼마로 매기지?</h2><span class="pg">5쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>본사가 "가게 데이터 얼마에 팔래요?" 묻자 사장님은 답을 못 한다. <b>누가 어디에 쓸지 모르고</b>, <b>없던 가치가 새로 생기고</b>, <b>오늘 쓸모없던 게 내일 새 기술로 쓸모 있어지니까</b>.</div>
+  <div class="fig">
+    <div class="three">
+      <div class="box"><h4>활용 방식</h4><p>언제, 어디서, 누가 쓸지 <b>알 수 없음</b>. 재사용, 재조합, 다목적 활용이 계속 생김. 결제 기록이 날씨 회사에 팔릴 수도.</p></div>
+      <div class="box"><h4>새로운 가치 창출</h4><p>기존에 <b>없던 가치</b>를 만듦. 처음 보는 가치는 값을 비교할 대상이 없음.</p></div>
+      <div class="box"><h4>분석 기술 발전</h4><p>지금 가치 없는 데이터도 <b>새 기법이 나오면</b> 가치가 생김. CCTV 영상이 동선 분석 재료가 되는 식.</p></div>
+    </div>
+  </div>
+  <div class="trap">"데이터 저장 비용이 계속 비싸지고 있다"는 가치 산정이 어려운 이유가 <b>아니에요</b>. 사실도 틀렸고(값은 싸졌어요), 가치 산정과도 관계없어요.</div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>홍수 속에서 무엇을 건지나: 분석기법</h2><span class="pg">5~6쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>기법 이름은 몰라도 <b>"사장님이 던진 질문"</b>을 보면 고를 수 있다. 같이 팔리나? 어느 쪽인가? 얼마나 영향? 가장 좋은 배치는? 질문 모양이 곧 기법이다.</div>
+  <div class="fig">
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th>기법</th><th>사장님의 질문</th><th>교재 예시</th></tr>
+        <tr><td>연관규칙</td><td>뭐랑 뭐가 <b>같이</b> 팔리지?</td><td>치킨 사는 고객은 맥주도 산다 (장바구니 분석)</td></tr>
+        <tr><td>분류분석</td><td>이건 <b>어느 그룹</b>이지?</td><td>스팸메일인지 아닌지 판별</td></tr>
+        <tr><td>회귀분석</td><td>이게 저기에 <b>얼마나 영향</b>을 주지?</td><td>나이가 매출에 미치는 영향</td></tr>
+        <tr><td>유전자 알고리즘</td><td><b>가장 좋은</b> 조합은 뭐지? (최적화)</td><td>택배차 배치, 최대 시청률 편성</td></tr>
+        <tr><td>기계학습</td><td>배운 걸로 <b>예측</b>하면?</td><td>넷플릭스 추천</td></tr>
+        <tr><td>감정분석</td><td>리뷰가 <b>좋은 말이야 나쁜 말이야</b>?</td><td>글의 긍정, 부정</td></tr>
+        <tr><td>소셜 네트워크 분석</td><td>누가 <b>영향력</b>이 크지?</td><td>SNS 관계망 속 영향력자 찾기</td></tr>
+        <tr><td>텍스트 마이닝</td><td>글 속에 숨은 <b>의미</b>는?</td><td>자연어 처리로 리뷰 속 주제 발견</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">유전자 알고리즘</span><span>생물이 진화하듯 <b>좋은 답끼리 섞고 조금씩 바꿔 가며</b> 최적의 답을 찾는 방법</span></div>
+  </div>
+  <div class="memo">"<b>최적의</b> 배치", "<b>최대</b> 시청률"처럼 "가장 좋은 것 찾기"가 보이면 <b>유전자 알고리즘</b>. "같이"가 보이면 <b>연관규칙</b>, "영향력자"가 보이면 <b>소셜 네트워크 분석</b>.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 5개 이상 떠오르면 오늘은 충분해요.</p>
+  <div class="quiz">
+    <details><summary>3V는? Value는 들어가나?</summary><div class="in"><p><b>Volume, Variety, Velocity</b>. Value는 5V로 늘릴 때 붙는 추가 요소예요.</p></div></details>
+    <details><summary>TB보다 큰 단위를 작은 것부터?</summary><div class="in"><p><b>PB &lt; EB &lt; ZB &lt; YB</b>, 페엑제요.</p></div></details>
+    <details><summary>빅데이터가 만든 변화 중 틀린 것: 표본→전수, 사전→사후, 양→질, 인과→상관</summary><div class="in"><p><b>양 → 질</b>이 틀렸어요. 빅데이터는 <b>질 → 양</b>. 전후양상.</p></div></details>
+    <details><summary>구글 Ngram Viewer는 어느 비유? 카카오톡은?</summary><div class="in"><p>Ngram Viewer는 <b>렌즈</b>(세상을 들여다보는 도구), 카카오톡은 <b>플랫폼</b>(써드파티가 올라타는 판).</p></div></details>
+    <details><summary>택배 차량을 가장 효율적으로 배치하려면 어떤 기법?</summary><div class="in"><p><b>유전자 알고리즘</b>. "최적의, 최대"는 최적화 문제예요.</p></div></details>
+    <details><summary>"치킨 사는 손님은 맥주도 산다"를 찾는 기법은?</summary><div class="in"><p><b>연관규칙</b>(장바구니 분석). 같이 일어나는 패턴.</p></div></details>
+    <details><summary>SNS에서 영향력 큰 사용자를 찾는 기법은?</summary><div class="in"><p><b>소셜 네트워크 분석</b>. 사람 사이 관계망을 봐요.</p></div></details>
+    <details><summary>빅데이터 출현 배경이나 가치 산정이 어려운 이유와 거리가 먼 것은?</summary><div class="in"><p>"저장 장치 가격 <b>상승</b>", "저장 비용이 <b>비싸짐</b>". 실제로는 <b>싸져서</b> 빅데이터가 가능해졌어요.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>3장 한 문장</h3>
+    <p>스마트폰, SNS, 센서가 쏟아낸 데이터를 클라우드와 하둡이 싸게 감당하면서 <b>3V</b>(많고, 다양하고, 빠른) 빅데이터가 생겼고, 석탄·철, 원유, <b>렌즈, 플랫폼</b>처럼 쓰이며, 일하는 방식을 <b>전후양상</b>(전수, 사후, 양, 상관)으로 바꿨다. 그런데 손님 동선, 결제, 위치까지 다 모으다 보니 "이거 괜찮은 건가?" 경고등이 켜지는데… 다음 장, <b>위기와 개인정보</b>.</p>
+  </div>
+</section>

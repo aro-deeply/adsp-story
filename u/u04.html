@@ -1,0 +1,180 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 위기 3가지</a><a href="#e2">2 통제 방안</a><a href="#e3">3 데이터 3법</a><a href="#e4">4 가리는 정도</a><a href="#e5">5 비식별화</a><a href="#e6">6 3대 요소</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 4장 · 6쪽 · 이야기로 읽기</span>
+  <h1>편의점 사장님, 데이터의 경고등을 보다</h1>
+  <p>3장에서 사장님은 결제, 앱 주문, 위치, 리뷰까지 몽땅 모았어요. 그러다 어느 날 단골손님이 항의해요. "내가 매일 몇 시에 오는지 왜 알아요?" 4장은 빅데이터의 <b>부작용 3가지와 각각의 해결책</b>, 그리고 <b>개인정보를 가려서 안전하게 쓰는 법</b>이에요.</p>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>빅데이터는 <b>사생활을 침해</b>하고, <b>예측만으로 사람을 벌하고</b>, <b>틀린 분석을 믿게</b> 만들 수 있다. 각각 <b>책임 전환, 결과 기반 책임, 알고리즈미스트</b>로 막고, 개인정보는 <b>얼마나 가렸나</b>(개인 → 가명 → 익명)에 따라 쓸 수 있는 범위가 달라진다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 6쪽</span><span class="t">무엇이 위험한가?</span><span class="q">위기 요인 3가지</span></a>
+  <a href="#e2"><span class="n">2화 · 6쪽</span><span class="t">어떻게 막나?</span><span class="q">통제 방안, 알고리즈미스트</span></a>
+  <a href="#e3"><span class="n">3화 · 6쪽</span><span class="t">법은 뭐가 바뀌었나?</span><span class="q">데이터 3법 개정신</span></a>
+  <a href="#e4"><span class="n">4화 · 6쪽</span><span class="t">얼마나 가려야 하나?</span><span class="q">개인·가명·익명정보</span></a>
+  <a href="#e5"><span class="n">5화 · 6쪽</span><span class="t">어떻게 가리나?</span><span class="q">비식별화 5기법</span></a>
+  <a href="#e6"><span class="n">6화 · 6쪽</span><span class="t">결국 뭐가 있어야 하나?</span><span class="q">3대 요소 인자기</span></a>
+</div>
+<p class="maphint">1과목 줄거리: 1장 영수증(데이터) → 2장 창고(DB) → 3장 홍수(빅데이터) → <b>4장 경고등(위기, 개인정보)</b> → 5장 사람(데이터 사이언티스트).</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>경고등 세 개가 켜졌다</h2><span class="pg">6쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>데이터를 많이 모으면 <b>남의 삶을 너무 많이 알게 되고</b>, 그걸로 <b>앞일을 단정</b>하고, 분석이 <b>틀려도 믿어 버리는</b> 일이 생긴다. 셋 다 "데이터가 사람을 다치게 하는" 장면이다.</div>
+  <div class="fig">
+    <div class="three">
+      <div class="box"><span class="tag red">경고등 1</span><h4>사생활 침해</h4><p>결제 시간, 위치, SNS 글을 엮으니 단골손님이 <b>언제 어디 있는지 추적</b>이 됨.</p></div>
+      <div class="box"><span class="tag red">경고등 2</span><h4>책임 원칙 훼손</h4><p>"이 알바생은 그만둘 확률 80%" 예측만 보고 <b>아직 아무 잘못 없는</b> 사람을 불이익 줌. 영화 <b>마이너리티 리포트</b>의 범죄 예측 체포와 같은 구조.</p></div>
+      <div class="box"><span class="tag red">경고등 3</span><h4>데이터 오용</h4><p>분석이 늘 옳지는 않은데 결과를 <b>그대로 믿고</b> 결정. 잘못된 추천으로 재고가 쌓이고, 엉뚱한 사람이 피해를 봄.</p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">책임 원칙</span><span>사람은 <b>실제로 한 행동</b>에 대해서만 책임진다는 원칙. 예측으로 벌하면 이게 무너짐(훼손).</span></div>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>경고등마다 짝이 되는 해결책</h2><span class="pg">6쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>해결책은 경고등과 <b>1:1 짝</b>이다. 사생활은 "동의받았으니 끝"이 아니라 <b>쓰는 쪽이 책임</b>지게, 처벌은 예측이 아니라 <b>실제 행동</b>으로, 오용은 <b>알고리즘을 들여다보고 피해자를 돕는 사람</b>으로.</div>
+  <div class="fig">
+    <svg viewBox="0 0 520 210" style="max-width:540px" role="img" aria-label="위기 요인과 통제 방안 짝: 사생활 침해는 동의에서 책임으로, 책임 원칙 훼손은 결과 기반 책임 원칙 고수, 데이터 오용은 알고리즘 접근 허용과 알고리즈미스트">
+      <g fill="var(--omr-soft)" stroke="var(--omr)">
+        <rect x="10" y="12" width="160" height="52" rx="8"/><rect x="10" y="80" width="160" height="52" rx="8"/><rect x="10" y="148" width="160" height="52" rx="8"/>
+      </g>
+      <g fill="var(--ok-soft)" stroke="var(--ok)">
+        <rect x="230" y="12" width="280" height="52" rx="8"/><rect x="230" y="80" width="280" height="52" rx="8"/><rect x="230" y="148" width="280" height="52" rx="8"/>
+      </g>
+      <g stroke="var(--ink)" stroke-width="2">
+        <line x1="172" y1="38" x2="218" y2="38"/><line x1="172" y1="106" x2="218" y2="106"/><line x1="172" y1="174" x2="218" y2="174"/>
+      </g>
+      <g fill="var(--ink)">
+        <polygon points="218,32 228,38 218,44"/><polygon points="218,100 228,106 218,112"/><polygon points="218,168 228,174 218,180"/>
+      </g>
+      <text class="svgtxt" x="90" y="35" text-anchor="middle" font-weight="700">사생활 침해</text>
+      <text class="svgmut" x="90" y="52" text-anchor="middle">너무 많이 앎</text>
+      <text class="svgtxt" x="90" y="103" text-anchor="middle" font-weight="700">책임 원칙 훼손</text>
+      <text class="svgmut" x="90" y="120" text-anchor="middle">예측으로 벌함</text>
+      <text class="svgtxt" x="90" y="171" text-anchor="middle" font-weight="700">데이터 오용</text>
+      <text class="svgmut" x="90" y="188" text-anchor="middle">틀린 분석을 믿음</text>
+      <text class="svgtxt" x="244" y="35" font-weight="700">제공자의 '동의' → 사용자의 '책임'</text>
+      <text class="svgmut" x="244" y="52">동의 버튼 하나로 끝내지 말고, 쓰는 쪽이 책임</text>
+      <text class="svgtxt" x="244" y="103" font-weight="700">결과 기반 책임 원칙 고수</text>
+      <text class="svgmut" x="244" y="120">예측 말고 실제로 한 행동에만 책임</text>
+      <text class="svgtxt" x="244" y="171" font-weight="700">알고리즘 접근 허용 + 알고리즈미스트</text>
+      <text class="svgmut" x="244" y="188">알고리즘을 열어 보고, 피해자를 구제</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">알고리즈미스트</span><span>알고리즘으로 <b>부당한 피해를 입은 사람을 구제</b>하는 전문 인력. 알고리즘을 해석해 "왜 이런 결과가 나왔나"를 밝혀 줌.</span></div>
+  </div>
+  <div class="trap">알고리즈미스트는 <b>데이터 오용</b>의 짝이에요. 사생활 침해나 책임 원칙 훼손 보기에 붙어 나오면 오답. 데이터 사이언티스트(분석하는 사람)와도 다른 사람이에요.</div>
+  <div class="memo">"<b>사생활</b>은 <b>책임</b>지게, <b>예측</b>은 <b>결과</b>로, <b>오용</b>은 <b>알고리즈미스트</b>가." 경고등 이름 속 단어와 해결책이 서로 정반대를 바라본다고 생각하면 쉬워요.</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>법이 바뀌었다: 데이터 3법</h2><span class="pg">6쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>예전엔 개인정보를 쓰려면 매번 동의가 필요해 연구도 통계도 막혔다. 2020년 개정으로 <b>"가린 정보(가명정보)"라는 중간 단계</b>를 만들어, 통계, 연구, 공익 기록 목적이면 <b>동의 없이</b> 쓸 수 있게 했다.</div>
+  <div class="fig">
+    <div class="three">
+      <div class="box"><span class="tag blue">개</span><h4>개인정보보호법</h4><p>개인정보 보호의 기본법</p></div>
+      <div class="box"><span class="tag blue">정</span><h4>정보통신망법</h4><p>인터넷, 통신 서비스의 개인정보</p></div>
+      <div class="box"><span class="tag blue">신</span><h4>신용정보법</h4><p>금융, 신용 거래 정보</p></div>
+    </div>
+    <div class="box" style="margin-top:10px;border-color:var(--ink);border-width:2px"><h4>2020 개정의 핵심: 가명정보 도입</h4><p><b>통계 작성, 과학적 연구, 공익적 기록 보존</b> 목적이면 정보 주체의 <b>동의 없이</b> 가명정보를 활용 가능.</p></div>
+  </div>
+  <div class="trap">"데이터 3법이 아닌 것은?" 보기에 <b>전자정부법</b> 같은 비슷한 이름이 나와요. 3법은 <b>개, 정, 신</b> 셋뿐. 그리고 개정으로 새로 생긴 건 <b>가명정보</b>예요. 익명정보는 원래부터 제한 없이 쓸 수 있었어요.</div>
+  <div class="memo"><b>개정신</b> (개정된 신법): <b>개</b>인정보보호법, <b>정</b>보통신망법, <b>신</b>용정보법.</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>얼마나 가려야 안전한가: 개인, 가명, 익명</h2><span class="pg">6쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>기준은 하나, <b>"이 정보로 그 사람을 알아볼 수 있나"</b>. 그대로면 개인정보, <b>열쇠(추가 정보)가 있어야</b> 알아보면 가명정보, <b>열쇠가 있어도 못</b> 알아보면 익명정보.</div>
+  <div class="fig">
+    <svg viewBox="0 0 520 174" style="max-width:540px" role="img" aria-label="왼쪽에서 오른쪽으로 갈수록 더 많이 가림: 개인정보 홍길동 33세, 가명정보 홍OO 30대 초반, 익명정보 OOO 30대. 오른쪽으로 갈수록 활용 제한이 줄어듦">
+      <rect x="10" y="20" width="155" height="88" rx="10" fill="var(--omr-soft)" stroke="var(--omr)"/>
+      <rect x="182" y="20" width="155" height="88" rx="10" fill="var(--amber-soft)" stroke="var(--amber)"/>
+      <rect x="354" y="20" width="155" height="88" rx="10" fill="var(--ok-soft)" stroke="var(--ok)"/>
+      <text class="svgtxt" x="87" y="42" text-anchor="middle" font-weight="700">개인정보</text>
+      <text class="svgtxt" x="87" y="66" text-anchor="middle" font-size="15" font-weight="700">홍길동, 33세</text>
+      <text class="svgmut" x="87" y="88" text-anchor="middle">바로 알아봄</text>
+      <text class="svgtxt" x="259" y="42" text-anchor="middle" font-weight="700">가명정보</text>
+      <text class="svgtxt" x="259" y="66" text-anchor="middle" font-size="15" font-weight="700">홍OO, 30대 초반</text>
+      <text class="svgmut" x="259" y="88" text-anchor="middle">추가 정보 있으면 앎</text>
+      <text class="svgtxt" x="431" y="42" text-anchor="middle" font-weight="700">익명정보</text>
+      <text class="svgtxt" x="431" y="66" text-anchor="middle" font-size="15" font-weight="700">OOO, 30대</text>
+      <text class="svgmut" x="431" y="88" text-anchor="middle">더 이상 알아볼 수 없음</text>
+      <text class="svgmut" x="87" y="126" text-anchor="middle">동의 필요</text>
+      <text class="svgmut" x="259" y="126" text-anchor="middle">통계·연구·공익이면 동의 없이</text>
+      <text class="svgmut" x="431" y="126" text-anchor="middle">제한 없이 활용</text>
+      <line x1="20" y1="142" x2="490" y2="142" stroke="var(--ink)" stroke-width="2"/>
+      <polygon points="490,136 502,142 490,148" fill="var(--ink)"/>
+      <text class="svgtxt" x="260" y="164" text-anchor="middle" font-weight="700">오른쪽으로 갈수록 더 많이 가림 = 더 자유롭게 씀</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">가명처리 (Pseudonymization)</span><span>pseudo = 가짜. 가짜 이름표를 붙여 <b>열쇠 없이는</b> 못 알아보게</span></div>
+    <div class="row"><span class="term">익명처리 (Anonymization)</span><span>anonymous = 익명의. <b>누구인지 영영</b> 못 알아보게</span></div>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>어떻게 가리나: 비식별화 5가지 기법</h2><span class="pg">6쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>사장님이 본사에 손님 기록을 넘기기 전에 가리는 방법이 다섯 가지. <b>이름을 바꾸거나, 평균으로 뭉치거나, 지우거나, 구간으로 묶거나, 일부를 O으로 덮는다</b>. 시험은 "예시 보고 기법 이름 고르기".</div>
+  <div class="fig">
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th>기법</th><th>무엇을 하나</th><th>전</th><th>후</th></tr>
+        <tr><td>가명처리</td><td><b>다른 이름</b>으로 바꿈</td><td>홍길동</td><td>임꺽정</td></tr>
+        <tr><td>총계처리</td><td><b>합계, 평균</b>으로 뭉침</td><td>키 170, 180</td><td>평균 175</td></tr>
+        <tr><td>데이터 삭제</td><td>식별 값을 <b>지움</b></td><td>주민번호 900101-1…</td><td>90년대생 남자</td></tr>
+        <tr><td>범주화</td><td><b>구간</b>으로 묶음</td><td>35세</td><td>30~40세</td></tr>
+        <tr><td>마스킹</td><td>일부를 <b>O으로 가림</b></td><td>홍길동</td><td>홍OO</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="trap"><b>홍길동 → 홍OO</b>는 이름을 바꾼 게 아니라 <b>일부를 가린</b> 거라 마스킹이에요. 가명처리는 <b>홍길동 → 임꺽정</b>처럼 아예 다른 이름. 둘을 바꿔 내는 문제가 단골이에요.</div>
+  <div class="memo">신호 단어로: "<b>OO</b>로 가림" = 마스킹, "<b>~</b>(구간)" = 범주화, "<b>평균, 합계</b>" = 총계처리, "<b>다른 이름</b>" = 가명처리, "<b>지움</b>" = 데이터 삭제.</div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>결국 빅데이터를 쓰려면 무엇이 있어야 하나</h2><span class="pg">6쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>경고등을 다 끄고 나서 사장님이 깨달은 것: 데이터를 제대로 쓰려면 <b>데이터(자원)</b>, 그걸 담고 돌리는 <b>기술</b>, 그리고 무엇보다 <b>그걸 다룰 사람(인력)</b>이 있어야 한다.</div>
+  <div class="fig">
+    <div class="three">
+      <div class="box"><span class="tag blue">인</span><h4>인력</h4><p><b>데이터 사이언티스트</b>, 알고리즈미스트. 다음 장의 주인공.</p></div>
+      <div class="box"><span class="tag blue">자</span><h4>자원</h4><p><b>데이터</b> 그 자체. 1~3장에서 모은 것들.</p></div>
+      <div class="box"><span class="tag blue">기</span><h4>기술</h4><p><b>플랫폼</b>, 저장·처리 기술. 2~3장의 DB, 하둡, 클라우드.</p></div>
+    </div>
+  </div>
+  <div class="trap">"3대 요소가 아닌 것은?" 보기에 <b>법률</b>, 제도가 끼어 나와요. 4장 내내 법 이야기를 했지만 3대 요소는 <b>인력, 자원, 기술</b> 셋뿐.</div>
+  <div class="memo"><b>인자기</b>: <b>인</b>력, <b>자</b>원(데이터), <b>기</b>술.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 5개 이상 떠오르면 오늘은 충분해요.</p>
+  <div class="quiz">
+    <details><summary>사생활 침해의 통제 방안은?</summary><div class="in"><p>제공자의 <b>동의</b>에서 사용자의 <b>책임</b>으로 전환.</p></div></details>
+    <details><summary>범죄를 저지르기 전에 예측만으로 체포하는 문제는 어떤 위기 요인? 해결책은?</summary><div class="in"><p><b>책임 원칙 훼손</b>. 해결책은 <b>결과 기반 책임 원칙</b> 고수(실제 행동에만 책임).</p></div></details>
+    <details><summary>알고리즘 피해자를 구제하는 전문 인력과, 그 짝인 위기 요인은?</summary><div class="in"><p><b>알고리즈미스트</b>, 짝은 <b>데이터 오용</b>.</p></div></details>
+    <details><summary>데이터 3법은? 전자정부법은 들어가나?</summary><div class="in"><p><b>개인정보보호법, 정보통신망법, 신용정보법</b>(개정신). 전자정부법은 아니에요.</p></div></details>
+    <details><summary>3법 개정으로 도입돼 통계, 연구 목적이면 동의 없이 쓸 수 있는 정보는?</summary><div class="in"><p><b>가명정보</b>. 익명정보는 원래부터 제한 없이 활용 가능.</p></div></details>
+    <details><summary>"홍길동, 35세 → 홍OO, 35세"는 어떤 기법?</summary><div class="in"><p><b>마스킹</b>. 일부를 O으로 가림. 다른 이름으로 바꾸면 가명처리.</p></div></details>
+    <details><summary>"35세 → 30~40세", "키 170, 180 → 평균 175"는 각각?</summary><div class="in"><p>앞은 <b>범주화</b>(구간), 뒤는 <b>총계처리</b>(평균, 합계).</p></div></details>
+    <details><summary>빅데이터 활용 3대 요소는? 법률은 들어가나?</summary><div class="in"><p><b>인력, 자원(데이터), 기술</b>(인자기). 법률은 아니에요.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>4장 한 문장</h3>
+    <p>빅데이터의 경고등 셋(<b>사생활 침해, 책임 원칙 훼손, 데이터 오용</b>)은 각각 <b>책임 전환, 결과 기반 책임, 알고리즈미스트</b>로 끄고, <b>개정신</b> 3법이 만든 <b>가명정보</b>와 비식별화 5기법으로 가려서 쓴다. 결국 남는 건 <b>인자기</b>, 그중에서도 사람. 그래서 사장님은 데이터를 다룰 사람을 뽑기로 하는데… 다음 장, <b>데이터 사이언티스트</b>.</p>
+  </div>
+</section>

@@ -1,0 +1,292 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 정답지</a><a href="#e2">2 과적합</a><a href="#e3">3 데이터 나누기</a><a href="#e4">4 로지스틱</a><a href="#e5">5 KNN</a><a href="#e6">6 베이즈</a><a href="#e7">7 나무</a><a href="#e8">8 SVM</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 15장 · 28~31쪽 · 이야기로 읽기</span>
+  <h1>입시학원 원장님의 합격 예측 프로젝트</h1>
+  <p>외우지 말고 드라마 보듯 넘기세요. 화마다 <b>검은 상자 한 줄</b>과 <b>그림</b>만 보고 지나가도 됩니다. 더 궁금하면 회색 칸을 눌러 펼치세요.</p>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>과거 기록으로 <mark style="color:inherit">"앞으로 누가 합격할까"</mark>를 맞히는 기계를 만들고, 그 기계가 시험 문제만 외운 건 아닌지 확인하는 이야기.</div>
+
+<p class="linkh">흐름 지도 (누르면 해당 화로 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화</span><span class="t">정답지 있나?</span><span class="q">지도/비지도</span></a>
+  <a href="#e2"><span class="n">2화</span><span class="t">공부를 어떻게?</span><span class="q">과대/과소적합</span></a>
+  <a href="#e3"><span class="n">3화</span><span class="t">실력 어떻게 재나?</span><span class="q">데이터 분할</span></a>
+  <a href="#e4"><span class="n">4~8화</span><span class="t">예측 선수 5명</span><span class="q">분류 모델</span></a>
+  
+  <a href="#qz"><span class="n">끝</span><span class="t">확인 문제</span><span class="q">5문제</span></a>
+</div>
+<p class="maphint">앞 단원(회귀, 시계열)은 "있는 데이터를 설명"했다면, 15장부터는 "앞으로를 예측"합니다. 데이터 더미에서 쓸 만한 규칙을 캐낸다(mining)고 해서 데이터 마이닝이에요.</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>정답지가 있느냐 없느냐</h2><span class="pg">28쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>합격/불합격 같은 <b>정답이 붙어 있으면 지도학습</b>, 정답 없이 끼리끼리 묶어 보면 <b>비지도학습</b>.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box">
+        <span class="tag blue">지도학습 · 정답 있음</span>
+        <h4>"이 학생, 붙을까?"</h4>
+        <p><b>분류</b>: 이름표 맞히기 (합격/불합격)<br><b>회귀</b>: 숫자 맞히기 (수능 몇 점?)</p>
+        <p style="margin-top:6px;color:var(--muted);font-size:13.5px">로지스틱, KNN, 나이브베이즈, 의사결정나무, SVM, 인공신경망, 선형회귀</p>
+      </div>
+      <div class="box">
+        <span class="tag green">비지도학습 · 정답 없음</span>
+        <h4>"비슷한 애들끼리 묶어 보자"</h4>
+        <p><b>군집분석</b>: 벼락치기형, 꾸준형 묶기<br><b>연관규칙</b>: 문제집 산 학생은 오답노트도 산다<br><b>차원축소</b>: 항목이 너무 많으면 핵심만</p>
+      </div>
+    </div>
+  </div>
+  <div class="trap"><b>로지스틱 "회귀"</b>는 이름만 회귀지 실제로는 <b>분류</b>(합격/불합격)이고, 정답 있는 데이터로 배우니 <b>지도학습</b>이에요.</div>
+  <details><summary>데이터 마이닝 순서도 이야기로</summary><div class="in">
+    <p>원장님: "합격 예측하자"(목표 정의) → 5년치 기록 모음(수집) → 빈칸, 오타 정리(전처리) → 예측 기계 만들기(기법 적용) → 잘 맞히나 확인(평가). 상식 순서라 외울 필요 없어요.</p>
+  </div></details>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>공부를 너무 하거나, 너무 안 하거나</h2><span class="pg">29쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>기출 답을 통째로 외운 학생 = <b>과대적합</b>, "모르면 3번" 학생 = <b>과소적합</b>. 목표는 그 중간.</div>
+  <div class="fig">
+    <svg viewBox="0 0 480 170" role="img" aria-label="과녁 세 개: 과대적합은 중심 주변에 넓게 흩어짐, 적정은 중심에 모임, 과소적합은 중심에서 벗어난 곳에 모임">
+      <g id="tg">
+        <circle r="56" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+        <circle r="36" fill="none" stroke="var(--line)" stroke-width="2"/>
+        <circle r="16" fill="var(--omr-soft)" stroke="var(--omr)" stroke-width="2"/>
+      </g>
+      <use href="#tg" x="80" y="68"/><use href="#tg" x="240" y="68"/><use href="#tg" x="400" y="68"/>
+      <!-- overfit: around center, scattered -->
+      <g fill="var(--ink)">
+        <circle cx="62" cy="40" r="4"/><circle cx="104" cy="56" r="4"/><circle cx="58" cy="92" r="4"/><circle cx="96" cy="100" r="4"/><circle cx="84" cy="34" r="4"/><circle cx="114" cy="84" r="4"/>
+        <circle cx="236" cy="64" r="4"/><circle cx="244" cy="72" r="4"/><circle cx="246" cy="62" r="4"/><circle cx="234" cy="74" r="4"/><circle cx="240" cy="68" r="4"/>
+        <circle cx="424" cy="38" r="4"/><circle cx="432" cy="44" r="4"/><circle cx="420" cy="48" r="4"/><circle cx="430" cy="34" r="4"/><circle cx="426" cy="44" r="4"/>
+      </g>
+      <text class="svgtxt" x="80" y="146" text-anchor="middle" font-weight="700">과대적합 (기출 통암기)</text>
+      <text class="svgmut" x="80" y="162" text-anchor="middle">흩어짐 큼 = 분산↑ · 치우침 없음 = 편향↓</text>
+      <text class="svgtxt" x="240" y="146" text-anchor="middle" font-weight="700">적정 (Justfitting)</text>
+      <text class="svgmut" x="240" y="162" text-anchor="middle">가운데에 모임</text>
+      <text class="svgtxt" x="400" y="146" text-anchor="middle" font-weight="700">과소적합 (모르면 3번)</text>
+      <text class="svgmut" x="400" y="162" text-anchor="middle">흩어짐 작음 = 분산↓ · 한쪽 치우침 = 편향↑</text>
+    </svg>
+    <p class="cap">점 하나 = 시험 한 번의 결과. 과녁 중심 = 정답.</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">편향</span><span>과녁 중심에서 <b>한쪽으로 치우친</b> 정도</span></div>
+    <div class="row"><span class="term">분산</span><span>화살이 <b>흩어진</b> 정도 (문제가 바뀌면 점수가 출렁)</span></div>
+    <div class="row"><span class="term">Trade-off</span><span>하나 줄이면 다른 하나가 늘기 쉬운 줄다리기</span></div>
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>과대적합인지 어떻게 알아채나</h2><span class="pg">29쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>기출만 풀어선 모른다. <b>처음 보는 문제로 시험</b>을 쳐야 진짜 실력이 보이니까, 데이터를 미리 나눠 둔다.</div>
+  <div class="fig">
+    <div class="split"><div class="tr">훈련용 = 문제집</div><div class="va">검증용<br>모의고사</div><div class="te">평가용<br>수능</div></div>
+    <div class="splitlab"><span style="flex:6">여기로 공부(학습)</span><span style="flex:2">공부법 조정(튜닝)</span><span style="flex:2">딱 한 번, 최종 성능</span></div>
+  </div>
+  <p class="linkh">나누는 방법 4가지 = "어떻게 하면 운 말고 실력을 잴까"</p>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><h4>홀드아웃</h4><p>한 번만 나눠서 끝. 간단하지만 하필 쉬운 문제만 시험지에 들어가면 운이 작용.</p></div>
+      <div class="box"><h4>LOOCV</h4><p>100명이면 99명으로 공부, 1명으로 시험을 100번. 가장 믿을 만하지만 계산이 많음.</p></div>
+    </div>
+    <h4 style="margin:14px 0 4px;font-size:15.5px">K-fold (K=5일 때): 시험지 역할을 돌아가며 맡긴다</h4>
+    <div class="kf" aria-label="5번 반복할 때마다 다른 조각이 시험지가 됨">
+      <div class="r"><span>1회</span><i class="t"></i><i></i><i></i><i></i><i></i></div>
+      <div class="r"><span>2회</span><i></i><i class="t"></i><i></i><i></i><i></i></div>
+      <div class="r"><span>3회</span><i></i><i></i><i class="t"></i><i></i><i></i></div>
+      <div class="r"><span>4회</span><i></i><i></i><i></i><i class="t"></i><i></i></div>
+      <div class="r"><span>5회</span><i></i><i></i><i></i><i></i><i class="t"></i></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--blue-soft)"></i>공부(K-1개)</span><span><i style="background:var(--omr)"></i>시험(1개)</span><span>→ 5번 점수의 평균</span></div>
+    <div class="box" style="margin-top:12px"><h4>부트스트랩</h4><p>데이터가 적을 때. 주머니에서 뽑고 <b>다시 넣고</b> 또 뽑기(복원추출). 같은 학생이 여러 번 뽑힐 수 있어서 적은 데이터로 여러 세트를 만듦. <b>16장 1화 배깅에서 다시 등장.</b></p></div>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>선수 1. 로지스틱 회귀, 확률 계산기</h2><span class="pg">29쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>직선은 "합격 확률 130%" 같은 엉터리 값을 낸다. 그래서 확률을 <b>직선이 다룰 수 있게 늘렸다가(오즈, 로짓)</b>, 계산 후 <b>다시 0~1로 접는다(시그모이드)</b>. 수식이 많은 이유는 이것 하나.</div>
+  <div class="fig">
+    <div class="pipe">
+      <div class="st"><span class="nm">① 확률 p</span><span class="rg">0 ~ 1</span><span class="ex">합격 확률 0.7<br>범위가 너무 좁음</span></div>
+      <div class="st"><span class="nm">② 오즈</span><span class="rg">0 ~ ∞</span><span class="ex">p/(1-p)<br>0.7/0.3 ≈ 2.33<br>아직 마이너스 없음</span></div>
+      <div class="st hi"><span class="nm">③ 로짓</span><span class="rg">-∞ ~ +∞</span><span class="ex">log(오즈)<br>여기서 직선으로<br>마음껏 계산</span></div>
+      <div class="st"><span class="nm">④ 시그모이드</span><span class="rg">다시 0 ~ 1</span><span class="ex">로짓을 거꾸로 풀어<br>사람이 읽는 확률로</span></div>
+    </div>
+    <p class="arrowline">① → ② → ③ (계산) → ④ &nbsp;·&nbsp; 늘렸다가, 계산하고, 다시 접기</p>
+    <svg viewBox="0 0 280 130" style="max-width:320px;margin-top:10px" role="img" aria-label="시그모이드 S자 곡선, 아래는 0, 위는 1에 붙고 넘지 않음">
+      <line x1="20" y1="10" x2="260" y2="10" stroke="var(--line)" stroke-dasharray="4 4"/>
+      <line x1="20" y1="110" x2="260" y2="110" stroke="var(--line)"/>
+      <line x1="20" y1="60" x2="260" y2="60" stroke="var(--line)" stroke-dasharray="2 4"/>
+      <path d="M20 109.75 L60 108.2 L100 98.1 L120 83.1 L140 60 L160 36.9 L180 21.9 L220 11.8 L260 10.25" fill="none" stroke="var(--omr)" stroke-width="3" stroke-linejoin="round"/>
+      <text class="svgmut" x="16" y="14" text-anchor="end">1</text>
+      <text class="svgmut" x="16" y="64" text-anchor="end">0.5</text>
+      <text class="svgmut" x="16" y="114" text-anchor="end">0</text>
+      <text class="svgmut" x="140" y="126" text-anchor="middle">시그모이드: 아무리 커도 1을 넘지 않는 S자</text>
+    </svg>
+  </div>
+  <div class="fix">"붙을 확률이 2.33배 높음"보다 <b>"붙을 가능성이 떨어질 가능성의 2.33배"</b>가 정확해요. 오즈는 늘 "되는 쪽 ÷ 안 되는 쪽" 비교예요.</div>
+  <p class="linkh">필기 용어 연결</p>
+  <div class="link">
+    <div class="row"><span class="term">β (계수)</span><span>요인(예: 모의고사 점수)이 결과에 주는 <b>영향력 크기</b>. 양수면 클수록 합격 쪽.</span></div>
+    <div class="row"><span class="term">exp(β)</span><span>log 세상에서 계산했으니 exp로 풀어서 읽기 = <b>요인이 1 늘 때 오즈가 몇 배</b>. β ≈ 0.69면 exp(β) ≈ 2, 오즈 2배.</span></div>
+    <div class="row"><span class="term">최대우도법</span><span>β를 정하는 법. 실제로 누가 붙고 떨어졌는지를 <b>가장 그럴듯하게(우도) 설명하는 β</b>를 고름.</span></div>
+    <div class="row"><span class="term">우도비 검정</span><span>다 만든 모델이 아무 정보 없이 찍는 것보다 확실히 나은가? = <b>"이 모델 쓸모 있나" 검사</b>(카이제곱 사용).</span></div>
+  </div>
+  <details><summary>왜 선형회귀는 최소제곱, 로지스틱은 최대우도?</summary><div class="in">
+    <p>선형회귀는 "수능 점수 예측"처럼 숫자를 맞히니까 <b>빗나간 거리(오차)</b>를 잴 수 있어요. 오차 제곱 합이 제일 작은 선을 고르는 게 최소제곱법.</p>
+    <p>로지스틱은 정답이 0(불합격) 아니면 1(합격)이라 "몇 점 빗나갔나"가 어색해요. 대신 "이 β라면 실제 결과가 나올 확률이 얼마나 높나(그럴듯함)"를 따져요. 그래서 짝이 <b>선형 = 최소제곱, 로지스틱 = 최대우도</b>.</p>
+  </div></details>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>선수 2. KNN, 끼리끼리</h2><span class="pg">30쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>미리 공부 안 함. 새 학생이 오면 <b>제일 비슷한 K명</b>을 찾아 다수결.</div>
+  <div class="fig">
+    <svg viewBox="0 0 300 150" style="max-width:340px" role="img" aria-label="새 학생 주변 가장 가까운 5명 중 4명이 합격이라 합격으로 예상">
+      <circle cx="150" cy="75" r="52" fill="none" stroke="var(--ink)" stroke-dasharray="5 4" stroke-width="1.5"/>
+      <g fill="var(--blue)"><circle cx="125" cy="55" r="7"/><circle cx="178" cy="62" r="7"/><circle cx="135" cy="105" r="7"/><circle cx="170" cy="100" r="7"/><circle cx="60" cy="40" r="7"/><circle cx="40" cy="95" r="7"/></g>
+      <g fill="var(--omr)"><circle cx="190" cy="85" r="7"/><circle cx="250" cy="40" r="7"/><circle cx="262" cy="110" r="7"/><circle cx="230" cy="130" r="7"/></g>
+      <rect x="143" y="68" width="14" height="14" fill="var(--ink)" transform="rotate(45 150 75)"/>
+      <text class="svgmut" x="150" y="146" text-anchor="middle">◆ 새 학생 · 원 안 5명: 합격 4, 불합격 1 → 합격 예상</text>
+    </svg>
+    <div class="legend"><span><i style="background:var(--blue)"></i>합격</span><span><i style="background:var(--omr)"></i>불합격</span></div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">Lazy Model</span><span>시험 당일에야 찾아보는 게으른 학생. 따로 학습 단계가 없음.</span></div>
+    <div class="row"><span class="term">K에 따라 달라짐</span><span>3명에게 물을지 7명에게 물을지에 따라 다수결 결과가 바뀔 수 있음.</span></div>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>선수 3. 나이브베이즈, 단서가 오면 생각을 고친다</h2><span class="pg">30쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>베이즈 정리는 수식이 아니라 <b>칸 세기</b>. 원래 생각(사전확률)에 새 단서가 들어오면 고친 생각(사후확률)이 된다.</div>
+  <div class="fig">
+    <div class="bayes" aria-label="학생 100명: 남학생 60명 중 18명 합격, 여학생 40명 중 20명 합격"><i class="m p"></i><i class="m p"></i><i class="m p"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m p"></i><i class="m p"></i><i class="m p"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m p"></i><i class="m p"></i><i class="m p"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m p"></i><i class="m p"></i><i class="m p"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m p"></i><i class="m p"></i><i class="m p"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m p"></i><i class="m p"></i><i class="m p"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f p"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div>
+    <div class="legend"><span><i style="background:var(--blue)"></i>남 · 합격 18</span><span><i style="background:var(--blue-soft);border:1px solid var(--blue)"></i>남 · 불합격 42</span><span><i style="background:var(--omr)"></i>여 · 합격 20</span><span><i style="background:var(--omr-soft);border:1px solid var(--omr)"></i>여 · 불합격 20</span></div>
+    <div class="calc">
+      <div class="ln"><span>남학생 60명 × 합격률 30%</span><span class="num">18명</span></div>
+      <div class="ln"><span>여학생 40명 × 합격률 50%</span><span class="num">20명</span></div>
+      <div class="ln"><span>진한 칸(합격자) 전체</span><span class="num">38명</span></div>
+      <div class="ln"><span>합격자 중 남학생일 확률 = 진한 파랑 ÷ 진한 칸 전체</span><span class="num">18/38 ≈ 0.47</span></div>
+    </div>
+  </div>
+  <div class="say"><p>아무 정보 없이 한 명 고르면 남학생일 확률 <b>60%</b>(사전확률). "이 학생은 합격했다"는 단서가 오니 <b>47%</b>(사후확률)로 내려갔어요. 여학생 합격률이 높아서 합격자 칸엔 여학생이 더 많으니까요.</p></div>
+  <p class="linkh">공식 속 이름표는 위 계산의 재료 이름일 뿐</p>
+  <div class="link">
+    <div class="row"><span class="term">P(A) 사전확률</span><span>단서 전 원래 생각: 남학생 0.6</span></div>
+    <div class="row"><span class="term">P(B|A) 우도</span><span>남학생이라면 합격할 확률: 0.3</span></div>
+    <div class="row"><span class="term">P(B) 주변우도</span><span>전체 합격 확률: 0.38 (분모, 진한 칸 전체)</span></div>
+    <div class="row"><span class="term">P(A|B) 사후확률</span><span>합격이라는 단서 후 고친 생각: 0.47</span></div>
+  </div>
+  <div class="trap"><b>나이브(순진한)</b>: 단서가 여러 개(모의고사, 출석, 지역...)일 때 서로 얽힌 관계를 다 따지면 너무 복잡하니, <b>"서로 상관없다(독립)"고 순진하게 가정</b>하고 그냥 곱해 버려요. 시험엔 "독립 가정"이 핵심 키워드.</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>선수 4. 의사결정나무, 스무고개</h2><span class="pg">30~31쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>예/아니오 질문을 이어서 학생들을 상자에 나눠 담는다. <b>좋은 질문 = 상자가 한쪽으로 깔끔하게 몰리는 질문.</b></div>
+  <div class="fig">
+    <svg viewBox="0 0 420 200" style="max-width:460px" role="img" aria-label="스무고개 나무: 첫 질문으로 깔끔한 상자와 섞인 상자로 나뉘고, 섞인 상자를 두번째 질문으로 다시 나눔">
+      <g font-family="var(--font)">
+        <rect x="130" y="6" width="160" height="34" rx="8" fill="var(--ink)"/>
+        <text x="210" y="28" text-anchor="middle" fill="var(--bg)" font-size="13" font-weight="700">모의고사 2등급 이내?</text>
+        <line x1="180" y1="40" x2="90" y2="74" stroke="var(--muted)"/><line x1="240" y1="40" x2="320" y2="74" stroke="var(--muted)"/>
+        <text class="svgmut" x="122" y="62">예</text><text class="svgmut" x="282" y="62">아니오</text>
+        <rect x="20" y="74" width="140" height="40" rx="8" fill="var(--ok-soft)" stroke="var(--ok)"/>
+        <text class="svgtxt" x="90" y="92" text-anchor="middle" font-weight="700">합격 9 · 불합격 1</text>
+        <text class="svgmut" x="90" y="107" text-anchor="middle">거의 깔끔 (지니 낮음)</text>
+        <rect x="250" y="74" width="140" height="40" rx="8" fill="var(--surface)" stroke="var(--line)"/>
+        <text class="svgtxt" x="320" y="92" text-anchor="middle" font-weight="700">합격 5 · 불합격 5</text>
+        <text class="svgmut" x="320" y="107" text-anchor="middle">뒤섞임 → 한 번 더 질문</text>
+        <rect x="245" y="128" width="150" height="28" rx="7" fill="var(--ink)"/>
+        <text x="320" y="146" text-anchor="middle" fill="var(--bg)" font-size="12" font-weight="700">출석률 90% 이상?</text>
+        <line x1="290" y1="156" x2="250" y2="170" stroke="var(--muted)"/><line x1="350" y1="156" x2="390" y2="170" stroke="var(--muted)"/>
+        <text class="svgtxt" x="240" y="190" text-anchor="middle">합격 4 · 불 1</text>
+        <text class="svgtxt" x="390" y="190" text-anchor="middle">합격 1 · 불 4</text>
+      </g>
+    </svg>
+    <p class="cap">상자(노드) 안은 비슷하게 = 동질성 ↑ · 상자끼리는 다르게 = 이질성 ↑</p>
+  </div>
+
+  <p class="linkh">지니지수 = 상자가 얼마나 뒤섞였나 점수 (작을수록 깔끔)</p>
+  <div class="fig gini">
+    <div class="three">
+      <div class="box"><div class="coins"><i class="h">앞</i><i class="h">앞</i><i class="h">앞</i><i class="h">앞</i><i class="h">앞</i></div><div class="v">0</div><p>전부 같음, 완전 깔끔</p></div>
+      <div class="box" style="border-color:var(--ink);border-width:2px"><div class="coins"><i class="h">앞</i><i class="h">앞</i><i class="h">앞</i><i class="t">뒤</i><i class="t">뒤</i></div><div class="v">0.48</div><p>필기 예제 (앞3, 뒤2)</p></div>
+      <div class="box"><div class="coins"><i class="h">앞</i><i class="t">뒤</i><i class="h">앞</i><i class="t">뒤</i></div><div class="v">0.5</div><p>반반, 두 종류일 때 최대로 섞임</p></div>
+    </div>
+  </div>
+  <details open><summary>왜 1 − Σp² 로 계산하나 (수식 몰라도 됨)</summary><div class="in">
+    <p>동전을 하나 뽑고 다시 넣고 또 하나 뽑는다고 해 볼게요.</p>
+    <div class="calc">
+      <div class="ln"><span>둘 다 앞면: 3/5 × 3/5</span><span class="num">9/25</span></div>
+      <div class="ln"><span>둘 다 뒷면: 2/5 × 2/5</span><span class="num">4/25</span></div>
+      <div class="ln"><span>같은 면 나올 확률 = Σp²</span><span class="num">13/25</span></div>
+      <div class="ln"><span>다른 면 나올 확률 = 1 − 13/25 = <b>섞인 정도</b></span><span class="num">12/25 = 0.48</span></div>
+    </div>
+    <p>그래서 전부 앞면이면 "다른 면 나올 확률"이 0, 깔끔. 엔트로피도 섞인 정도를 다른 공식으로 재는 것이고, 이 동전 예제의 엔트로피는 약 0.97이에요.</p>
+  </div></details>
+
+  <p class="linkh">알고리즘 짝 (필기 암기법 그대로)</p>
+  <div class="link">
+    <div class="row"><span class="term">이름표 나누기</span><span>섞인 정도를 잼 → CHAID <b>카이제곱</b>, CART <b>지니</b>, C4.5/C5.0 <b>엔트로피</b></span></div>
+    <div class="row"><span class="term">숫자 나누기</span><span>흩어진 정도를 잼 → CHAID <b>F통계량(ANOVA)</b>, CART <b>분산 감소량</b></span></div>
+  </div>
+  <div class="two" style="margin-top:12px">
+    <div class="box"><span class="tag green">장점</span><h4>화이트박스</h4><p>"왜 위험군?" 질문 경로를 사람이 그대로 읽을 수 있음.</p></div>
+    <div class="box"><span class="tag red">약점</span><h4>과적합 위험 높음</h4><p>질문을 끝없이 하면 "3월생 김씨 안경" 같은 1명짜리 상자가 생김. 그래서 <b>정지규칙</b>(미리 멈춤), <b>가지치기</b>(다 키우고 자름).</p></div>
+  </div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="ep" id="e8">
+  <div class="eph"><span class="no">8화</span><h2>선수 5. SVM, 가장 넓은 길 내기</h2><span class="pg">31쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>합격 공과 불합격 공 사이에 <b>가장 넓은 도로</b>를 깐다. 넓을수록 애매한 새 공도 안전하게 구분.</div>
+  <div class="fig">
+    <svg viewBox="0 0 320 170" style="max-width:380px" role="img" aria-label="두 무리 사이에 도로. 가운데 선이 초평면, 도로 가장자리에 닿은 점이 서포트벡터, 가운데에서 가장자리까지가 마진">
+      <rect x="125" y="10" width="70" height="130" fill="var(--sunk)"/>
+      <line x1="125" y1="10" x2="125" y2="140" stroke="var(--muted)" stroke-dasharray="5 4"/>
+      <line x1="195" y1="10" x2="195" y2="140" stroke="var(--muted)" stroke-dasharray="5 4"/>
+      <line x1="160" y1="10" x2="160" y2="140" stroke="var(--ink)" stroke-width="2.5"/>
+      <g fill="var(--blue)"><circle cx="60" cy="30" r="7"/><circle cx="90" cy="70" r="7"/><circle cx="45" cy="100" r="7"/><circle cx="80" cy="125" r="7"/><circle cx="118" cy="50" r="7"/><circle cx="118" cy="110" r="7"/></g>
+      <g fill="var(--omr)"><circle cx="202" cy="80" r="7"/><circle cx="240" cy="30" r="7"/><circle cx="265" cy="95" r="7"/><circle cx="235" cy="125" r="7"/><circle cx="285" cy="55" r="7"/></g>
+      <g fill="none" stroke="var(--ink)" stroke-width="2"><circle cx="118" cy="50" r="11"/><circle cx="118" cy="110" r="11"/><circle cx="202" cy="80" r="11"/></g>
+      <line x1="160" y1="22" x2="195" y2="22" stroke="var(--omr)" stroke-width="2"/>
+      <text class="svgtxt" x="178" y="18" text-anchor="middle" font-size="11" font-weight="700">마진</text>
+      <text class="svgmut" x="160" y="158" text-anchor="middle">굵은 선 = 초평면 · 동그라미 친 공 = 서포트벡터</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">초평면</span><span>도로 한가운데 경계선</span></div>
+    <div class="row"><span class="term">서포트벡터</span><span>도로 가장자리에 딱 닿아 경계를 떠받치는 공</span></div>
+    <div class="row"><span class="term">마진</span><span>가운데 선에서 가장자리까지 거리. <b>최대로</b> 넓힘</span></div>
+    <div class="row"><span class="term">커널 함수</span><span>직선으로 못 가를 때 공을 공중으로 튕겨 올려(저차원 → 고차원) 높이 차이로 가름 = 비선형 분류</span></div>
+    <div class="row"><span class="term">하드 / 소프트</span><span>하드: 길에 공 하나도 못 들어옴 · 소프트: 몇 개 눈감고 더 넓고 안정적인 길</span></div>
+  </div>
+  <div class="trap">SVM은 <b>분류와 회귀 모두</b> 가능해요.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 5문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 3개 이상 떠오르면 오늘은 충분해요.</p>
+  <div class="quiz">
+    <details><summary>로지스틱은 왜 오즈, log 같은 변신을 할까?</summary><div class="in"><p>확률(0~1)을 직선이 다룰 수 있는 범위(-∞~+∞)로 늘리려고. 계산 끝나면 시그모이드로 다시 0~1로 접어요.</p></div></details>
+    <details><summary>합격자 중 남학생 확률 0.47은 어떻게 나왔지?</summary><div class="in"><p>100명 중 합격자 38명(남 18 + 여 20), 그중 남학생 18명. 18 ÷ 38 ≈ 0.47.</p></div></details>
+    <details><summary>지니지수 0.48은 무슨 뜻?</summary><div class="in"><p>두 번 뽑았을 때 서로 다른 면이 나올 확률 = 섞인 정도. 작을수록 깔끔한 상자.</p></div></details>
+    <details><summary>과대적합은 분산이 높을까 낮을까?</summary><div class="in"><p>높다. 기출만 외워서 문제가 바뀌면 점수가 출렁이니까요. 편향은 낮음.</p></div></details>
+    <details><summary>KNN을 왜 Lazy Model이라고 부를까?</summary><div class="in"><p>미리 공부(학습)하지 않고, 새 데이터가 오면 그때 가장 비슷한 K개를 찾아 다수결하니까요.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>15장 한 문장</h3>
+    <p>원장님이 <b>정답 있는 기록</b>으로 합격을 <b>예측</b>하려는데, 기출 통암기(<b>과적합</b>)를 막으려고 <b>데이터를 나눠 시험</b>보고, 확률 계산기(로지스틱), 끼리끼리(KNN), 단서 업데이트(베이즈), 스무고개(나무), 넓은 길(SVM) 선수들을 쓴다. 여럿을 팀으로 묶는 앙상블은 다음 단원.</p>
+  </div>
+</section>

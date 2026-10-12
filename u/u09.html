@@ -1,0 +1,302 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 데이터 마트</a><a href="#e2">2 EDA</a><a href="#e3">3 빈칸 발견</a><a href="#e4">4 빈칸 채우기</a><a href="#e5">5 다중대치</a><a href="#e6">6 이상값 찾기</a><a href="#e7">7 상자그림</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 9장 · 14~15쪽 · 이야기로 읽기</span>
+  <h1>입시학원 원장님, 성적표의 빈칸과 이상한 숫자를 만나다</h1>
+  <p>2과목까지는 분석을 <b>기획하는</b> 이야기였다면, 3과목부터는 <b>실제로 데이터를 만지는</b> 과목이에요. 6장 KDD의 "전처리", CRISP-DM의 "데이터 준비"를 이제 직접 해요. 15·16장에서 합격 예측 기계를 만들 입시학원 원장님이, 그 전에 성적표부터 정리하는 장면이에요.</p>
+  <div class="speed">
+    <div><b>시간 없을 때 10분</b>검은 상자 + 그림만</div>
+    <div><b>보통 25분</b>숫자 예시까지</div>
+    <div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div>
+  </div>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>흩어진 학원 데이터를 <b>목적에 맞게 모으고</b>(데이터 마트, 요약·파생변수), <b>먼저 들여다본 뒤</b>(EDA), <b>빈칸은 지우거나 채우고</b>(결측값), <b>튀는 값은 찾되 무조건 지우지는 않는다</b>(이상값, 상자그림).</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 14쪽</span><span class="t">데이터를 한곳에</span><span class="q">데이터 마트, 요약·파생변수</span></a>
+  <a href="#e2"><span class="n">2화 · 14쪽</span><span class="t">일단 들여다보기</span><span class="q">EDA 4주제 (저잔재현)</span></a>
+  <a href="#e3"><span class="n">3~5화 · 14쪽</span><span class="t">빈칸을 어떻게?</span><span class="q">완전분석, 평균대치, 다중대치</span></a>
+  <a href="#e6"><span class="n">6화 · 15쪽</span><span class="t">튀는 값 찾기</span><span class="q">ESD, IQR, Z-Score, DBSCAN</span></a>
+  <a href="#e7"><span class="n">7화 · 15쪽</span><span class="t">한 장으로 보기</span><span class="q">상자그림 읽기</span></a>
+  <a href="#qz"><span class="n">끝</span><span class="t">확인 문제</span><span class="q">8문제</span></a>
+</div>
+<p class="maphint">이 단원 숫자 예시는 전부 파이썬으로 검산했어요. 계산 공식을 외울 필요는 없고, <b>"왜 이렇게 처리하나"</b>만 남기면 돼요.</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>데이터가 여기저기 흩어져 있다: 데이터 마트</h2><span class="pg">14쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>출결은 출결 앱에, 성적은 엑셀에, 수납은 회계 프로그램에. 이걸 회사 전체 창고(DW)에 모으고, 다시 <b>"입시 상담"처럼 특정 주제에 맞게 작게 덜어 놓은 창고</b>가 데이터 마트예요.</div>
+  <div class="fig">
+    <svg viewBox="0 0 470 190" style="max-width:500px" role="img" aria-label="원천 데이터 세 개가 데이터 웨어하우스로 모이고, 거기서 주제별 데이터 마트 두 개로 나뉨">
+      <g fill="var(--surface)" stroke="var(--line)" stroke-width="1.5">
+        <rect x="10" y="14" width="110" height="40" rx="7"/><rect x="10" y="74" width="110" height="40" rx="7"/><rect x="10" y="134" width="110" height="40" rx="7"/>
+      </g>
+      <text class="svgtxt" x="65" y="39" text-anchor="middle">출결 앱</text>
+      <text class="svgtxt" x="65" y="99" text-anchor="middle">성적 엑셀</text>
+      <text class="svgtxt" x="65" y="159" text-anchor="middle">수납 프로그램</text>
+      <g stroke="var(--muted)" stroke-width="1.5"><line x1="120" y1="34" x2="180" y2="88"/><line x1="120" y1="94" x2="180" y2="94"/><line x1="120" y1="154" x2="180" y2="100"/></g>
+      <rect x="180" y="58" width="110" height="72" rx="10" fill="var(--ink)"/>
+      <text x="235" y="88" text-anchor="middle" fill="var(--bg)" font-size="14" font-weight="700">DW</text>
+      <text x="235" y="108" text-anchor="middle" fill="var(--bg)" font-size="11">학원 전체 창고</text>
+      <g stroke="var(--muted)" stroke-width="1.5"><line x1="290" y1="84" x2="340" y2="54"/><line x1="290" y1="104" x2="340" y2="134"/></g>
+      <rect x="340" y="28" width="122" height="52" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <text class="svgtxt" x="401" y="50" text-anchor="middle" font-weight="700">DM 입시 상담용</text>
+      <text class="svgmut" x="401" y="68" text-anchor="middle">성적 + 출결만</text>
+      <rect x="340" y="108" width="122" height="52" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <text class="svgtxt" x="401" y="130" text-anchor="middle" font-weight="700">DM 수납 관리용</text>
+      <text class="svgmut" x="401" y="148" text-anchor="middle">수납 + 출결만</text>
+      <text class="svgmut" x="65" y="188" text-anchor="middle">원천 데이터</text>
+    </svg>
+  </div>
+  <p class="linkh">마트에 넣을 변수 만들기: 합치거나, 의미를 붙이거나</p>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">요약변수</span><h4>여러 기록을 종합한 값</h4><p>"3월 출석 일수 22일", "최근 3개월 평균 점수 78점", "1개월간 수입", "기간별 구매 금액"</p><p style="margin-top:6px;color:var(--muted);font-size:13.5px">누가 계산해도 같음(객관적), 여러 분석에 재활용성 높음</p></div>
+      <div class="box"><span class="tag red">파생변수</span><h4>특정 의미를 붙여 만든 값</h4><p>"성실도 A등급", "고객 구매 등급", "선호 시간대: 저녁"</p><p style="margin-top:6px;color:var(--muted);font-size:13.5px">원장님 기준이 들어감(주관적), 그래서 <b>논리적 타당성</b>이 필요</p></div>
+    </div>
+  </div>
+  <div class="memo">요약 = <b>합치기</b>(객관, 재활용) · 파생 = <b>이름 붙이기</b>(주관, 타당성 필요). "등급", "선호"가 보이면 파생변수.</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>바로 분석하지 말고 일단 들여다보기: EDA</h2><span class="pg">14쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>가설을 세우기 전에 데이터를 <b>이리저리 보며 특징을 찾는 단계</b>가 탐색적 자료 분석(EDA). 원장님이 성적표를 펼치자마자 "850점?"이 눈에 들어오는 것도 EDA 덕분이에요.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">저항성의 강조</span><h4>튀는 값에 덜 흔들리게</h4><p>850점 오타 하나에 평균은 67.7 → 137.3으로 튀지만 <b>중앙값은 72 그대로</b>. 이렇게 덜 흔들리는 값을 중시.</p></div>
+      <div class="box"><span class="tag blue">잔차 계산</span><h4>큰 흐름에서 얼마나 벗어났나</h4><p>"공부 시간이 늘면 점수도 오른다"는 흐름에서 혼자 동떨어진 학생 찾기. 잔차 = 실제값 − 예측값.</p></div>
+      <div class="box"><span class="tag blue">자료 변수의 재표현</span><h4>보기 좋은 척도로 바꾸기</h4><p>집안 소득처럼 한쪽으로 길게 늘어진 값은 <b>로그 변환</b>해서 보기.</p></div>
+      <div class="box"><span class="tag blue">그래프를 통한 현시성</span><h4>그림으로 드러내기</h4><p>숫자표 대신 상자그림, 산점도로 한눈에 (7화).</p></div>
+    </div>
+  </div>
+  <div class="memo"><b>"저잔재현"</b>: 저항성, 잔차, 재표현, 현시성.</div>
+  <div class="trap">EDA 4주제 "아닌 것"으로 <b>가설의 사전 설정</b>이 나와요. EDA는 가설 없이 탐색하는 게 특징이에요.</div>
+</section>
+
+<p class="part">PART 1 · 결측값: 빈칸 (14쪽)</p>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>영어 점수 칸이 비어 있다: 결측값, 그리고 지우기</h2><span class="pg">14쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>값이 없는 칸이 <b>결측값</b>(R에서는 <b>NA</b>). 가장 쉬운 처리는 그 학생 줄을 통째로 빼는 <b>완전분석법</b>. 쉽지만 <b>멀쩡한 수학 점수까지 같이 버려요</b>.</div>
+  <div class="fig">
+    <div class="tblwrap">
+    <table class="act" style="max-width:420px;margin:0 auto">
+      <tr><th>학생</th><th>수학</th><th>영어</th></tr>
+      <tr><td>A</td><td class="num">50</td><td class="num">55</td></tr>
+      <tr><td>B</td><td class="num">60</td><td class="num">65</td></tr>
+      <tr><td>C</td><td class="num">70</td><td class="num">75</td></tr>
+      <tr><td>D</td><td class="num">80</td><td class="num">85</td></tr>
+      <tr><td>E</td><td class="num">85</td><td class="num" style="color:var(--omr);font-weight:700">NA</td></tr>
+      <tr><td>F</td><td class="num">52</td><td class="num" style="color:var(--omr);font-weight:700">NA</td></tr>
+    </table>
+    </div>
+    <p class="cap">E, F는 영어 시험날 결석. 4·5화에서도 이 표를 계속 써요.</p>
+    <div class="calc">
+      <div class="ln"><span>완전분석법: E, F 줄 삭제</span><span class="num">6명 → 4명</span></div>
+      <div class="ln"><span>같이 사라진 멀쩡한 값</span><span class="num">수학 85, 52</span></div>
+      <div class="ln"><span>남은 4명 영어 평균</span><span class="num">70.0</span></div>
+    </div>
+  </div>
+  <div class="say"><p>6명 중 2명이면 3분의 1이 날아가요. 변수가 많을수록 "어딘가 하나라도 빈" 학생이 늘어서 남는 사람이 확 줄어요. 그래서 <b>데이터 손실, 효율성 저하</b>가 완전분석법의 약점이에요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">결측값</span><span>Missing Value. 값이 들어 있어야 할 칸이 빈 것</span></div>
+    <div class="row"><span class="term">NA</span><span>Not Available. R이 빈칸을 표시하는 글자</span></div>
+    <div class="row"><span class="term">완전분석법</span><span>결측이 있는 행(학생)을 지우고 완전한 것만 분석</span></div>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>지우기 아까우면 채운다: 단순대치법</h2><span class="pg">14쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>빈칸을 <b>한 번</b> 그럴듯한 값으로 채우는 게 단순대치법. 무엇으로 채우느냐에 따라 <b>평균으로(비조건부)</b>, <b>다른 정보로 예측해서(조건부, 회귀)</b>, <b>비슷한 학생 값을 빌려서(Hot-Deck 등)</b>.</div>
+  <div class="fig">
+    <div class="tblwrap">
+    <table class="act">
+      <tr><th>방법</th><th>E 영어</th><th>F 영어</th><th>6명 평균</th><th>퍼짐(표준편차)</th></tr>
+      <tr><td>채우기 전 (4명)</td><td>-</td><td>-</td><td class="num">70.0</td><td class="num">12.9</td></tr>
+      <tr><td>비조건부 평균대치</td><td class="num">70</td><td class="num">70</td><td class="num">70.0</td><td class="num" style="color:var(--omr);font-weight:700">10.0</td></tr>
+      <tr><td>조건부 평균대치</td><td class="num">90</td><td class="num">57</td><td class="num">71.2</td><td class="num">14.6</td></tr>
+      <tr><td>Hot-Deck</td><td class="num">85</td><td class="num">55</td><td class="num">70.0</td><td class="num">13.8</td></tr>
+    </table>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>비조건부: 4명 평균 (55+65+75+85) ÷ 4</span><span class="num">70</span></div>
+      <div class="ln"><span>조건부: 4명을 보니 "영어 = 수학 + 5" (회귀식)</span><span class="num">E 85+5=90 · F 52+5=57</span></div>
+      <div class="ln"><span>Hot-Deck: 수학이 비슷한 학생 값 빌리기</span><span class="num">E←D 85 · F←A 55</span></div>
+    </div>
+  </div>
+  <div class="say"><p>평균대치만 퍼짐이 <b>12.9 → 10.0</b>으로 줄었어요. 빈칸 두 개를 딱 평균(70)에 박아 넣었으니, 평균에서 벗어난 정도가 0인 학생이 둘 생긴 거예요. 실제 E는 수학 85점짜리라 영어도 높았을 텐데요.</p></div>
+  <p class="linkh">단순확률대치법: 비슷한 응답을 어디서 빌려 오나</p>
+  <div class="fig">
+    <div class="three">
+      <div class="box"><span class="tag red">Hot-Deck</span><h4>지금 데이터 안에서</h4><p>우리 반에서 수학이 비슷한 학생들 중 하나를 뽑아 그 값을 빌림</p></div>
+      <div class="box"><span class="tag blue">Cold-Deck</span><h4>바깥 자료에서</h4><p>작년 반, 다른 지점 같은 <b>외부 출처</b>의 비슷한 학생 값</p></div>
+      <div class="box"><span class="tag green">Nearest Neighbor</span><h4>가장 가까운 한 명</h4><p>조건이 가장 가까운 응답 하나를 그대로 빌림</p></div>
+    </div>
+  </div>
+  <div class="memo">따끈한(Hot) 지금 우리 데이터, 식은(Cold) 바깥 데이터. <b>조건부 = 회귀로 예측</b>, 비조건부 = 그냥 평균.</div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>한 번만 채우면 너무 확신하게 된다: 다중대치법</h2><span class="pg">14쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>단순대치는 "E 영어는 90점"이라고 <b>단 하나로 단정</b>해서, 데이터가 실제보다 덜 퍼져 보여요(<b>분산 과소 추정</b>). 그래서 <b>여러 번 다르게 채워 보고(대치) → 각각 분석하고(분석) → 결과를 합친다(결합)</b>.</div>
+  <div class="fig">
+    <div class="flows">
+      <div class="flow">
+        <div class="fh"><b>다중대치법 3단계</b><span class="tag blue">대치 → 분석 → 결합</span></div>
+        <div class="fl"><span>빈칸 있는<br>성적표</span><i>→</i><span>① 대치<br>3벌 만들기</span><i>→</i><span>② 분석<br>벌마다 평균</span><i>→</i><span class="hi">③ 결합<br>평균 내기</span></div>
+      </div>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>1번째 세트: E 88, F 56</span><span class="num">평균 70.67</span></div>
+      <div class="ln"><span>2번째 세트: E 90, F 57</span><span class="num">평균 71.17</span></div>
+      <div class="ln"><span>3번째 세트: E 93, F 59</span><span class="num">평균 72.00</span></div>
+      <div class="ln"><span>결합: (70.67 + 71.17 + 72.00) ÷ 3</span><span class="num">약 71.3</span></div>
+    </div>
+    <p class="cap">세트마다 결과가 조금씩 다른 것 자체가 "빈칸이라 확실히 모른다"는 정보예요. 이걸 버리지 않고 결과에 반영해요.</p>
+  </div>
+  <div class="trap">"다중대치법을 쓰는 이유" → <b>단순대치법의 분산 과소 추정 문제 해결</b>. 순서는 <b>대치 → 분석 → 결합</b> (분석이 먼저인 보기는 오답).</div>
+</section>
+
+<p class="part">PART 2 · 이상값: 튀는 값 (15쪽)</p>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>수학 850점, 그리고 18점: 이상값 찾기</h2><span class="pg">15쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>100점 만점에 <b>850점은 오타</b>(85점), <b>18점은 진짜</b>(시험날 아팠던 학생). 둘 다 무리에서 튀는 <b>이상값</b>이지만 처리는 달라요. 그래서 이상값은 <b>찾되, 항상 지우지는 않는다</b>.</div>
+  <div class="fig">
+    <p class="linkh" style="margin-top:0">원장님 반 11명 수학 점수 (작은 것부터)</p>
+    <div class="calc" style="margin-top:0">
+      <div class="ln"><span>18, 55, 62, 62, 68, <b>72</b>, 75, 80, 80, 88, 850</span><span class="num">11명</span></div>
+    </div>
+  </div>
+  <p class="linkh">방법 ① 사분위수(IQR): 가운데 절반을 기준으로 울타리 치기</p>
+  <div class="fig">
+    <div class="calc" style="margin-top:0">
+      <div class="ln"><span>Q1 (아래에서 25% 지점)</span><span class="num">62</span></div>
+      <div class="ln"><span>Q3 (아래에서 75% 지점)</span><span class="num">80</span></div>
+      <div class="ln"><span>IQR = Q3 − Q1 (가운데 절반의 폭)</span><span class="num">18</span></div>
+      <div class="ln"><span>아래 울타리 Q1 − 1.5 × 18</span><span class="num">62 − 27 = 35</span></div>
+      <div class="ln"><span>위 울타리 Q3 + 1.5 × 18</span><span class="num">80 + 27 = 107</span></div>
+      <div class="ln"><span>울타리 밖 = 이상값</span><span class="num">18, 850 (둘 다 잡힘)</span></div>
+    </div>
+  </div>
+  <p class="linkh">방법 ② ESD: 평균에서 표준편차 3배 넘게 떨어지면 이상값</p>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag red">850 그대로</span><h4>평균 137.3 · 표준편차 237.1</h4><p>범위: 137.3 ± 3 × 237.1<br>= <b>−574.1 ~ 848.6</b><br>850은 겨우 걸리고, 18은 못 잡음</p></div>
+      <div class="box"><span class="tag green">850 → 85로 고친 뒤</span><h4>평균 67.7 · 표준편차 19.4</h4><p>범위: 67.7 ± 3 × 19.4<br>= <b>9.4 ~ 126.1</b><br>18도 범위 안. ESD로는 이상값 없음</p></div>
+    </div>
+  </div>
+  <div class="say"><p>ESD는 평균과 표준편차로 울타리를 치는데, 그 둘이 <b>이상값에 끌려가요</b>. 850 하나가 평균을 두 배로, 표준편차를 열 배 넘게 키워 울타리가 엄청 넓어졌어요. 사분위수는 순서로 정하는 값이라 850이 8500이어도 62, 80 그대로예요. 2화의 <b>저항성</b>이 바로 이 차이예요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">ESD</span><span>평균 ± 3 × 표준편차 밖이면 이상값</span></div>
+    <div class="row"><span class="term">사분위수 (IQR)</span><span>Q1 − 1.5 × IQR 보다 작거나 Q3 + 1.5 × IQR 보다 크면 이상값. IQR = Q3 − Q1</span></div>
+    <div class="row"><span class="term">Z-Score</span><span>(값 − 평균) ÷ 표준편차 = "평균에서 표준편차 몇 개만큼 떨어졌나". 보통 ±3 넘으면 이상값. 850의 Z는 약 3.01</span></div>
+    <div class="row"><span class="term">DBSCAN</span><span>점이 빽빽이 모인 곳을 무리로 보고, <b>밀도가 낮은 곳에 혼자 떨어진 점</b>을 이상값으로 봄 (군집 기법)</span></div>
+  </div>
+  <details><summary>그래서 원장님은 둘을 어떻게 처리했나</summary><div class="in">
+    <p><b>850</b>: 답안지를 확인하니 85점. 입력 실수라 <b>고쳐서</b> 씀.</p>
+    <p><b>18</b>: 진짜 점수. 지워 버리면 "시험날 컨디션이 무너지는 학생"이라는 중요한 정보가 사라져요. 15장 합격 예측에서는 오히려 이런 학생을 찾아내는 게 목적일 수도 있어요. 그래서 <b>남겨 두고</b> 따로 표시해요.</p>
+    <p>이처럼 이상값은 오류일 수도, 의미 있는 데이터일 수도 있어서 <b>찾는 것과 지우는 것은 별개</b>예요.</p>
+  </div></details>
+  <div class="trap">"이상값은 발견되면 반드시 제거한다"는 <b>틀린 보기</b>. 또 기준 숫자를 바꿔 내요: <b>ESD = 표준편차 3배</b>, <b>IQR = 1.5배</b>. "평균 ± 1.5 표준편차", "Q ± 3 IQR"은 오답.</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>숫자 11개를 그림 한 장으로: 상자그림</h2><span class="pg">15쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>6화의 IQR 계산을 그대로 그린 게 상자그림(박스플롯). <b>상자 = 가운데 50%</b>, <b>상자 속 선 = 중앙값</b>, <b>수염 = 울타리 안 끝 값</b>, <b>수염 밖 점 = 이상값</b>. 그리고 <b>평균은 안 그려요</b>.</div>
+  <div class="fig">
+    <svg viewBox="0 0 480 170" style="max-width:520px" role="img" aria-label="원장님 반 수학 점수 상자그림: 상자 62에서 80, 중앙값 72, 수염 55와 88, 울타리 35와 107, 이상값 18과 오른쪽 밖 850">
+      <line x1="40" y1="120" x2="440" y2="120" stroke="var(--ink)" stroke-width="1.5"/>
+      <g class="svgmut" text-anchor="middle">
+        <text x="40" y="136">0</text><text x="106.7" y="136">20</text><text x="173.3" y="136">40</text><text x="240" y="136">60</text><text x="306.7" y="136">80</text><text x="373.3" y="136">100</text><text x="440" y="136">120</text>
+      </g>
+      <g stroke="var(--line)"><line x1="106.7" y1="116" x2="106.7" y2="124"/><line x1="173.3" y1="116" x2="173.3" y2="124"/><line x1="240" y1="116" x2="240" y2="124"/><line x1="306.7" y1="116" x2="306.7" y2="124"/><line x1="373.3" y1="116" x2="373.3" y2="124"/></g>
+      <line x1="156.7" y1="30" x2="156.7" y2="112" stroke="var(--omr)" stroke-dasharray="4 4"/>
+      <line x1="396.7" y1="30" x2="396.7" y2="112" stroke="var(--omr)" stroke-dasharray="4 4"/>
+      <text x="156.7" y="24" text-anchor="middle" fill="var(--omr)" font-size="11">울타리 35</text>
+      <text x="396.7" y="24" text-anchor="middle" fill="var(--omr)" font-size="11">울타리 107</text>
+      <line x1="223.3" y1="72" x2="246.7" y2="72" stroke="var(--ink)" stroke-width="2"/>
+      <line x1="306.7" y1="72" x2="333.3" y2="72" stroke="var(--ink)" stroke-width="2"/>
+      <line x1="223.3" y1="60" x2="223.3" y2="84" stroke="var(--ink)" stroke-width="2"/>
+      <line x1="333.3" y1="60" x2="333.3" y2="84" stroke="var(--ink)" stroke-width="2"/>
+      <rect x="246.7" y="50" width="60" height="44" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+      <line x1="280" y1="50" x2="280" y2="94" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="100" cy="72" r="6" fill="var(--surface)" stroke="var(--omr)" stroke-width="2.5"/>
+      <polygon points="452,72 440,64 440,80" fill="var(--omr)"/>
+      <text x="440" y="56" text-anchor="middle" fill="var(--omr)" font-size="11" font-weight="700">850 →</text>
+      <text class="svgtxt" x="100" y="100" text-anchor="middle">18</text>
+      <text class="svgmut" x="223.3" y="102" text-anchor="middle">55</text>
+      <text class="svgmut" x="246.7" y="44" text-anchor="middle">Q1 62</text>
+      <text class="svgtxt" x="280" y="44" text-anchor="middle" font-weight="700">72</text>
+      <text class="svgmut" x="306.7" y="44" text-anchor="middle">Q3 80</text>
+      <text class="svgmut" x="333.3" y="102" text-anchor="middle">88</text>
+      <text class="svgmut" x="240" y="160" text-anchor="middle">상자 폭 = IQR 18 · 수염 끝은 울타리가 아니라 "울타리 안 마지막 학생"(55, 88)</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">상자 양 끝</span><span>Q1(25%), Q3(75%). 상자 안에 데이터의 가운데 50%</span></div>
+    <div class="row"><span class="term">상자 속 선</span><span>Q2 = <b>중앙값</b>(50%). 평균 아님</span></div>
+    <div class="row"><span class="term">수염 끝</span><span>이상값이 아닌 것 중 최솟값, 최댓값</span></div>
+    <div class="row"><span class="term">수염 밖 점</span><span>이상값</span></div>
+  </div>
+  <p class="linkh">두 반 비교: 상자그림만 보고 말할 수 있는 것과 없는 것</p>
+  <div class="fig">
+    <svg viewBox="0 0 480 160" style="max-width:520px" role="img" aria-label="A반과 B반 상자그림. A반은 상자가 좁고 중앙값 72, 95점 이상값. B반은 상자가 넓고 중앙값 74, 이상값 없음">
+      <line x1="60" y1="130" x2="460" y2="130" stroke="var(--ink)" stroke-width="1.5"/>
+      <g class="svgmut" text-anchor="middle"><text x="60" y="146">30</text><text x="117" y="146">40</text><text x="174" y="146">50</text><text x="231" y="146">60</text><text x="289" y="146">70</text><text x="346" y="146">80</text><text x="403" y="146">90</text><text x="460" y="146">100</text></g>
+      <text class="svgtxt" x="30" y="44" text-anchor="middle" font-weight="700">A반</text>
+      <line x1="231" y1="40" x2="334" y2="40" stroke="var(--ink)" stroke-width="2"/>
+      <rect x="277" y="26" width="46" height="28" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+      <line x1="300" y1="26" x2="300" y2="54" stroke="var(--ink)" stroke-width="3"/>
+      <line x1="231" y1="32" x2="231" y2="48" stroke="var(--ink)" stroke-width="2"/><line x1="334" y1="32" x2="334" y2="48" stroke="var(--ink)" stroke-width="2"/>
+      <circle cx="431" cy="40" r="5" fill="var(--surface)" stroke="var(--omr)" stroke-width="2.5"/>
+      <text class="svgmut" x="431" y="24" text-anchor="middle">95</text>
+      <text class="svgtxt" x="30" y="100" text-anchor="middle" font-weight="700">B반</text>
+      <line x1="117" y1="96" x2="437" y2="96" stroke="var(--ink)" stroke-width="2"/>
+      <rect x="220" y="82" width="171" height="28" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="2"/>
+      <line x1="311" y1="82" x2="311" y2="110" stroke="var(--ink)" stroke-width="3"/>
+      <line x1="117" y1="88" x2="117" y2="104" stroke="var(--ink)" stroke-width="2"/><line x1="437" y1="88" x2="437" y2="104" stroke="var(--ink)" stroke-width="2"/>
+      <text class="svgmut" x="300" y="70" text-anchor="middle">중앙값 72</text>
+      <text class="svgmut" x="311" y="124" text-anchor="middle">중앙값 74</text>
+    </svg>
+    <div class="two" style="margin-top:10px">
+      <div class="box"><span class="tag green">말할 수 있음</span><h4>그림에 그려진 것</h4><p>B반 <b>중앙값이 더 큼</b>(74 &gt; 72)<br>B반 상자가 길어 <b>더 퍼져 있음</b>(분산 큼)<br>A반에만 <b>이상값</b>(95점)</p></div>
+      <div class="box"><span class="tag red">말할 수 없음</span><h4>그림에 없는 것</h4><p><b>평균</b>은 어느 반이 큰지 알 수 없음<br>(실제로 계산해 보니 A반 72.8, B반 72.0. 중앙값은 B가 큰데 평균은 A가 커요)</p></div>
+    </div>
+  </div>
+  <div class="trap">상자그림 비교 문제의 단골 정답: <b>"평균은 알 수 없다"</b>. 상자 속 굵은 선을 평균으로 읽으면 틀려요. 그건 <b>중앙값</b>이에요.</div>
+  <details><summary>A반, B반 원래 점수 (검산용)</summary><div class="in">
+    <p>A반: 60, 64, 68, 68, 70, 72, 74, 76, 76, 78, 95 → Q1 68, 중앙값 72, Q3 76, IQR 8, 울타리 56 ~ 88 → 95만 이상값, 평균 약 72.8</p>
+    <p>B반: 40, 50, 58, 58, 66, 74, 82, 88, 88, 92, 96 → Q1 58, 중앙값 74, Q3 88, IQR 30, 울타리 13 ~ 133 → 이상값 없음, 평균 72.0</p>
+  </div></details>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요.</p>
+  <div class="quiz">
+    <details><summary>"성실도 A등급", "고객 구매 등급"은 요약변수? 파생변수?</summary><div class="in"><p><b>파생변수</b>. 의미를 붙인 주관적 값이라 논리적 타당성이 필요. "1개월간 수입" 같은 합계는 요약변수.</p></div></details>
+    <details><summary>EDA 4주제는? 아닌 것으로 자주 나오는 보기는?</summary><div class="in"><p><b>저항성, 잔차, 재표현, 현시성</b>(저잔재현). "가설의 사전 설정"은 아님.</p></div></details>
+    <details><summary>결측 있는 행을 지우고 분석하는 방법과 그 약점은?</summary><div class="in"><p><b>완전분석법</b>. 멀쩡한 값까지 버려서 데이터 손실, 효율성 저하.</p></div></details>
+    <details><summary>회귀 예측값으로 채우면? 외부 자료의 비슷한 값으로 채우면?</summary><div class="in"><p>앞은 <b>조건부</b> 평균대치법, 뒤는 <b>Cold-Deck</b>. 현재 데이터 안에서 빌리면 Hot-Deck.</p></div></details>
+    <details><summary>평균대치를 하면 퍼짐이 어떻게 되나? 그 해결책은?</summary><div class="in"><p>빈칸이 전부 평균값이 돼 <b>분산이 과소 추정</b>(예시 12.9 → 10.0). 해결은 <b>다중대치법</b>(대치 → 분석 → 결합).</p></div></details>
+    <details><summary>Q1 62, Q3 80이면 IQR 이상값 울타리는?</summary><div class="in"><p>IQR 18, 1.5배는 27. <b>35 미만 또는 107 초과</b>가 이상값.</p></div></details>
+    <details><summary>ESD 기준과, ESD가 850 같은 값에 약한 이유는?</summary><div class="in"><p><b>평균 ± 3 × 표준편차</b> 밖. 평균과 표준편차가 이상값에 끌려가 울타리가 넓어지기 때문(저항성 낮음).</p></div></details>
+    <details><summary>상자그림으로 알 수 없는 것은? 이상값은 꼭 지워야 하나?</summary><div class="in"><p><b>평균</b>은 알 수 없음(가운데 선은 중앙값). 이상값은 의미 있는 데이터일 수 있어 <b>항상 제거하지 않음</b>.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>9장 한 문장</h3>
+    <p>3과목의 첫 장면: 원장님이 흩어진 데이터를 <b>데이터 마트</b>로 모으고(요약·파생변수), <b>EDA</b>로 들여다본 뒤(저잔재현), 빈칸은 <b>지우거나(완전분석) 한 번 채우거나(평균·Hot-Deck) 여러 번 채워 합치고(다중대치)</b>, 튀는 값은 <b>ESD(3σ), IQR(1.5배), 상자그림</b>으로 찾되 오타는 고치고 진짜는 남긴다. 상자그림에 평균은 없다.</p>
+  </div>
+</section>

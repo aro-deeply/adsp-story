@@ -1,0 +1,178 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 Big 함정</a><a href="#e2">2 전략 인사이트</a><a href="#e3">3 데이터 사이언스</a><a href="#e4">4 하드·소프트</a><a href="#e5">5 패러다임</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 5장 · 7쪽 · 이야기로 읽기</span>
+  <h1>편의점 사장님, 데이터를 다룰 사람을 뽑다</h1>
+  <p>4장 끝에서 사장님은 깨달았어요. 데이터도 기술도 있는데, 결국 <b>그걸 다룰 사람</b>이 없다는 걸요. 5장은 "어떤 사람을 뽑아야 하나"를 고민하며 채용공고를 쓰는 이야기이자, 1과목 전체의 마무리예요.</p>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>데이터는 <b>많다고 좋은 게 아니라</b> 목적에 맞아야 하고, 그걸 사업의 답으로 바꾸는 사람(데이터 사이언티스트)은 <b>분석, IT, 비즈니스</b>를 다 알고, 특히 <b>설득하고 통찰하는 능력(소프트 스킬)</b>이 중요하다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 7쪽</span><span class="t">많이 모으면 답이 나오나?</span><span class="q">Big에 초점을 맞추지 마라</span></a>
+  <a href="#e2"><span class="n">2화 · 7쪽</span><span class="t">한 지점만 보면 안 되나?</span><span class="q">일차원 분석 vs 전략 인사이트</span></a>
+  <a href="#e3"><span class="n">3화 · 7쪽</span><span class="t">어떤 학문이 필요하나?</span><span class="q">데이터 사이언스 AI비</span></a>
+  <a href="#e4"><span class="n">4화 · 7쪽</span><span class="t">채용공고에 뭘 쓰나?</span><span class="q">하드 스킬, 소프트 스킬</span></a>
+  <a href="#e5"><span class="n">5화 · 7쪽</span><span class="t">데이터는 어디로 가나?</span><span class="q">디지털화 → 연결 → 에이전시</span></a>
+  <a href="#qz"><span class="n">끝</span><span class="t">확인 문제</span><span class="q">7문제 + 1과목 정리</span></a>
+</div>
+<p class="maphint">1과목 줄거리: 1장 영수증(데이터) → 2장 창고(DB) → 3장 홍수(빅데이터) → 4장 경고등(위기, 개인정보) → <b>5장 사람(데이터 사이언티스트)</b>.</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>다 모았는데 왜 답이 안 나오지?</h2><span class="pg">7쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>3장에서 사장님은 "많이 모을수록 좋다"고 믿었다. 그런데 전국 날씨, 전 세계 SNS까지 모아 봐도 <b>"내일 우리 가게 발주"</b>라는 질문엔 답이 안 나온다. 크기가 아니라 <b>질문(목적)에 맞는 데이터와 기법</b>이 먼저다.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag red">크기부터</span><h4>"일단 다 모으자"</h4><p>전 세계 날씨, 모든 SNS 글, 경쟁사 뉴스까지<br>→ 저장비만 들고 정작 쓸 데이터를 못 찾음</p></div>
+      <div class="box"><span class="tag green">목적부터</span><h4>"무엇을 알고 싶지?"</h4><p>질문: 비 오는 날 무엇을 더 들여놓을까<br>→ 우리 동네 날씨 + 우리 가게 판매 기록이면 충분</p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">Big에 초점을 맞추지 마라</span><span>전략 인사이트 확보의 <b>첫 원칙</b>. 데이터 크기보다 <b>분석 목적에 맞는 데이터와 기법</b>이 중요.</span></div>
+  </div>
+  <div class="trap">"데이터의 크기(Big)를 최우선으로 확보한다"는 <b>틀린</b> 방향이에요. 이름이 빅데이터라서 크기가 중요할 것 같지만, 교재의 답은 정반대.</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>한 지점 문제 해결과, 회사 전체의 방향</h2><span class="pg">7쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"3호점 재고 줄이기"처럼 <b>한 부서, 한 업무만 고치는 분석</b>(일차원적 분석)도 효과는 있다. 하지만 시장이 바뀌면 대응을 못 한다. <b>사업 전체를 보고, 실행할 수 있고, 가치를 만드는</b> 분석으로 가야 전략적 인사이트가 된다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 520 170" style="max-width:540px" role="img" aria-label="일차원적 분석에서 가치 기반 분석을 거쳐 전략적 인사이트로 올라가는 계단">
+      <rect x="10" y="108" width="160" height="52" rx="8" fill="var(--sunk)" stroke="var(--line)"/>
+      <rect x="180" y="66" width="160" height="94" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <rect x="350" y="14" width="160" height="146" rx="8" fill="var(--ink)"/>
+      <text class="svgtxt" x="90" y="130" text-anchor="middle" font-weight="700">일차원적 분석</text>
+      <text class="svgmut" x="90" y="148" text-anchor="middle">3호점 재고만 줄이기</text>
+      <text class="svgtxt" x="260" y="88" text-anchor="middle" font-weight="700">가치 기반 분석</text>
+      <text class="svgmut" x="260" y="106" text-anchor="middle">업무 개선을 넘어</text>
+      <text class="svgmut" x="260" y="122" text-anchor="middle">가치를 만드는 분석</text>
+      <text x="430" y="38" text-anchor="middle" fill="var(--bg)" font-size="13" font-weight="700">전략적 인사이트</text>
+      <text x="430" y="58" text-anchor="middle" fill="var(--bg)" font-size="11">사업 전체 관점</text>
+      <text x="430" y="74" text-anchor="middle" fill="var(--bg)" font-size="11">+ 실행 가능성까지</text>
+      <text x="430" y="100" text-anchor="middle" fill="var(--bg)" font-size="11">"배달 전문 지점을</text>
+      <text x="430" y="116" text-anchor="middle" fill="var(--bg)" font-size="11">새로 낼까?"</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">일차원적 분석</span><span><b>부서 단위</b> 업무 개선 수준의 분석. 그 영역에선 효과가 크지만 환경 변화에 약함.</span></div>
+    <div class="row"><span class="term">전략적 인사이트</span><span>단순 분석을 넘어 <b>실행 가능성까지 고려</b>한 통찰.</span></div>
+    <div class="row"><span class="term">가치 기반 분석</span><span>일차원 분석을 넘어 <b>가치를 만드는</b> 분석.</span></div>
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>이 일을 하려면 무엇을 알아야 하나: 데이터 사이언스</h2><span class="pg">7쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>통계만 알면 데이터를 못 꺼내 오고, 코딩만 알면 무엇을 물어야 할지 모르고, 장사만 알면 계산을 못 한다. 그래서 <b>셋이 겹치는 자리</b>가 데이터 사이언스.</div>
+  <div class="fig">
+    <svg viewBox="0 0 440 296" style="max-width:460px" role="img" aria-label="세 원이 겹친 벤다이어그램: Analytics, IT, 비즈니스 분석이 겹치는 가운데가 데이터 사이언스">
+      <circle cx="150" cy="110" r="90" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2" fill-opacity="0.75"/>
+      <circle cx="290" cy="110" r="90" fill="var(--ok-soft)" stroke="var(--ok)" stroke-width="2" fill-opacity="0.75"/>
+      <circle cx="220" cy="196" r="90" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="2" fill-opacity="0.75"/>
+      <text class="svgtxt" x="112" y="70" text-anchor="middle" font-weight="700">A · Analytics</text>
+      <text class="svgmut" x="112" y="88" text-anchor="middle">수학, 확률, 통계</text>
+      <text class="svgmut" x="112" y="104" text-anchor="middle">머신러닝</text>
+      <text class="svgtxt" x="328" y="70" text-anchor="middle" font-weight="700">I · IT</text>
+      <text class="svgmut" x="328" y="88" text-anchor="middle">프로그래밍</text>
+      <text class="svgmut" x="328" y="104" text-anchor="middle">컴퓨팅</text>
+      <text class="svgtxt" x="220" y="240" text-anchor="middle" font-weight="700">비 · 비즈니스 분석</text>
+      <text class="svgmut" x="220" y="257" text-anchor="middle">커뮤니케이션, 스토리텔링</text>
+      <text class="svgmut" x="220" y="273" text-anchor="middle">시각화</text>
+      <text class="svgmut" x="328" y="120" text-anchor="middle">데이터 엔지니어링</text>
+      <rect x="168" y="128" width="104" height="38" rx="8" fill="var(--ink)"/>
+      <text x="220" y="145" text-anchor="middle" fill="var(--bg)" font-size="12" font-weight="700">데이터</text>
+      <text x="220" y="160" text-anchor="middle" fill="var(--bg)" font-size="12" font-weight="700">사이언스</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">데이터 사이언스</span><span><b>정형, 비정형을 가리지 않고</b> 데이터를 분석하는 <b>총체적 접근</b>. 통계학보다 넓은 개념(통계는 그중 Analytics 한 조각).</span></div>
+  </div>
+  <div class="trap">"정형 데이터만 분석", "통계학과 같은 개념", "IT 기술만 필요"는 모두 오답이에요. 셋 중 하나만 말하는 보기는 다 틀렸다고 보면 돼요.</div>
+  <div class="memo"><b>AI비</b>: <b>A</b>nalytics, <b>I</b>T, <b>비</b>즈니스 분석. "AI 비서"처럼 읽으면 기억에 남아요.</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>채용공고 쓰기: 하드 스킬과 소프트 스킬</h2><span class="pg">7쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>계산은 잘하는데 사장님을 설득 못 하는 분석가는 쓸모가 반쪽이다. 그래서 <b>이론, 기술(하드 스킬)</b>과 함께 <b>통찰, 설득, 협력(소프트 스킬)</b>을 다 본다. ADsP는 특히 <b>소프트 스킬이 중요하다</b>는 쪽으로 낸다.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box">
+        <span class="tag blue">Hard Skill · 이과형</span>
+        <h4>할 줄 아는가</h4>
+        <p><b>빅데이터 관련 이론 지식</b>: 수학, 통계, 가설검정, 기법 이해, 방법론</p>
+        <p style="margin-top:6px"><b>분석 기술 숙련</b>: 최적의 분석 설계, 노하우 축적</p>
+      </div>
+      <div class="box">
+        <span class="tag green">Soft Skill · 문과형</span>
+        <h4>통하게 하는가</h4>
+        <p><b>통찰력 있는 분석</b>: 창의적 사고, 호기심, 논리적 비판</p>
+        <p style="margin-top:6px"><b>설득력 있는 전달</b>: 스토리텔링, 시각화(비주얼라이제이션)</p>
+        <p style="margin-top:6px"><b>다분야 간 협력</b>: 커뮤니케이션</p>
+      </div>
+    </div>
+  </div>
+  <p class="linkh">시험용 분류 연습: 이 단어는 어느 쪽?</p>
+  <div class="fig">
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th>하드 스킬</th><th>소프트 스킬</th></tr>
+        <tr><td>통계 이론</td><td>스토리텔링</td></tr>
+        <tr><td>가설검정</td><td>시각화</td></tr>
+        <tr><td>빅데이터 이론 지식</td><td>창의적 사고, 호기심</td></tr>
+        <tr><td>분석 기술 숙련</td><td>커뮤니케이션, 협력</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">가트너 제시 역량</span><span><b>데이터 관리, 분석 모델링, 비즈니스 분석, 소프트 스킬</b> 네 가지</span></div>
+  </div>
+  <div class="trap"><b>시각화</b>는 기술처럼 들려서 하드 스킬로 고르기 쉬워요. 교재에선 "설득력 있는 전달" 수단이라 <b>소프트 스킬</b>이에요.</div>
+  <div class="memo">하드 = "<b>머리에 든 것과 손에 익은 것</b>"(이론, 기술). 소프트 = "<b>남에게 닿게 하는 것</b>"(통찰, 설득, 협력). 사람을 향하면 소프트예요.</div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>사장님 가게 20년: 데이터는 어디로 가나</h2><span class="pg">7쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>손으로 적던 장부를 컴퓨터로 옮기고(<b>디지털화</b>), 지점, 본사, 앱이 서로 이어지고(<b>연결</b>), 이제는 시스템이 알아서 발주까지 한다(<b>에이전시</b>). 빅데이터 가치의 흐름이 이 세 단계다.</div>
+  <div class="fig">
+    <div class="pipe" style="grid-template-columns:repeat(3,1fr)">
+      <div class="st"><span class="nm">① Digitalization</span><span class="rg">디지털화</span><span class="ex">아날로그를 디지털로<br>종이 장부 → POS, 엑셀<br>(1~2장)</span></div>
+      <div class="st"><span class="nm">② Connection</span><span class="rg">연결</span><span class="ex">디지털 정보끼리 연결<br>지점, 본사, 배달앱, SNS<br>(2~3장)</span></div>
+      <div class="st hi"><span class="nm">③ Agency</span><span class="rg">에이전시</span><span class="ex">연결된 정보가 스스로 행동<br>날씨 보고 자동 발주하는<br>AI 에이전트 (지금)</span></div>
+    </div>
+    <p class="arrowline">① → ② → ③ &nbsp;·&nbsp; 옮기고, 잇고, 맡긴다</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">Agency</span><span>에이전시 = <b>대리인</b>. 사람 대신 판단하고 행동하는 단계. Automation(자동화)이라는 보기는 함정.</span></div>
+  </div>
+  <div class="memo">"<b>디지털 → 연결 → 에이전시</b>". 사장님 가게 순서 그대로: 장부를 컴퓨터로 옮겨야 이을 수 있고, 이어져야 맡길 수 있어요.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 7문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 4개 이상 떠오르면 오늘은 충분해요.</p>
+  <div class="quiz">
+    <details><summary>전략 인사이트 확보의 첫 원칙은?</summary><div class="in"><p><b>Big에 초점을 맞추지 마라</b>. 크기보다 목적에 맞는 데이터와 기법.</p></div></details>
+    <details><summary>데이터 사이언스의 핵심 구성요소 셋은? 하드웨어 제조는?</summary><div class="in"><p><b>Analytics, IT, 비즈니스 분석</b>(AI비). 하드웨어 제조는 아니에요.</p></div></details>
+    <details><summary>통계 이론, 가설검정, 스토리텔링, 분석 기술 숙련 중 소프트 스킬은?</summary><div class="in"><p><b>스토리텔링</b>. 설득력 있는 전달이에요. 나머지는 하드 스킬.</p></div></details>
+    <details><summary>창의적 사고, 커뮤니케이션, 빅데이터 이론 지식, 호기심 중 하드 스킬은?</summary><div class="in"><p><b>빅데이터 관련 이론 지식</b>. 나머지는 소프트 스킬.</p></div></details>
+    <details><summary>빅데이터 가치 패러다임의 순서는?</summary><div class="in"><p><b>Digitalization → Connection → Agency</b>. 옮기고, 잇고, 맡긴다.</p></div></details>
+    <details><summary>연결된 정보가 스스로 판단하고 행동하는 단계는?</summary><div class="in"><p><b>Agency</b>(대리인). Automation은 함정 보기.</p></div></details>
+    <details><summary>데이터 사이언스에 대한 옳은 설명은?</summary><div class="in"><p><b>정형, 비정형을 막론하고 분석하는 총체적 접근</b>. 통계학보다 넓고, IT만 필요한 것도 아니에요.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>5장 한 문장</h3>
+    <p><b>Big에 초점을 맞추지 말고</b> 목적에 맞게 분석해 <b>전략적 인사이트</b>를 얻으려면, <b>AI비</b>(분석, IT, 비즈니스)를 아우르고 <b>하드 스킬</b> 위에 <b>소프트 스킬</b>(통찰, 설득, 협력)을 갖춘 데이터 사이언티스트가 필요하다. 데이터의 가치는 <b>디지털화 → 연결 → 에이전시</b>로 나아간다.</p>
+  </div>
+  <div class="end" style="margin-top:12px">
+    <h3>1과목 전체 줄거리</h3>
+    <p>편의점 사장님이 영수증(<b>데이터</b>)에서 의미(<b>정보</b>)를 찾고(1장), 지점이 늘자 창고(<b>DB, DW, 레이크</b>)를 짓고(2장), 앱과 SNS로 데이터 홍수(<b>3V 빅데이터</b>)를 맞고(3장), 손님 사생활 경고등에 <b>가명정보, 비식별화</b>로 대응하고(4장), 마지막으로 이 모든 걸 사업의 답으로 바꿀 <b>사람(데이터 사이언티스트)</b>을 뽑는다(5장).</p>
+  </div>
+</section>

@@ -1,0 +1,313 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 두 출발점</a><a href="#e2">2 문제 탐색</a><a href="#e3">3 정의·해결·타당성</a><a href="#e4">4 상향식</a><a href="#e5">5 혼합·디자인 싱킹</a><a href="#e6">6 과제 정리</a><a href="#e7">7 관리 10영역</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 7장 · 10~11쪽 · 이야기로 읽기</span>
+  <h1>김 팀장, 분석할 거리를 찾아 나서다</h1>
+  <p>6장에서 커피 프랜차이즈 본사 김 팀장은 표준 순서(방법론)를 손에 넣었어요. 7장은 그 순서의 맨 앞, <b>"그래서 뭘 분석하지?"</b>를 찾는 법(과제 발굴)과, 찾은 과제를 <b>프로젝트로 굴리는 법</b>(관리 10영역)이에요.</p>
+  <div class="speed">
+    <div><b>시간 없을 때 10분</b>검은 상자 + 그림만</div>
+    <div><b>보통 25분</b>필기 연결 칸까지</div>
+    <div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div>
+  </div>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>문제를 알면 <b>위에서 아래로 원인을 파고(하향식)</b>, 문제를 모르면 <b>데이터를 먼저 보며 아래에서 위로(상향식)</b> 찾고, 둘을 섞어 넓혔다 좁힌 뒤(혼합), 찾은 과제를 문서로 정리해 <b>10개 영역으로 관리</b>한다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 10쪽</span><span class="t">문제를 아나 모르나?</span><span class="q">하향식 vs 상향식</span></a>
+  <a href="#e2"><span class="n">2~3화 · 10쪽</span><span class="t">위에서 파고들기</span><span class="q">탐색 → 정의 → 해결 → 타당성</span></a>
+  <a href="#e4"><span class="n">4화 · 10쪽</span><span class="t">데이터부터 보기</span><span class="q">상향식, 비지도, 프로토타이핑</span></a>
+  <a href="#e5"><span class="n">5화 · 11쪽</span><span class="t">넓혔다 좁히기</span><span class="q">발산·수렴, 디자인 싱킹</span></a>
+  <a href="#e6"><span class="n">6화 · 10~11쪽</span><span class="t">과제를 종이 한 장에</span><span class="q">정의서, 고려 요소 5가지</span></a>
+  <a href="#e7"><span class="n">7화 · 11쪽</span><span class="t">프로젝트 굴리기</span><span class="q">관리 지식 체계 10영역</span></a>
+</div>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>같은 회사, 두 가지 출발점</h2><span class="pg">10쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>대표님이 "바리스타가 너무 그만둔다"고 <b>문제를 콕 집어 주면 하향식</b>, "뭔가 이상한데 뭔지 모르겠다"면 <b>데이터부터 펼쳐 보는 상향식</b>. 6장 4유형으로 치면 하향식은 문제(대상)를 아는 쪽, 상향식은 모르는 쪽이에요.</div>
+  <div class="fig">
+    <svg viewBox="0 0 460 200" style="max-width:500px" role="img" aria-label="하향식은 위의 문제에서 아래 데이터로 내려가고, 상향식은 아래 데이터에서 위의 문제로 올라감">
+      <rect x="20" y="14" width="420" height="40" rx="8" fill="var(--ink)"/>
+      <text x="230" y="39" text-anchor="middle" fill="var(--bg)" font-size="13.5" font-weight="700">문제 (비즈니스 질문)</text>
+      <rect x="20" y="140" width="420" height="40" rx="8" fill="var(--sunk)" stroke="var(--line)"/>
+      <text class="svgtxt" x="230" y="165" text-anchor="middle" font-weight="700">데이터 (근태, 급여, POS 매출, 면담 기록)</text>
+      <line x1="120" y1="58" x2="120" y2="132" stroke="var(--blue)" stroke-width="4"/>
+      <polygon points="110,128 130,128 120,140" fill="var(--blue)"/>
+      <text x="134" y="80" fill="var(--blue)" font-size="13" font-weight="700">하향식 Top-Down</text>
+      <text class="svgmut" x="134" y="96">"퇴사가 문제다" → 원인 찾아 내려감</text>
+      <line x1="340" y1="136" x2="340" y2="62" stroke="var(--ok)" stroke-width="4"/>
+      <polygon points="330,66 350,66 340,54" fill="var(--ok)"/>
+      <text x="326" y="112" text-anchor="end" fill="var(--ok)" font-size="13" font-weight="700">상향식 Bottom-Up</text>
+      <text class="svgmut" x="326" y="128" text-anchor="end">데이터를 보다 "어? 이게 문제네"</text>
+    </svg>
+  </div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">하향식 (Top-Down)</span><h4>문제가 주어짐 → 해답을 찾음</h4><p>문제 탐색 → 문제 정의 → 해결방안 탐색 → 타당성 검토</p><p style="margin-top:6px;color:var(--muted);font-size:13.5px">"왜(Why) 그만두나?"를 파고듦</p></div>
+      <div class="box"><span class="tag green">상향식 (Bottom-Up)</span><h4>문제 정의 자체가 어려움 → 데이터로 인식</h4><p>프로세스 분류 → 프로세스 흐름 분석 → 분석요건 식별 → 분석요건 정의</p><p style="margin-top:6px;color:var(--muted);font-size:13.5px">"무엇(What)이 보이나?"를 관찰</p></div>
+    </div>
+  </div>
+  <div class="trap">"프로세스 분류 → 흐름 분석 → 요건 식별 → 요건 정의"를 하향식 절차 보기에 섞어 내요. <b>"프로세스", "요건"</b>이 보이면 <b>상향식</b>, <b>"문제", "타당성"</b>이 보이면 <b>하향식</b>.</div>
+</section>
+
+<p class="part">PART 1 · 하향식: 문제에서 출발 (10쪽)</p>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>하향식 ① 문제 탐색: 어디를 뒤져 볼까</h2><span class="pg">10쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"퇴사 말고도 문제가 더 있지 않을까?" 빠뜨리지 않으려면 <b>정해진 틀로 훑어야</b> 해요. 우리 회사 안(비즈니스 모델 5영역)부터, 회사 밖(범위 확장 4관점)까지.</div>
+  <div class="fig">
+    <svg viewBox="0 0 480 250" style="max-width:520px" role="img" aria-label="비즈니스 모델 캔버스 5영역: 업무, 제품, 고객, 규제와 감사, 지원 인프라와 각 영역의 프랜차이즈 예시">
+      <rect x="170" y="95" width="140" height="56" rx="10" fill="var(--ink)"/>
+      <text x="240" y="119" text-anchor="middle" fill="var(--bg)" font-size="13" font-weight="700">비즈니스 모델</text>
+      <text x="240" y="137" text-anchor="middle" fill="var(--bg)" font-size="11">기반 문제 탐색</text>
+      <g stroke="var(--line)" stroke-width="1.5"><line x1="200" y1="95" x2="120" y2="62"/><line x1="280" y1="95" x2="360" y2="62"/><line x1="170" y1="130" x2="150" y2="130"/><line x1="310" y1="130" x2="330" y2="130"/><line x1="240" y1="151" x2="240" y2="188"/></g>
+      <rect x="10" y="12" width="200" height="54" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <text class="svgtxt" x="110" y="34" text-anchor="middle" font-weight="700">① 업무</text>
+      <text class="svgmut" x="110" y="52" text-anchor="middle">근무표 짜는 데 점장이 주 3시간</text>
+      <rect x="270" y="12" width="200" height="54" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <text class="svgtxt" x="370" y="34" text-anchor="middle" font-weight="700">② 제품</text>
+      <text class="svgmut" x="370" y="52" text-anchor="middle">신메뉴 나온 주에 퇴사가 늘까?</text>
+      <rect x="10" y="104" width="140" height="54" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <text class="svgtxt" x="80" y="126" text-anchor="middle" font-weight="700">③ 고객</text>
+      <text class="svgmut" x="80" y="144" text-anchor="middle">불친절 리뷰 ↔ 직원 피로</text>
+      <rect x="330" y="104" width="140" height="54" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <text class="svgtxt" x="400" y="126" text-anchor="middle" font-weight="700">④ 규제와 감사</text>
+      <text class="svgmut" x="400" y="144" text-anchor="middle">근로시간 위반 매장</text>
+      <rect x="140" y="188" width="200" height="54" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <text class="svgtxt" x="240" y="210" text-anchor="middle" font-weight="700">⑤ 지원 인프라</text>
+      <text class="svgmut" x="240" y="228" text-anchor="middle">근태 시스템 오류로 급여 누락</text>
+    </svg>
+    <p class="cap">회사 안쪽 5칸을 차례로 훑으면 빠뜨리는 문제가 줄어요.</p>
+  </div>
+  <p class="linkh">회사 밖으로 넓혀 보기 (분석 기회 발굴의 범위 확장)</p>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">거시적 관점 · STEEP</span><h4>세상의 큰 흐름</h4><p><b>S</b>ocial 사회: 청년 인구 감소<br><b>T</b>echnological 기술: 키오스크 확산<br><b>E</b>conomic 경제: 최저임금 인상<br><b>E</b>nvironmental 환경: 일회용컵 규제<br><b>P</b>olitical 정치: 주 52시간 정책</p></div>
+      <div class="box"><span class="tag red">경쟁자 확대 관점</span><h4>누가 우리 자리를 노리나</h4><p><b>대체재</b>: 편의점 커피<br><b>경쟁자</b>: 다른 프랜차이즈<br><b>신규 진입자</b>: 무인 카페</p></div>
+      <div class="box"><span class="tag green">시장 니즈 탐색 관점</span><h4>시장이 뭘 원하나</h4><p><b>고객</b>: 매장 손님<br><b>채널</b>: 배달앱, 앱 주문<br><b>영향자</b>: 알바 커뮤니티 평판</p></div>
+      <div class="box"><span class="tag green">역량의 재해석 관점</span><h4>우리가 가진 걸 다시 보기</h4><p><b>내부 역량</b>: 바리스타 교육 아카데미<br><b>파트너 네트워크</b>: 원두 공급사, 대학 협약</p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">외부 참조 모델</span><span>다른 회사, 다른 업종의 잘된 분석 사례를 가져와 견줘 보기(<b>벤치마킹</b>)</span></div>
+    <div class="row"><span class="term">분석 유스케이스</span><span>찾은 문제를 "이런 상황에 이런 분석" 형태로 정리해 둔 사례 목록</span></div>
+  </div>
+  <div class="memo">비즈니스 모델 5영역 <b>"업제고규지"</b>: 업무 중에 고객이 제품을 들고 규제와 감사, 지원 인프라까지.</div>
+  <div class="trap"><b>경쟁자</b>는 비즈니스 모델 5영역이 아니라 <b>범위 확장(회사 밖)</b> 관점이에요. 5영역은 전부 회사 안쪽 이야기.</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>하향식 ②③④ 정의하고, 방법 찾고, 따져 보기</h2><span class="pg">10쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"퇴사가 많다"는 그대로는 분석할 수 없어요. <b>데이터로 답할 수 있는 질문으로 바꾸고</b>(문제 정의), 누가 어떤 도구로 풀지 고르고(해결방안), <b>돈, 데이터, 기술</b>로 해낼 수 있는지 따져요(타당성).</div>
+  <div class="fig">
+    <div class="flows">
+      <div class="flow">
+        <div class="fh"><b>하향식 4단계</b></div>
+        <div class="fl"><span>문제 탐색</span><i>→</i><span class="hi">문제 정의</span><i>→</i><span>해결방안 탐색</span><i>→</i><span>타당성 검토</span></div>
+      </div>
+    </div>
+    <div class="two" style="margin-top:10px">
+      <div class="box"><span class="tag red">비즈니스 문제</span><h4>"바리스타가 너무 그만둔다"</h4><p>사람 말로 된 걱정. 그대로는 계산할 수 없음.</p></div>
+      <div class="box"><span class="tag blue">데이터 문제</span><h4>"입사 90일 안에 퇴사할 직원을 근태·급여 기록으로 미리 예측"</h4><p>무엇을, 어떤 데이터로 맞힐지가 정해짐.</p></div>
+    </div>
+    <p class="cap">문제 정의 = 비즈니스 문제를 <b>데이터 문제로 변환</b>하는 단계</p>
+  </div>
+  <p class="linkh">해결방안 탐색: 도구와 사람이 있나 없나 (2×2)</p>
+  <div class="fig">
+    <svg viewBox="0 0 470 280" style="max-width:500px" role="img" aria-label="해결방안 사분면. 기존 시스템이고 역량 있으면 기존 시스템 개선 활용, 기존 시스템이고 역량 없으면 교육과 채용, 신규 도입이고 역량 있으면 시스템 고도화, 신규 도입이고 역량 없으면 전문업체 아웃소싱">
+      <text class="svgtxt" x="285" y="16" text-anchor="middle" font-weight="700">분석 역량 (Who, 할 사람)</text>
+      <text class="svgmut" x="195" y="38" text-anchor="middle">확보 (있음)</text>
+      <text class="svgmut" x="375" y="38" text-anchor="middle">미확보 (없음)</text>
+      <text class="svgtxt" x="20" y="158" text-anchor="middle" font-weight="700" transform="rotate(-90 20 158)">분석 기법·시스템 (How)</text>
+      <text class="svgmut" x="62" y="102" text-anchor="middle">기존 시스템</text>
+      <text class="svgmut" x="62" y="212" text-anchor="middle">신규 도입</text>
+      <rect x="105" y="48" width="178" height="105" rx="8" fill="var(--ok-soft)" stroke="var(--ok)"/>
+      <rect x="289" y="48" width="178" height="105" rx="8" fill="var(--amber-soft)" stroke="var(--amber)"/>
+      <rect x="105" y="159" width="178" height="105" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <rect x="289" y="159" width="178" height="105" rx="8" fill="var(--omr-soft)" stroke="var(--omr)"/>
+      <text class="svgtxt" x="194" y="80" text-anchor="middle" font-weight="700" font-size="13.5">기존 시스템 개선·활용</text>
+      <text class="svgmut" x="194" y="104" text-anchor="middle">있는 근태 시스템 + 사내</text>
+      <text class="svgmut" x="194" y="120" text-anchor="middle">엑셀 고수로 바로 분석</text>
+      <text class="svgtxt" x="378" y="80" text-anchor="middle" font-weight="700" font-size="13.5">교육·채용으로 역량 확보</text>
+      <text class="svgmut" x="378" y="104" text-anchor="middle">시스템은 있는데 다룰</text>
+      <text class="svgmut" x="378" y="120" text-anchor="middle">사람이 없음 → 교육, 채용</text>
+      <text class="svgtxt" x="194" y="191" text-anchor="middle" font-weight="700" font-size="13.5">시스템 고도화</text>
+      <text class="svgmut" x="194" y="215" text-anchor="middle">분석가는 있는데 도구가</text>
+      <text class="svgmut" x="194" y="231" text-anchor="middle">없음 → 분석 시스템 도입</text>
+      <text class="svgtxt" x="378" y="191" text-anchor="middle" font-weight="700" font-size="13.5">전문업체 아웃소싱</text>
+      <text class="svgmut" x="378" y="215" text-anchor="middle">사람도 도구도 없음</text>
+      <text class="svgmut" x="378" y="231" text-anchor="middle">→ 외부에 맡김 (Sourcing)</text>
+    </svg>
+  </div>
+  <p class="linkh">타당성 검토 3가지</p>
+  <div class="fig">
+    <div class="three">
+      <div class="box"><span class="tag green">경제적</span><h4>남는 장사인가</h4><p>분석 비용 vs 퇴사 줄여 아끼는 채용·교육비</p></div>
+      <div class="box"><span class="tag blue">데이터</span><h4>데이터가 있나, 쓸 만한가</h4><p>근태 기록이 1년치뿐, 면담 기록은 종이</p></div>
+      <div class="box"><span class="tag red">기술적</span><h4>만들 수 있나</h4><p>지금 인력과 시스템으로 예측 모델 구현 가능?</p></div>
+    </div>
+  </div>
+  <div class="trap">"데이터 문제로 변환"은 <b>문제 정의</b> 단계예요. 문제 탐색(찾기)과 헷갈리지 마세요. 타당성 "아닌 것"으로 <b>정치적, 법적</b> 타당성 같은 보기가 나와요. 정답은 <b>경제적, 데이터, 기술적</b> 셋.</div>
+</section>
+
+<p class="part">PART 2 · 상향식과 혼합 (10~11쪽)</p>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>상향식: 뭐가 문제인지 모를 때는 데이터부터</h2><span class="pg">10쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"요즘 매장 분위기가 안 좋다는데 이유를 모르겠다." 이럴 땐 질문부터 세우기 어려우니 <b>데이터를 있는 그대로 보며 "무엇(What)이 보이나"</b>를 찾아요. 정답 없이 끼리끼리 묶는 <b>비지도학습</b>, 일단 만들어 보는 <b>프로토타이핑</b>이 무기.</div>
+  <div class="fig">
+    <div class="flows">
+      <div class="flow">
+        <div class="fh"><b>상향식 4단계</b><span class="tag green">프로세스에서 요건으로</span></div>
+        <div class="fl"><span>프로세스<br>분류</span><i>→</i><span>프로세스<br>흐름 분석</span><i>→</i><span>분석요건<br>식별</span><i>→</i><span class="hi">분석요건<br>정의</span></div>
+        <p>매장 업무를 오픈, 피크, 마감으로 나누고(분류) → 각 업무의 흐름과 데이터를 따라가 보고(흐름 분석) → "여기서 분석이 필요하다" 지점을 찾고(식별) → 구체적으로 적음(정의).</p>
+      </div>
+    </div>
+    <svg viewBox="0 0 400 150" style="max-width:420px;margin-top:12px" role="img" aria-label="정답 없이 직원 데이터를 묶어 보니 세 무리가 생기고, 그중 한 무리가 주말 오픈조 혼자 근무로 퇴사가 많음">
+      <ellipse cx="80" cy="70" rx="55" ry="42" fill="var(--blue-soft)" stroke="var(--blue)" stroke-dasharray="4 3"/>
+      <ellipse cx="200" cy="60" rx="50" ry="38" fill="var(--ok-soft)" stroke="var(--ok)" stroke-dasharray="4 3"/>
+      <ellipse cx="320" cy="78" rx="58" ry="42" fill="var(--omr-soft)" stroke="var(--omr)" stroke-width="2"/>
+      <g fill="var(--blue)"><circle cx="60" cy="60" r="5"/><circle cx="85" cy="50" r="5"/><circle cx="100" cy="78" r="5"/><circle cx="70" cy="88" r="5"/><circle cx="52" cy="75" r="5"/></g>
+      <g fill="var(--ok)"><circle cx="185" cy="50" r="5"/><circle cx="210" cy="45" r="5"/><circle cx="220" cy="70" r="5"/><circle cx="190" cy="75" r="5"/></g>
+      <g fill="var(--omr)"><circle cx="300" cy="65" r="5"/><circle cx="330" cy="58" r="5"/><circle cx="345" cy="85" r="5"/><circle cx="310" cy="95" r="5"/><circle cx="290" cy="85" r="5"/><circle cx="325" cy="100" r="5"/></g>
+      <text class="svgmut" x="80" y="128" text-anchor="middle">평일 낮 근무 무리</text>
+      <text class="svgmut" x="200" y="114" text-anchor="middle">대학생 저녁 무리</text>
+      <text class="svgtxt" x="320" y="136" text-anchor="middle" font-weight="700">주말 오픈 혼자 근무 무리</text>
+      <text class="svgmut" x="320" y="30" text-anchor="middle">"어? 여기만 퇴사가 몰려 있네"</text>
+    </svg>
+    <p class="cap">정답(이름표) 없이 비슷한 직원끼리 묶어 봤더니 새 문제가 보임 = 비지도학습으로 찾은 과제</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">비지도학습</span><span>정답 없이 데이터끼리의 패턴(묶음, 함께 나타나는 것)을 찾는 방법. 15장 군집분석, 연관규칙</span></div>
+    <div class="row"><span class="term">프로토타이핑</span><span>완벽한 정의 없이 <b>일단 시안을 빨리 만들어</b> 보여 주고, 반응을 보며 고쳐 나가는 방식</span></div>
+    <div class="row"><span class="term">Why보다 What</span><span>하향식은 "왜 그런가"를 파고, 상향식은 "무엇이 있나"를 관찰</span></div>
+  </div>
+  <details><summary>프로토타이핑은 왜 필요할까</summary><div class="in">
+    <p>점장들에게 "어떤 분석이 필요하세요?" 하고 물으면 대개 "글쎄요"라는 답이 와요. 사용자도 자기가 뭘 원하는지 모르기 때문이에요.</p>
+    <p>그래서 대충이라도 "주말 오픈조 위험 알림" 화면을 만들어 보여 주면 "이거 좋네, 근데 마감조도 보고 싶어"처럼 진짜 요구가 나와요. 6장의 <b>프로토타입 모델</b>과 같은 생각이에요.</p>
+  </div></details>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>넓게 펼치고, 좁게 고르기: 혼합 접근</h2><span class="pg">11쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>실제로는 둘을 섞어요. 데이터를 보며 아이디어를 <b>넓게 펼치는 발산 = 상향식</b>, 그중 쓸 만한 걸 <b>골라 검증하는 수렴 = 하향식</b>. 대표 예가 디자인 싱킹.</div>
+  <div class="fig">
+    <svg viewBox="0 0 460 170" style="max-width:500px" role="img" aria-label="다이아몬드 모양: 왼쪽 절반은 아이디어가 넓어지는 발산, 상향식. 오른쪽 절반은 좁아지는 수렴, 하향식">
+      <polygon points="30,85 230,15 230,155" fill="var(--ok-soft)" stroke="var(--ok)" stroke-width="2"/>
+      <polygon points="230,15 430,85 230,155" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+      <circle cx="30" cy="85" r="6" fill="var(--ink)"/>
+      <circle cx="430" cy="85" r="6" fill="var(--ink)"/>
+      <text class="svgtxt" x="135" y="80" text-anchor="middle" font-weight="700" font-size="14">발산 = 상향식</text>
+      <text class="svgmut" x="140" y="98" text-anchor="middle">아이디어 30개 펼치기</text>
+      <text class="svgtxt" x="325" y="80" text-anchor="middle" font-weight="700" font-size="14">수렴 = 하향식</text>
+      <text class="svgmut" x="320" y="98" text-anchor="middle">검증해 3개로 좁히기</text>
+      <text class="svgmut" x="30" y="112" text-anchor="middle">시작</text>
+      <text class="svgmut" x="430" y="112" text-anchor="middle">과제 확정</text>
+    </svg>
+  </div>
+  <div class="fig">
+    <div class="flows">
+      <div class="flow">
+        <div class="fh"><b>디자인 싱킹 5단계</b><span class="tag green">사람에서 출발</span></div>
+        <div class="fl"><span class="hi">공감하기</span><i>→</i><span>문제 정의</span><i>→</i><span>아이디어 도출</span><i>→</i><span>프로토타입</span><i>→</i><span>테스트</span></div>
+        <p>김 팀장이 새벽 오픈조에 하루 같이 서 보고(공감) → "혼자 오픈하면 겁나고 버겁다"(정의) → 2인 오픈, 원격 도움 버튼 등(아이디어) → 3개 매장에 시범 운영(프로토타입) → 퇴사율 비교(테스트).</p>
+      </div>
+    </div>
+  </div>
+  <div class="memo"><b>"발상수하"</b>: 발산은 상향, 수렴은 하향. 다이아몬드 왼쪽 절반이 위로 올라가는(상향) 모양이라고 떠올려도 좋아요.</div>
+  <div class="trap">디자인 싱킹은 <b>공감하기</b>로 시작해요. 문제 정의가 먼저 나오는 보기는 오답.</div>
+</section>
+
+<p class="part">PART 3 · 과제를 프로젝트로 (10~11쪽)</p>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>찾은 과제를 종이 한 장에, 그리고 따져 볼 5가지</h2><span class="pg">10~11쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>여러 방식으로 찾은 과제는 <b>분석과제 정의서</b>로 정리해 계획서의 재료로 쓰고, 결과를 어디에 쓸지는 <b>분석 활용 시나리오</b>로 적어요. 과제를 관리할 땐 <b>데이터 양, 속도, 데이터 복잡성, 분석 복잡성, 정확도와 정밀도</b> 5가지를 따져요.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">분석과제 정의서</span><h4>분석 계획서의 핵심 입력 자료</h4><p>과제명: 90일 내 퇴사 예측<br>데이터: 근태, 급여, 매장 매출<br>방법: 분류 모델<br>담당, 일정</p></div>
+      <div class="box"><span class="tag green">분석 활용 시나리오</span><h4>결과를 어떻게 적용할지</h4><p>"위험 점수가 높으면 점장 화면에 알림 → 1:1 면담 → 근무조 조정"처럼 실행 장면을 적은 문서</p></div>
+    </div>
+  </div>
+  <p class="linkh">분석 과제 관리 5가지 고려 요소</p>
+  <div class="fig">
+    <div class="tblwrap">
+    <table class="act">
+      <tr><th>요소</th><th>뜻</th><th>김 팀장 프로젝트에서</th></tr>
+      <tr><td>데이터 크기(양)</td><td>얼마나 많은 데이터를 다루나</td><td>300개 매장 × 1년 근태</td></tr>
+      <tr><td>데이터 복잡성</td><td>정형, 비정형이 섞였나</td><td>면담 기록(글), CCTV는 비정형</td></tr>
+      <tr><td>속도</td><td>얼마나 빨리 처리해야 하나</td><td>매일 아침 위험 알림 = 배치로 충분</td></tr>
+      <tr><td>분석 복잡성</td><td>모델이 얼마나 복잡하고 해석 가능한가</td><td>복잡할수록 정확하지만 점장이 이해 못 함</td></tr>
+      <tr><td>정확도와 정밀도</td><td>맞히는 정도와 흔들리지 않는 정도</td><td>아래 과녁 그림</td></tr>
+    </table>
+    </div>
+    <svg viewBox="-24 0 408 152" style="max-width:440px;margin-top:12px" role="img" aria-label="두 과녁. 정확도는 평균적으로 중심에 가까움, 정밀도는 점들이 서로 가깝게 모임">
+      <defs><g id="tg7"><circle r="50" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/><circle r="30" fill="none" stroke="var(--line)" stroke-width="2"/><circle r="12" fill="var(--omr-soft)" stroke="var(--omr)" stroke-width="2"/></g></defs>
+      <use href="#tg7" x="90" y="62"/><use href="#tg7" x="270" y="62"/>
+      <g fill="var(--ink)">
+        <circle cx="70" cy="44" r="4"/><circle cx="112" cy="52" r="4"/><circle cx="76" cy="86" r="4"/><circle cx="108" cy="80" r="4"/><circle cx="90" cy="34" r="4"/>
+        <circle cx="292" cy="40" r="4"/><circle cx="298" cy="46" r="4"/><circle cx="290" cy="50" r="4"/><circle cx="300" cy="38" r="4"/><circle cx="295" cy="44" r="4"/>
+      </g>
+      <text class="svgtxt" x="90" y="130" text-anchor="middle" font-weight="700">정확도(Accuracy) 높음</text>
+      <text class="svgmut" x="90" y="145" text-anchor="middle">평균은 중심 = 실제 값과 차이 없음</text>
+      <text class="svgtxt" x="270" y="130" text-anchor="middle" font-weight="700">정밀도(Precision) 높음</text>
+      <text class="svgmut" x="270" y="145" text-anchor="middle">반복해도 편차 작음 (중심은 빗나감)</text>
+    </svg>
+  </div>
+  <div class="trap">정확도와 정밀도는 <b>Trade-off</b>(하나 올리면 하나 내려가기 쉬운) 관계로 출제돼요. 그리고 이 둘은 16장 혼동행렬의 정확도·정밀도와 <b>이름만 같은 다른 개념</b>이에요. 여기선 과녁 그림으로 기억하세요.</div>
+  <div class="memo">5요소 중 "아닌 것"으로 <b>분석가 인원 수, 예산</b> 같은 보기가 나와요. 데이터 쪽 3개(양, 속도, 데이터 복잡성) + 분석 쪽 2개(분석 복잡성, 정확도와 정밀도).</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>프로젝트가 산으로 가지 않게: 관리 10영역</h2><span class="pg">11쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>과제가 정해지면 이제 <b>프로젝트</b>. 분석도 결국 사람, 돈, 일정이 걸린 프로젝트라서 <b>프로젝트 관리 지식 체계(PMBOK)의 10개 영역</b>을 챙겨요.</div>
+  <div class="fig">
+    <div class="tblwrap">
+    <table class="act">
+      <tr><th>영역</th><th>김 팀장이 챙길 장면</th></tr>
+      <tr><td>통합</td><td>나머지 9개를 하나의 계획으로 묶고 조율</td></tr>
+      <tr><td>이해관계자</td><td>대표님, 점주협의회, 직원이 각자 원하는 것 파악</td></tr>
+      <tr><td>범위</td><td>"이번엔 바리스타만, 점장은 다음에" 경계 정하기</td></tr>
+      <tr><td>인적자원</td><td>분석가, 현업 담당자 배치 (교재에 따라 "자원")</td></tr>
+      <tr><td>시간(일정)</td><td>6개월 일정, 데이터 수집이 늦어질 때 대비</td></tr>
+      <tr><td>원가</td><td>분석 도구 구입비, 외부 컨설팅비</td></tr>
+      <tr><td>리스크</td><td>개인정보 문제, 점주 반발 (6장 위험 대응 4가지)</td></tr>
+      <tr><td>품질</td><td>예측이 쓸 만한 수준인지 기준 정하기</td></tr>
+      <tr><td>조달</td><td>외부 업체에 맡길 부분 계약 (아웃소싱)</td></tr>
+      <tr><td>의사소통</td><td>매주 진행 보고, 점장들에게 결과 공유</td></tr>
+    </table>
+    </div>
+  </div>
+  <div class="memo"><b>"이범통이 의자에서 시원한 조리품을 먹었다"</b><br>이범통: 이해관계자, 범위, 통합 / 의자: 의사소통, 인적자원 / 시원: 시간, 원가 / 조리품: 조달, 리스크, 품질</div>
+  <div class="trap">"아닌 것" 보기로 <b>보안, 성과, 기술</b>이 자주 나와요. 그럴듯하지만 10영역에 없어요.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요.</p>
+  <div class="quiz">
+    <details><summary>하향식 4단계 순서는? 상향식은?</summary><div class="in"><p>하향식: <b>문제 탐색 → 문제 정의 → 해결방안 탐색 → 타당성 검토</b>. 상향식: 프로세스 분류 → 흐름 분석 → 분석요건 식별 → 분석요건 정의.</p></div></details>
+    <details><summary>비즈니스 문제를 데이터 문제로 바꾸는 단계는?</summary><div class="in"><p><b>문제 정의</b>. "퇴사가 많다" → "90일 내 퇴사자를 근태 데이터로 예측".</p></div></details>
+    <details><summary>비즈니스 모델 5영역은? 경쟁자는 여기 들어가나?</summary><div class="in"><p><b>업무, 제품, 고객, 규제와 감사, 지원 인프라</b>. 경쟁자는 회사 밖을 보는 범위 확장 관점이라 아님.</p></div></details>
+    <details><summary>STEEP의 다섯 글자는?</summary><div class="in"><p><b>사회, 기술, 경제, 환경, 정치</b>. 교육, 법률은 없음.</p></div></details>
+    <details><summary>타당성 검토 3가지는?</summary><div class="in"><p><b>경제적, 데이터, 기술적</b> 타당성.</p></div></details>
+    <details><summary>상향식에서 쓰는 방법 두 가지는? Why와 What 중 무엇을 보나?</summary><div class="in"><p><b>비지도학습, 프로토타이핑</b>. "무엇(What)"이 있는지 데이터 그대로 관찰.</p></div></details>
+    <details><summary>혼합 접근에서 발산과 수렴은 각각?</summary><div class="in"><p>발산 = <b>상향식</b>, 수렴 = <b>하향식</b> ("발상수하"). 디자인 싱킹은 공감하기로 시작.</p></div></details>
+    <details><summary>과제 관리 5요소와 프로젝트 관리 10영역에 없는 것을 하나씩?</summary><div class="in"><p>5요소에 <b>분석가 인원 수</b>는 없음(데이터 양, 속도, 데이터 복잡성, 분석 복잡성, 정확도와 정밀도). 10영역에 <b>보안</b>은 없음.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>7장 한 문장</h3>
+    <p>김 팀장은 문제가 주어지면 <b>하향식</b>(탐색: 업제고규지·STEEP → 정의: 데이터 문제로 변환 → 해결방안 → 타당성: 경제·데이터·기술), 모르면 <b>상향식</b>(비지도학습, 프로토타이핑)으로 과제를 찾고, <b>발산(상향)과 수렴(하향)</b>을 섞어 고른 뒤, 정의서로 정리해 <b>5가지 요소와 관리 10영역</b>으로 굴린다.</p>
+  </div>
+</section>

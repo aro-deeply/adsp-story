@@ -1,0 +1,461 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 선 긋기</a><a href="#e2">2 잔차</a><a href="#e3">3 R²</a><a href="#e4">4 선 종류</a><a href="#e5">5 가정</a><a href="#e6">6 공선성</a><a href="#e7">7 변수 선택</a><a href="#e8">8 규제</a><a href="#e9">9 결과표</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 13장 · 23~25쪽 · 이야기로 읽기</span>
+  <h1>원장님, 점들 사이에 선을 긋다</h1>
+  <p>12장에서 원장님은 "차이가 있나?"를 p-value로 판정했어요. 13장은 한 걸음 더 가서 <b>"공부 시간이 늘면 점수가 오를까? 오른다면 얼마나?"</b>를 직선 하나로 답하는 이야기예요. 15장의 예측 기계들도 이 직선에서 출발해요.</p>
+  <div class="speed">
+    <div><b>시간 없을 때 10분</b>검은 상자 + 그림만</div>
+    <div><b>보통 25분</b>필기 연결 칸까지</div>
+    <div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div>
+  </div>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>점들 사이에 <b>빗나감(잔차)이 제일 작은 선</b>을 긋고, 그 선이 <b>얼마나 잘 설명하나(R²)</b>, 선을 믿어도 되나(<b>가정</b>, <b>공선성</b>), 어떤 변수를 넣을까(<b>변수 선택</b>, <b>규제</b>)를 따진 뒤, 마지막에 <b>R 결과표</b>로 한 번에 판정한다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1~2화 · 23쪽</span><span class="t">어떤 선을 긋나?</span><span class="q">잔차, 최소제곱법</span></a>
+  <a href="#e3"><span class="n">3화 · 23쪽</span><span class="t">얼마나 잘 맞나?</span><span class="q">SST, SSR, SSE, R²</span></a>
+  <a href="#e4"><span class="n">4~5화 · 23쪽</span><span class="t">선의 종류와 조건은?</span><span class="q">다중, 다항, 선분정독</span></a>
+  <a href="#e6"><span class="n">6화 · 24쪽</span><span class="t">변수끼리 닮았다면?</span><span class="q">다중공선성, VIF</span></a>
+  <a href="#e7"><span class="n">7~8화 · 23~24쪽</span><span class="t">변수를 어떻게 고르나?</span><span class="q">전진·후진, 릿지·라쏘</span></a>
+  <a href="#e9"><span class="n">9화 · 24~25쪽</span><span class="t">결과표 읽는 순서는?</span><span class="q">F, t, R², 자유도</span></a>
+</div>
+
+<p class="part">PART 1 · 선 긋기와 채점 (23쪽)</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>공부 시간이 늘면, 점수는 얼마나 오를까</h2><span class="pg">23쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"공부하면 오른다"는 다 알아요. 원장님이 알고 싶은 건 <b>"1시간에 몇 점?"</b>. 점들 사이에 직선을 그으면 그 <b>기울기</b>가 답이에요.</div>
+  <div class="fig">
+    <svg viewBox="0 0 360 225" style="max-width:420px" role="img" aria-label="학생 5명의 공부 시간과 점수 산점도. 회귀선이 오른쪽 위로 올라가고, 1시간 늘 때 9점 오르는 계단 표시">
+      <line x1="50" y1="190" x2="330" y2="190" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="50" y1="190" x2="50" y2="30" stroke="var(--ink)" stroke-width="1.5"/>
+      <g stroke="var(--line)" stroke-dasharray="2 4"><line x1="50" y1="165" x2="330" y2="165"/><line x1="50" y1="115" x2="330" y2="115"/><line x1="50" y1="65" x2="330" y2="65"/></g>
+      <text class="svgmut" x="44" y="169" text-anchor="end">50</text>
+      <text class="svgmut" x="44" y="119" text-anchor="end">70</text>
+      <text class="svgmut" x="44" y="69" text-anchor="end">90</text>
+      <g class="svgmut" text-anchor="middle"><text x="95" y="205">1</text><text x="140" y="205">2</text><text x="185" y="205">3</text><text x="230" y="205">4</text><text x="275" y="205">5</text></g>
+      <text class="svgtxt" x="190" y="221" text-anchor="middle" font-weight="700">X 공부 시간(시간) = 독립변수</text>
+      <text class="svgtxt" x="16" y="110" text-anchor="middle" font-weight="700" transform="rotate(-90 16 110)">Y 점수 = 종속변수</text>
+      <line x1="72.5" y1="176.25" x2="297.5" y2="63.75" stroke="var(--omr)" stroke-width="3"/>
+      <path d="M140 142.5 L185 142.5 L185 120" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text class="svgtxt" x="162" y="157" text-anchor="middle">+1시간</text>
+      <text x="191" y="136" font-weight="700" fill="var(--omr)" font-size="12" font-family="var(--font)">+9점</text>
+      <g fill="var(--blue)"><circle cx="95" cy="165" r="6"/><circle cx="140" cy="140" r="6"/><circle cx="185" cy="127.5" r="6"/><circle cx="230" cy="90" r="6"/><circle cx="275" cy="77.5" r="6"/></g>
+      <text x="300" y="56" text-anchor="end" font-weight="700" fill="var(--omr)" font-size="12" font-family="var(--font)">점수 = 41 + 9 × 시간</text>
+    </svg>
+    <p class="cap">학생 5명: 1시간 50점, 2시간 60점, 3시간 65점, 4시간 80점, 5시간 85점</p>
+    <div class="calc">
+      <div class="ln"><span>기울기(회귀계수): 공부 1시간 늘 때 점수 변화</span><span class="num">+9점</span></div>
+      <div class="ln"><span>절편: 0시간일 때 선이 지나는 높이</span><span class="num">41점</span></div>
+      <div class="ln"><span>6시간 공부할 학생 예상: 41 + 9 × 6</span><span class="num">95점</span></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">독립변수 X</span><span>원인 쪽. 원장님이 바꿔 볼 수 있는 것 (공부 시간)</span></div>
+    <div class="row"><span class="term">종속변수 Y</span><span>결과 쪽. 알고 싶은 것 (점수)</span></div>
+    <div class="row"><span class="term">회귀계수</span><span>X가 1 늘 때 Y가 얼마나 변하나 = 선의 <b>기울기</b></span></div>
+    <div class="row"><span class="term">산점도</span><span>학생 한 명 = 점 하나. 회귀분석은 이 점들 사이에 선 긋기부터</span></div>
+  </div>
+  <div class="trap">회귀분석은 관계를 보여 줄 뿐 <b>인과관계를 보장하지 않음</b>. 선이 잘 맞아도요. 아이스크림 판매량과 물놀이 사고는 같이 오르지만, 둘 다 "더위" 때문일 뿐이에요. 회귀는 "같이 움직이는 모양"을 보여 줄 뿐.</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>선은 수없이 그을 수 있다. 어떤 게 제일 좋은 선?</h2><span class="pg">23쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>점과 선 사이 <b>세로 거리(잔차)</b>를 재서, <b>제곱해서 다 더한 값이 제일 작은 선</b>을 고른다. 이게 최소제곱법.</div>
+  <div class="fig">
+    <svg viewBox="0 0 360 270" style="max-width:420px" role="img" aria-label="점과 회귀선 사이 세로 거리가 잔차. 1시간 0, 2시간 +1, 3시간 −3, 4시간 +3, 5시간 −1">
+      <line x1="50" y1="240" x2="330" y2="240" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="50" y1="240" x2="50" y2="20" stroke="var(--ink)" stroke-width="1.5"/>
+      <g stroke="var(--line)" stroke-dasharray="2 4"><line x1="50" y1="213.6" x2="330" y2="213.6"/><line x1="50" y1="121.6" x2="330" y2="121.6"/><line x1="50" y1="29.6" x2="330" y2="29.6"/></g>
+      <text class="svgmut" x="44" y="217.6" text-anchor="end">50</text>
+      <text class="svgmut" x="44" y="125.6" text-anchor="end">70</text>
+      <text class="svgmut" x="44" y="33.6" text-anchor="end">90</text>
+      <line x1="86" y1="221.9" x2="288.5" y2="35.6" stroke="var(--omr)" stroke-width="2.5"/>
+      <g stroke="var(--ink)" stroke-width="3">
+        <line x1="140" y1="167.6" x2="140" y2="172.2"/>
+        <line x1="185" y1="144.6" x2="185" y2="130.8"/>
+        <line x1="230" y1="75.6" x2="230" y2="89.4"/>
+        <line x1="275" y1="52.6" x2="275" y2="48"/>
+      </g>
+      <g fill="var(--blue)"><circle cx="95" cy="213.6" r="6"/><circle cx="140" cy="167.6" r="6"/><circle cx="185" cy="144.6" r="6"/><circle cx="230" cy="75.6" r="6"/><circle cx="275" cy="52.6" r="6"/></g>
+      <text class="svgtxt" x="95" y="200" text-anchor="middle">0</text>
+      <text class="svgtxt" x="128" y="160" text-anchor="end">+1</text>
+      <text class="svgtxt" x="196" y="142" font-weight="700">−3</text>
+      <text class="svgtxt" x="219" y="88" text-anchor="end" font-weight="700">+3</text>
+      <text class="svgtxt" x="286" y="62">−1</text>
+      <g class="svgmut" text-anchor="middle"><text x="95" y="254">1</text><text x="140" y="254">2</text><text x="185" y="254">3</text><text x="230" y="254">4</text><text x="275" y="254">5</text></g>
+      <text class="svgmut" x="190" y="268" text-anchor="middle">검은 세로 막대 = 잔차 (실제 점수 − 선이 예측한 점수)</text>
+    </svg>
+    <div class="tblwrap" style="margin-top:10px">
+      <table class="act">
+        <tr><th>공부 시간</th><th>실제 점수</th><th>선 A 예측<br>41+9X</th><th>선 A 잔차</th><th>선 B 예측<br>40+10X</th><th>선 B 잔차</th></tr>
+        <tr><td>1시간</td><td class="num">50</td><td class="num">50</td><td class="num">0</td><td class="num">50</td><td class="num">0</td></tr>
+        <tr><td>2시간</td><td class="num">60</td><td class="num">59</td><td class="num">+1</td><td class="num">60</td><td class="num">0</td></tr>
+        <tr><td>3시간</td><td class="num">65</td><td class="num">68</td><td class="num">−3</td><td class="num">70</td><td class="num">−5</td></tr>
+        <tr><td>4시간</td><td class="num">80</td><td class="num">77</td><td class="num">+3</td><td class="num">80</td><td class="num">0</td></tr>
+        <tr><td>5시간</td><td class="num">85</td><td class="num">86</td><td class="num">−1</td><td class="num">90</td><td class="num">−5</td></tr>
+      </table>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>선 A 잔차 제곱 합: 0 + 1 + 9 + 9 + 1</span><span class="num">20</span></div>
+      <div class="ln"><span>선 B 잔차 제곱 합: 0 + 0 + 25 + 0 + 25</span><span class="num">50</span></div>
+      <div class="ln"><span>더 작은 쪽이 승리 → 최소제곱법이 고르는 선</span><span class="num">선 A</span></div>
+    </div>
+  </div>
+  <div class="say"><p>선 B는 점 3개를 정확히 지나는데도 졌어요. 두 명을 5점씩 크게 놓쳤기 때문이에요. 최소제곱법은 <b>몇 명을 크게 틀리느니, 모두를 조금씩 틀리는 선</b>을 좋아해요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">잔차</span><span><b>실제 관측값 − 예측값</b>. 점과 선 사이 세로 거리</span></div>
+    <div class="row"><span class="term">최소제곱법</span><span>잔차 제곱합(SSE)이 <b>최소</b>인 선을 고르는 방법 = 회귀계수 추정법. 최소자승법이라고도 함</span></div>
+  </div>
+  <div class="fix">요약노트의 "잔차 = 계산값과 예측값의 차이"는 틀린 표현이에요. 잔차는 <b>실제 관측값과 예측값의 차이</b>.</div>
+  <details><summary>왜 그냥 더하지 않고 제곱해서 더하나?</summary><div class="in">
+    <p>선 A 잔차를 그냥 더하면 0 + 1 − 3 + 3 − 1 = <b>0</b>. 위로 빗나간 것과 아래로 빗나간 것이 서로 지워져서 "하나도 안 틀렸다"처럼 보여요.</p>
+    <p>제곱하면 전부 양수가 되고, 크게 틀린 것(−5 → 25)은 더 크게 벌점을 받아요. 그래서 "제곱"합.</p>
+    <p>15장 로지스틱은 정답이 0/1이라 거리를 재기 어색해서 <b>최대우도법</b>을 써요. 짝: 선형회귀 = 최소제곱법, 로지스틱 = 최대우도법.</p>
+  </div></details>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>이 선, 몇 점짜리 설명일까</h2><span class="pg">23쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>점수가 학생마다 다른 이유(전체 변동) 중에서 <b>공부 시간으로 설명된 몫</b>이 얼마인가. 그 비율이 <b>R²(결정계수)</b>.</div>
+  <div class="fig">
+    <svg viewBox="0 0 400 260" style="max-width:460px" role="img" aria-label="4시간 학생 한 명의 점수 80은 평균 68보다 12 높고, 그중 9는 선이 설명하고 3은 잔차로 남음">
+      <line x1="50" y1="240" x2="340" y2="240" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="50" y1="240" x2="50" y2="20" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="50" y1="130.8" x2="300" y2="130.8" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <text class="svgmut" x="56" y="146">평균 68점</text>
+      <line x1="86" y1="221.9" x2="288.5" y2="35.6" stroke="var(--omr)" stroke-width="2.5"/>
+      <g fill="var(--blue-soft)" stroke="var(--blue)"><circle cx="95" cy="213.6" r="5"/><circle cx="140" cy="167.6" r="5"/><circle cx="185" cy="144.6" r="5"/><circle cx="275" cy="52.6" r="5"/></g>
+      <line x1="238" y1="75.6" x2="238" y2="89.4" stroke="var(--omr)" stroke-width="6"/>
+      <line x1="238" y1="89.4" x2="238" y2="130.8" stroke="var(--ok)" stroke-width="6"/>
+      <line x1="248" y1="75.6" x2="248" y2="130.8" stroke="var(--ink)" stroke-width="2.5"/><line x1="248" y1="130.8" x2="256" y2="143" stroke="var(--ink)" stroke-width="1"/>
+      <circle cx="230" cy="75.6" r="7" fill="var(--blue)"/>
+      <text x="258" y="86" font-weight="700" fill="var(--omr)" font-size="12" font-family="var(--font)">잔차 3 → SSE</text>
+      <text x="258" y="114" font-weight="700" fill="var(--ok)" font-size="12" font-family="var(--font)">설명 9 → SSR</text>
+      <text class="svgtxt" x="258" y="148" font-weight="700">전체 12 → SST</text>
+      <text class="svgmut" x="200" y="256" text-anchor="middle">4시간 학생: 실제 80, 선의 예측 77, 평균 68</text>
+    </svg>
+    <p class="cap">평균에서 떨어진 12점 중 9점은 "공부를 많이 해서"로 설명되고, 3점은 설명 못 한 나머지예요.</p>
+    <div class="tblwrap" style="margin-top:10px">
+      <table class="act">
+        <tr><th>학생</th><th>실제 − 평균</th><th>예측 − 평균</th><th>실제 − 예측(잔차)</th></tr>
+        <tr><td>1시간</td><td class="num">−18</td><td class="num">−18</td><td class="num">0</td></tr>
+        <tr><td>2시간</td><td class="num">−8</td><td class="num">−9</td><td class="num">+1</td></tr>
+        <tr><td>3시간</td><td class="num">−3</td><td class="num">0</td><td class="num">−3</td></tr>
+        <tr><td>4시간</td><td class="num">+12</td><td class="num">+9</td><td class="num">+3</td></tr>
+        <tr><td>5시간</td><td class="num">+17</td><td class="num">+18</td><td class="num">−1</td></tr>
+        <tr><td>제곱해서 합</td><td class="num"><b>SST 830</b></td><td class="num"><b>SSR 810</b></td><td class="num"><b>SSE 20</b></td></tr>
+      </table>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>전체 변동 = 설명된 변동 + 설명 못 한 변동</span><span class="num">830 = 810 + 20</span></div>
+      <div class="ln"><span>R² = SSR ÷ SST = 810 ÷ 830</span><span class="num">≈ 0.976</span></div>
+      <div class="ln"><span>같은 값: 1 − SSE ÷ SST = 1 − 20 ÷ 830</span><span class="num">≈ 0.976</span></div>
+    </div>
+  </div>
+  <div class="say"><p>R² ≈ 0.976은 "학생들 점수가 서로 다른 이유의 <b>약 97.6%</b>를 공부 시간 하나로 설명한다"는 뜻이에요. 0이면 선이 아무것도 설명 못 함, 1이면 모든 점이 선 위에 딱.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">SST</span><span>Total. 평균에서 떨어진 정도 전체 (점수가 왜 다 다르지?)</span></div>
+    <div class="row"><span class="term">SSR</span><span>Regression. 선(회귀)이 설명한 몫</span></div>
+    <div class="row"><span class="term">SSE</span><span>Error. 설명 못 하고 남은 몫 = 잔차 제곱합. 최소제곱법이 줄이는 그것</span></div>
+    <div class="row"><span class="term">R² 결정계수</span><span><b>SSR / SST = 1 − SSE / SST</b>. 0 ~ 1 사이, 클수록 설명력 높음</span></div>
+    <div class="row"><span class="term">수정된 R²</span><span>변수 개수만큼 깎아 준 R². <b>다중회귀</b>에서 비교할 때 사용</span></div>
+  </div>
+  <div class="memo"><b>R은 Regression(회귀) = 설명된 것, E는 Error(오차) = 설명 못 한 것.</b> R²는 "설명된 것 ÷ 전체"니까 분자에 R이 와요.</div>
+  <div class="trap">변수를 하나 더 넣으면 쓸모없는 변수라도 R²는 <b>절대 내려가지 않아요</b>(같거나 조금이라도 오름). "형제 수", "신발 크기"를 넣어도 R²가 오르니 속기 쉬워서, 변수가 여럿이면 <b>수정된 R²</b>를 봐요. 9화에서 실제로 확인해요.</div>
+</section>
+
+<p class="part">PART 2 · 선의 종류와 믿어도 되는 조건 (23~24쪽)</p>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>원인이 하나가 아니라면, 선이 곧지 않다면</h2><span class="pg">23쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>원인 수와 모양에 따라 이름만 바뀐다. 원인 1개 = <b>단순</b>, 2개 이상 = <b>다중</b>, 곡선 = <b>다항</b>, 원인끼리 서로 거들면 = <b>교호작용</b>.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box">
+        <span class="tag blue">원인 1개</span><h4>단순회귀</h4>
+        <svg viewBox="0 0 160 70" style="max-width:200px;margin:6px auto" role="img" aria-label="직선 하나"><line x1="10" y1="60" x2="150" y2="10" stroke="var(--omr)" stroke-width="2.5"/><g fill="var(--blue)"><circle cx="25" cy="50" r="3.5"/><circle cx="55" cy="46" r="3.5"/><circle cx="85" cy="33" r="3.5"/><circle cx="115" cy="25" r="3.5"/><circle cx="140" cy="16" r="3.5"/></g></svg>
+        <p>점수 ~ 공부 시간</p>
+      </div>
+      <div class="box">
+        <span class="tag blue">원인 2개 이상</span><h4>다중회귀</h4>
+        <svg viewBox="0 0 160 70" style="max-width:200px;margin:6px auto" role="img" aria-label="원인 여러 개가 결과 하나로 화살표"><g fill="var(--blue-soft)" stroke="var(--blue)"><rect x="6" y="4" width="56" height="18" rx="5"/><rect x="6" y="26" width="56" height="18" rx="5"/><rect x="6" y="48" width="56" height="18" rx="5"/></g><g class="svgmut" text-anchor="middle"><text x="34" y="17">공부 시간</text><text x="34" y="39">출석률</text><text x="34" y="61">형제 수</text></g><g stroke="var(--muted)"><line x1="62" y1="13" x2="104" y2="33"/><line x1="62" y1="35" x2="104" y2="35"/><line x1="62" y1="57" x2="104" y2="37"/></g><rect x="104" y="24" width="50" height="22" rx="6" fill="var(--ink)"/><text x="129" y="39" text-anchor="middle" fill="var(--bg)" font-size="12" font-weight="700">점수</text></svg>
+        <p>점수 ~ 공부 시간 + 출석률 + 형제 수</p>
+      </div>
+      <div class="box">
+        <span class="tag green">곡선</span><h4>다항회귀</h4>
+        <svg viewBox="0 0 160 70" style="max-width:200px;margin:6px auto" role="img" aria-label="올라가다 꺾여 내려오는 곡선"><path d="M10 62 Q 80 -20 150 50" fill="none" stroke="var(--omr)" stroke-width="2.5"/><g fill="var(--blue)"><circle cx="20" cy="52" r="3.5"/><circle cx="50" cy="28" r="3.5"/><circle cx="80" cy="22" r="3.5"/><circle cx="110" cy="27" r="3.5"/><circle cx="140" cy="45" r="3.5"/></g></svg>
+        <p>X², X³ 같은 <b>2차 이상</b> 항을 넣어 휜 선. 하루 12시간 넘게 하면 지쳐서 오히려 떨어지는 경우</p>
+      </div>
+      <div class="box">
+        <span class="tag green">원인끼리 거듦</span><h4>교호작용 회귀</h4>
+        <svg viewBox="0 0 160 70" style="max-width:200px;margin:6px auto" role="img" aria-label="과외 받는 학생은 기울기가 더 가파른 두 직선"><line x1="10" y1="60" x2="150" y2="8" stroke="var(--omr)" stroke-width="2.5"/><line x1="10" y1="60" x2="150" y2="40" stroke="var(--blue)" stroke-width="2.5"/><text class="svgmut" x="150" y="22" text-anchor="end">과외 O</text><text class="svgmut" x="150" y="56" text-anchor="end">과외 X</text></svg>
+        <p>과외를 받으면 같은 1시간이 <b>더 큰</b> 효과. 두 원인이 서로 영향을 주며 Y에 작용</p>
+      </div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">단순회귀</span><span>독립변수 1개</span></div>
+    <div class="row"><span class="term">다중회귀</span><span>독립변수 <b>2개 이상</b>. 설명력 비교는 수정된 R²</span></div>
+    <div class="row"><span class="term">다항회귀</span><span>2차 이상 <b>곡선</b> 관계</span></div>
+    <div class="row"><span class="term">교호작용 회귀</span><span>두 독립변수가 <b>서로 영향을 주며</b> Y에 작용</span></div>
+    <div class="row"><span class="term">규제 회귀</span><span>릿지, 라쏘, 엘라스틱넷. 변수가 많아 생기는 문제를 막는 선 (8화)</span></div>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>이 선을 믿어도 되는 조건 네 가지</h2><span class="pg">23쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>선을 그은 뒤 <b>남은 잔차가 아무 모양 없이 고르게 흩어져 있어야</b> 믿을 수 있다. 잔차에 무늬가 보이면 어딘가 조건이 깨진 것. 조건 넷은 <b>"선분정독"</b>.</div>
+  <div class="fig">
+    <svg viewBox="0 0 160 90" style="max-width:240px" role="img" aria-label="좋은 잔차 그림: 0선 주변에 무늬 없이 고르게 흩어짐">
+      <rect x="2" y="2" width="156" height="86" rx="6" fill="var(--ok-soft)"/>
+      <line x1="10" y1="45" x2="150" y2="45" stroke="var(--muted)" stroke-dasharray="4 3"/>
+      <g fill="var(--ok)"><circle cx="15" cy="38" r="3.5"/><circle cx="25" cy="52" r="3.5"/><circle cx="35" cy="44" r="3.5"/><circle cx="45" cy="30" r="3.5"/><circle cx="55" cy="58" r="3.5"/><circle cx="65" cy="40" r="3.5"/><circle cx="75" cy="50" r="3.5"/><circle cx="85" cy="36" r="3.5"/><circle cx="95" cy="55" r="3.5"/><circle cx="105" cy="46" r="3.5"/><circle cx="115" cy="33" r="3.5"/><circle cx="125" cy="54" r="3.5"/><circle cx="135" cy="42" r="3.5"/><circle cx="145" cy="49" r="3.5"/></g>
+    </svg>
+    <p class="cap">잔차 그림의 정답 모양: 0선(점선) 주변에 폭이 일정하게, 아무 무늬 없이</p>
+    <p class="linkh">아래는 각 조건이 <b>깨졌을 때</b> 잔차 모양</p>
+    <div class="two">
+      <div class="box"><span class="tag red">선</span><h4>선형성</h4>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="잔차가 활 모양으로 휘어짐"><line x1="10" y1="40" x2="150" y2="40" stroke="var(--muted)" stroke-dasharray="4 3"/><g fill="var(--omr)"><circle cx="15" cy="66" r="3"/><circle cx="25" cy="56" r="3"/><circle cx="35" cy="46" r="3"/><circle cx="45" cy="38" r="3"/><circle cx="55" cy="30" r="3"/><circle cx="65" cy="25" r="3"/><circle cx="75" cy="22" r="3"/><circle cx="85" cy="24" r="3"/><circle cx="95" cy="28" r="3"/><circle cx="105" cy="35" r="3"/><circle cx="115" cy="43" r="3"/><circle cx="125" cy="53" r="3"/><circle cx="135" cy="63" r="3"/><circle cx="145" cy="72" r="3"/></g></svg>
+        <p>X와 Y가 <b>직선 관계</b>여야. 잔차가 활처럼 휘면 사실은 곡선 관계 → 다항회귀 고려</p></div>
+      <div class="box"><span class="tag red">분</span><h4>등분산성</h4>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="잔차가 오른쪽으로 갈수록 나팔처럼 벌어짐"><line x1="10" y1="40" x2="150" y2="40" stroke="var(--muted)" stroke-dasharray="4 3"/><g fill="var(--omr)"><circle cx="15" cy="38" r="3"/><circle cx="25" cy="43" r="3"/><circle cx="35" cy="35" r="3"/><circle cx="45" cy="46" r="3"/><circle cx="55" cy="31" r="3"/><circle cx="65" cy="50" r="3"/><circle cx="75" cy="27" r="3"/><circle cx="85" cy="55" r="3"/><circle cx="95" cy="22" r="3"/><circle cx="105" cy="59" r="3"/><circle cx="115" cy="17" r="3"/><circle cx="125" cy="65" r="3"/><circle cx="135" cy="11" r="3"/><circle cx="145" cy="71" r="3"/></g></svg>
+        <p>잔차의 <b>흩어진 폭(분산)이 고르게</b>. 나팔처럼 벌어지면 깨진 것</p></div>
+      <div class="box"><span class="tag red">정</span><h4>정규성</h4>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="잔차 막대그래프가 한쪽으로 치우침, 점선 종 모양과 다름"><path d="M10 74 C 50 74, 55 12, 80 12 S 110 74, 150 74" fill="none" stroke="var(--muted)" stroke-dasharray="4 3"/><g fill="var(--omr)"><rect x="12" y="14" width="16" height="60"/><rect x="30" y="29" width="16" height="45"/><rect x="48" y="52" width="16" height="22"/><rect x="66" y="62" width="16" height="12"/><rect x="84" y="66" width="16" height="8"/><rect x="102" y="69" width="16" height="5"/><rect x="120" y="71" width="16" height="3"/></g></svg>
+        <p>잔차를 막대로 세우면 <b>종 모양(정규분포)</b>이어야. 한쪽으로 쏠리면 깨진 것</p></div>
+      <div class="box"><span class="tag red">독</span><h4>독립성</h4>
+        <svg viewBox="0 0 160 80" style="max-width:200px;margin:6px auto" role="img" aria-label="잔차가 순서대로 물결 무늬를 그림"><line x1="10" y1="40" x2="150" y2="40" stroke="var(--muted)" stroke-dasharray="4 3"/><polyline points="15,40 25,28 35,20 45,19 55,26 65,38 75,50 85,59 95,61 105,55 115,43 125,31 135,22 145,20" fill="none" stroke="var(--omr)" stroke-width="1" opacity=".5"/><g fill="var(--omr)"><circle cx="15" cy="40" r="3"/><circle cx="25" cy="28" r="3"/><circle cx="35" cy="20" r="3"/><circle cx="45" cy="19" r="3"/><circle cx="55" cy="26" r="3"/><circle cx="65" cy="38" r="3"/><circle cx="75" cy="50" r="3"/><circle cx="85" cy="59" r="3"/><circle cx="95" cy="61" r="3"/><circle cx="105" cy="55" r="3"/><circle cx="115" cy="43" r="3"/><circle cx="125" cy="31" r="3"/><circle cx="135" cy="22" r="3"/><circle cx="145" cy="20" r="3"/></g></svg>
+        <p>잔차끼리 <b>서로 상관없어야</b>. 앞 잔차를 보면 다음이 짐작되는 물결이면 깨진 것</p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">선형성</span><span>X와 Y가 선형(직선) 관계</span></div>
+    <div class="row"><span class="term">등분산성</span><span>오차(잔차)의 분산이 고르다. Homoscedasticity</span></div>
+    <div class="row"><span class="term">정규성</span><span>오차가 정규분포를 따른다</span></div>
+    <div class="row"><span class="term">독립성</span><span>오차끼리 독립. 한 학생의 오차가 다음 학생 오차에 영향 없음</span></div>
+  </div>
+  <div class="memo"><b>선분정독</b>: "선분을 정독하다". 선형성, (등)분산성, 정규성, 독립성.</div>
+  <div class="trap">"선형회귀의 가정이 <b>아닌</b> 것은?" → <b>다중공선성</b>. 다중공선성은 가정이 아니라 <b>피해야 할 문제</b>예요(6화). 이름에 "선"이 들어 있어 헷갈리게 내요.</div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>원인끼리 너무 닮으면, 누구 공인지 모른다</h2><span class="pg">24쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"공부 시간"과 "자습실에 있던 시간"을 같이 넣으면 둘이 거의 같이 움직여서, 기계가 <b>점수 오른 공을 누구에게 줄지 헷갈린다</b>. 계수가 들쭉날쭉 믿을 수 없어진다. 이게 다중공선성.</div>
+  <div class="fig">
+    <svg viewBox="0 0 380 196" style="max-width:440px" role="img" aria-label="공부 시간과 자습실 시간 원이 거의 겹치고, 둘 다 점수 원과 같은 부분을 겹침">
+      <circle cx="260" cy="90" r="72" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+      <circle cx="140" cy="80" r="58" fill="var(--omr-soft)" fill-opacity=".7" stroke="var(--omr)" stroke-width="2"/>
+      <circle cx="158" cy="100" r="58" fill="var(--amber-soft)" fill-opacity=".6" stroke="var(--amber)" stroke-width="2"/>
+      <text class="svgtxt" x="300" y="94" text-anchor="middle" font-weight="700">Y 점수</text>
+      <text x="104" y="46" text-anchor="middle" font-weight="700" fill="var(--omr)" font-size="12" font-family="var(--font)">X₁ 공부 시간</text>
+      <text x="130" y="168" text-anchor="middle" font-weight="700" fill="var(--amber)" font-size="12" font-family="var(--font)">X₂ 자습실 시간</text>
+      <line x1="202" y1="104" x2="236" y2="178" stroke="var(--ink)" stroke-width="1"/>
+      <circle cx="202" cy="104" r="3" fill="var(--ink)"/>
+      <text class="svgtxt" x="240" y="186" font-weight="700">겹친 공, 누구 몫?</text>
+    </svg>
+    <p class="cap">X₁과 X₂가 거의 겹쳐 있어서, Y와 겹친 부분을 둘 중 누구 몫으로 할지 정할 수 없어요.</p>
+    <p class="linkh" style="margin-top:12px">VIF = "이 변수는 나머지 변수들로 얼마나 흉내 낼 수 있나"</p>
+    <div class="calc">
+      <div class="ln"><span>X₂를 X₁으로 맞혀 봤을 때 R²ᵢ = 0 (전혀 못 흉내)</span><span class="num">VIF = 1 ÷ (1 − 0) = 1</span></div>
+      <div class="ln"><span>R²ᵢ = 0.5 (절반 흉내)</span><span class="num">VIF = 1 ÷ 0.5 = 2</span></div>
+      <div class="ln"><span>R²ᵢ = 0.8</span><span class="num">VIF = 1 ÷ 0.2 = 5</span></div>
+      <div class="ln"><span>R²ᵢ = 0.9 (90% 흉내 가능 = 거의 복제품)</span><span class="num">VIF = 1 ÷ 0.1 = 10</span></div>
+    </div>
+  </div>
+  <div class="say"><p>VIF 공식 1 / (1 − R²ᵢ)의 R²ᵢ는 3화의 R²와 같은 재료예요. 다만 Y 대신 <b>변수 i를 다른 X들로 설명</b>해 본 R². 잘 흉내 낼수록 분모가 0에 가까워져 VIF가 커져요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">다중공선성</span><span>독립변수끼리 강한 상관관계가 있는 문제</span></div>
+    <div class="row"><span class="term">진단 기준</span><span>상관계수 절댓값 <b>0.8 이상</b> 의심 · <b>VIF 10 이상</b>이면 존재 · 조건수 <b>30 이상</b> 의심</span></div>
+    <div class="row"><span class="term">VIF</span><span>분산팽창지수. VIF = 1 / (1 − R²ᵢ)</span></div>
+    <div class="row"><span class="term">해결</span><span>닮은 변수 <b>제거</b>, <b>차원 축소(PCA, 14장)</b>로 하나로 합치기, <b>변수 선택</b>(7화), <b>규제 회귀</b>(릿지 등, 8화)</span></div>
+  </div>
+  <div class="trap">"해결 방안이 <b>아닌</b> 것은?" → <b>독립변수를 더 추가</b>. 닮은 변수가 늘면 공선성이 오히려 커질 수 있어요.</div>
+  <div class="memo">기준 숫자 셋: <b>상관 0.8, VIF 10, 조건수 30</b>. "8, 10, 30"으로 묶어 두세요.</div>
+</section>
+
+<p class="part">PART 3 · 변수 고르기 (23~24쪽)</p>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>후보 변수 10개, 어떤 걸 넣을까</h2><span class="pg">24쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>다 넣으면 쓸모없는 변수와 닮은 변수까지 들어온다. 그래서 <b>하나씩 넣거나(전진), 하나씩 빼거나(후진), 둘 다 하며(단계적)</b> 고르고, 채점은 <b>AIC, BIC(작을수록 좋음)</b>로 한다.</div>
+  <div class="fig">
+    <div class="flows">
+      <div class="flow">
+        <div class="fh"><b>전진선택법</b><span class="tag blue">Forward</span></div>
+        <div class="fl"><span>빈 모형</span><i>→</i><span>+ 공부 시간</span><i>→</i><span>+ 출석률</span><i>→</i><span class="hi">더 넣어도 안 좋아지면 멈춤</span></div>
+        <p>제일 도움 되는 변수부터 <b>하나씩 추가</b>.</p>
+      </div>
+      <div class="flow">
+        <div class="fh"><b>후진제거법</b><span class="tag red">Backward</span></div>
+        <div class="fl"><span>전부 넣은 모형</span><i>→</i><span>− 형제 수</span><i>→</i><span>− 통학 시간</span><i>→</i><span class="hi">더 빼면 나빠지면 멈춤</span></div>
+        <p><b>전체에서</b> 제일 쓸모없는 변수부터 <b>하나씩 제거</b>.</p>
+      </div>
+      <div class="flow">
+        <div class="fh"><b>단계적 선택법</b><span class="tag green">Stepwise</span></div>
+        <div class="fl"><span>+ 공부 시간</span><i>→</i><span>+ 출석률</span><i>→</i><span>+ 자습실 시간</span><i>→</i><span>− 출석률?</span><i>→</i><span class="hi">넣고 빼기 반복</span></div>
+        <p>추가할 때마다 <b>이미 들어간 변수도 다시 점검</b>해서 필요 없어진 건 뺌.</p>
+      </div>
+    </div>
+  </div>
+  <div class="two" style="margin-top:12px">
+    <div class="box"><span class="tag blue">AIC</span><h4>아카이케 정보기준</h4><p>"잘 맞음"에서 점수를 얻고 "변수 개수"만큼 벌점. <b>작을수록</b> 좋은 모형.</p></div>
+    <div class="box"><span class="tag blue">BIC</span><h4>베이즈 정보기준</h4><p>AIC와 같은 생각인데 변수 하나당 <b>벌점이 더 큼</b>. 그래서 BIC는 더 날씬한 모형을 고르는 편.</p></div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">전진선택법</span><span>변수를 하나씩 <b>추가</b></span></div>
+    <div class="row"><span class="term">후진제거법</span><span>전체에서 하나씩 <b>제거</b></span></div>
+    <div class="row"><span class="term">단계적 선택법</span><span>추가와 제거를 <b>함께</b></span></div>
+    <div class="row"><span class="term">AIC, BIC</span><span>둘 다 <b>작을수록 좋음</b>. BIC가 AIC보다 벌점(패널티) 큼</span></div>
+    <div class="row"><span class="term">Mallow's Cp</span><span>변수 선택에 쓰는 또 하나의 기준</span></div>
+  </div>
+  <div class="memo">AIC, BIC는 <b>골프 점수</b>처럼 낮을수록 잘한 것. R²(높을수록 좋음)와 방향이 반대예요.</div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="ep" id="e8">
+  <div class="eph"><span class="no">8화</span><h2>변수를 빼는 대신, 계수에 벌점을 매기면</h2><span class="pg">23쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>변수를 넣고 빼는 대신, <b>계수가 커질수록 벌점</b>을 매겨 계수를 작게 눌러 둔다(규제). 벌점을 <b>제곱으로 매기면 릿지, 절댓값으로 매기면 라쏘</b>. 라쏘는 쓸모없는 계수를 아예 0으로 만든다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 420 175" style="max-width:480px" role="img" aria-label="원래 계수 네 개, 릿지는 모두 조금씩 작아짐, 라쏘는 두 개가 0이 됨">
+      <line x1="20" y1="120" x2="400" y2="120" stroke="var(--ink)" stroke-width="1.5"/>
+      <g fill="var(--blue)"><rect x="30" y="40" width="22" height="80"/><rect x="56" y="72" width="22" height="48"/><rect x="82" y="96" width="22" height="24"/><rect x="108" y="120" width="22" height="16"/></g>
+      <g fill="var(--violet)"><rect x="160" y="64" width="22" height="56"/><rect x="186" y="88" width="22" height="32"/><rect x="212" y="107" width="22" height="13"/><rect x="238" y="120" width="22" height="8"/></g>
+      <g fill="var(--omr)"><rect x="290" y="56" width="22" height="64"/><rect x="316" y="91" width="22" height="29"/></g>
+      <text x="353" y="114" text-anchor="middle" font-weight="700" fill="var(--omr)" font-size="12" font-family="var(--font)">0</text>
+      <text x="379" y="114" text-anchor="middle" font-weight="700" fill="var(--omr)" font-size="12" font-family="var(--font)">0</text>
+      <text class="svgtxt" x="80" y="158" text-anchor="middle" font-weight="700">원래 회귀</text>
+      <text class="svgtxt" x="210" y="158" text-anchor="middle" font-weight="700">릿지 (L2)</text>
+      <text class="svgtxt" x="340" y="158" text-anchor="middle" font-weight="700">라쏘 (L1)</text>
+      <text class="svgmut" x="80" y="172" text-anchor="middle">계수 4개 그대로</text>
+      <text class="svgmut" x="210" y="172" text-anchor="middle">전부 조금씩 줄어듦</text>
+      <text class="svgmut" x="340" y="172" text-anchor="middle">2개는 아예 0 = 탈락</text>
+      <text class="svgmut" x="210" y="20" text-anchor="middle">막대 = 변수별 계수 (공부 시간, 출석률, 형제 수, 통학 시간)</text>
+    </svg>
+    <p class="cap">모양을 보여 주는 그림이에요. 막대 높이는 실제 계산값이 아니에요.</p>
+    <p class="linkh">벌점은 어떻게 매기나 (계수 3, −2, 0.5인 모형)</p>
+    <div class="calc">
+      <div class="ln"><span>L1 벌점(라쏘) = 절댓값 합 = 3 + 2 + 0.5</span><span class="num">5.5</span></div>
+      <div class="ln"><span>L2 벌점(릿지) = 제곱 합 = 9 + 4 + 0.25</span><span class="num">13.25</span></div>
+      <div class="ln"><span>최종 목표: 잔차 제곱합 + 벌점, 이 합을 최소로</span><span class="num">SSE + 벌점</span></div>
+    </div>
+  </div>
+  <div class="three" style="margin-top:12px">
+    <div class="box"><span class="tag blue">L2</span><h4>릿지 Ridge</h4><p>계수 <b>제곱합</b> 벌점. 다 같이 작아지지만 0은 안 됨. 다중공선성 완화에 좋음.</p></div>
+    <div class="box"><span class="tag red">L1</span><h4>라쏘 Lasso</h4><p>계수 <b>절댓값</b> 벌점. 일부 계수를 <b>0으로</b> → <b>변수 선택 효과</b>.</p></div>
+    <div class="box"><span class="tag green">L1 + L2</span><h4>엘라스틱넷</h4><p>둘을 섞음. 줄이기도 하고 빼기도 함.</p></div>
+  </div>
+  <details><summary>왜 라쏘만 계수를 0으로 만들까?</summary><div class="in">
+    <p>계수가 0.1처럼 작아졌을 때 벌점을 비교해 볼게요.</p>
+    <div class="calc">
+      <div class="ln"><span>릿지 벌점: 0.1²</span><span class="num">0.01 (거의 공짜)</span></div>
+      <div class="ln"><span>라쏘 벌점: |0.1|</span><span class="num">0.1 (그대로 남음)</span></div>
+    </div>
+    <p>릿지는 작은 계수의 벌점이 거의 사라져서 굳이 0까지 밀지 않아요. 라쏘는 작아져도 벌점이 꼬박꼬박 남으니, 쓸모없는 변수는 <b>아예 0으로 만드는 게 이득</b>이에요.</p>
+  </div></details>
+  <div class="memo"><b>Lasso의 L이 하나 → L1</b>, 릿지는 L2. 라쏘(올가미)로 쓸모없는 변수를 <b>잡아채서 빼낸다</b>.</div>
+</section>
+
+<p class="part">PART 4 · R 결과표로 판정하기 (24~25쪽)</p>
+
+<!-- ============ 9 ============ -->
+<section class="ep" id="e9">
+  <div class="eph"><span class="no">9화</span><h2>R 결과표, 위에서 읽지 말고 아래부터</h2><span class="pg">24~25쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>결과표는 칸마다 질문이 하나씩. <b>① 맨 아래 F검정 p-value</b>(모형 전체 쓸모 있나) → <b>② 변수별 t검정 p-value</b>(이 변수 의미 있나) → <b>③ R², 수정된 R²</b>(얼마나 설명하나). 12장처럼 p &lt; 0.05면 "의미 있다".</div>
+  <div class="fig">
+    <p class="linkh" style="margin-top:0">교재 예시: 키(height)를 나이(age)와 형제 수(no_siblings)로 설명 · lm(height ~ age + no_siblings)</p>
+    <p class="cap" style="text-align:left;margin:0 0 8px">형광펜 숫자(p-value, R², 자유도)는 교재 그대로예요. 나머지 칸(계수, 표준오차, t값, F값)은 표 읽는 연습을 위해 교재 숫자에 맞춰 채운 예시라 교재 그림과 다를 수 있어요.</p>
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th>Coefficients</th><th>Estimate<br>계수</th><th>Std. Error<br>표준오차</th><th>t value</th><th>Pr(&gt;|t|)<br>p-value</th></tr>
+        <tr><td>(Intercept)</td><td class="num">64.94</td><td class="num">0.539</td><td class="num">120.43</td><td class="num">9.53e-16</td></tr>
+        <tr><td>age</td><td class="num">0.635</td><td class="num">0.0225</td><td class="num">28.18</td><td class="num"><mark>4.34e-10</mark> ②</td></tr>
+        <tr><td>no_siblings</td><td class="num">−0.0114</td><td class="num">0.0589</td><td class="num">−0.19</td><td class="num"><mark>0.851</mark> ②</td></tr>
+      </table>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>Residual standard error: 0.2693 on <b>9</b> degrees of freedom</span><span class="num">잔차 자유도 ④</span></div>
+      <div class="ln"><span>Multiple R-squared: <mark>0.9888</mark>, Adjusted R-squared: <mark>0.9863</mark></span><span class="num">③</span></div>
+      <div class="ln"><span>F-statistic: 397.7 on <b>2</b> and 9 DF, p-value: <mark>1.658e-09</mark></span><span class="num">①</span></div>
+    </div>
+  </div>
+  <p class="linkh">각 칸이 답하는 질문</p>
+  <div class="tblwrap">
+    <table class="act">
+      <tr><th>순서</th><th>칸</th><th>답하는 질문</th><th>이 표에서</th></tr>
+      <tr><td>①</td><td>F통계량의 p-value<br>(F-statistic 줄)</td><td>이 모형, <b>전체로 봐서</b> 쓸모 있나? (귀무가설: 모든 회귀계수 = 0)</td><td>1.658e-09 &lt; 0.05 → <b>모형 유의</b></td></tr>
+      <tr><td>②</td><td>각 계수의 t통계량 p-value<br>(Pr(&gt;|t|) 칸)</td><td><b>이 변수 하나</b>가 의미 있나? (귀무가설: 이 계수 = 0)</td><td>age 4.34e-10 → <b>유의</b><br>no_siblings 0.851 → <b>유의하지 않음</b></td></tr>
+      <tr><td>③</td><td>R², 수정된 R²</td><td>얼마나 설명하나?</td><td>0.9888 → 약 98.9% 설명. 변수 2개라 <b>수정된 R² 0.9863</b>을 봄</td></tr>
+      <tr><td>④</td><td>자유도(DF)</td><td>데이터가 몇 개였나?</td><td>2 + 9 + 1 = <b>12개</b></td></tr>
+      <tr><td>+</td><td>Estimate</td><td>X가 1 늘면 Y가 얼마나?</td><td>나이 1살 늘면 키 약 0.635 증가</td></tr>
+    </table>
+  </div>
+  <div class="say"><p>①과 ②를 <b>둘 다 통과</b>해야(귀무가설 기각) 모형을 활용해요. 여기서는 no_siblings가 ②에서 떨어졌으니 <b>빼고 다시 분석</b>하는 게 권장돼요. 변수가 2개라 <b>다중회귀</b>예요.</p></div>
+  <div class="fix">요약노트에 검정 순서가 "1), 2)"처럼 번호만 적혀 헷갈리게 되어 있다면, 그 두 검정은 <b>① F검정(모형 전체)</b>과 <b>② t검정(각 계수)</b>이에요.</div>
+  <details open><summary>e-09, e-10은 무슨 숫자?</summary><div class="in">
+    <p>e-09는 "10의 −9승", 즉 0.000000001을 곱하라는 뜻이에요. 1.658e-09 = 0.000000001658. 소수점 아래 0이 줄줄이 붙는 <b>아주 작은 수</b>라, e- 뒤에 숫자가 붙어 있으면 무조건 0.05보다 작다고 보면 돼요.</p>
+  </div></details>
+  <details><summary>t value는 어디서 나오나</summary><div class="in">
+    <p>t = 계수 ÷ 표준오차. "계수가 흔들림(오차)의 몇 배 크기냐"예요.</p>
+    <div class="calc">
+      <div class="ln"><span>age: 0.635 ÷ 0.0225, 흔들림의 28배라 확실히 0이 아님</span><span class="num">≈ 28</span></div>
+      <div class="ln"><span>no_siblings: −0.0114 ÷ 0.0589, 흔들림보다 작아 0과 구별 안 됨</span><span class="num">≈ −0.19</span></div>
+    </div>
+  </div></details>
+  <details><summary>쓸모없는 no_siblings를 넣었더니 R²는?</summary><div class="in">
+    <p>같은 데이터로 age만 넣은 모형과 비교하면 3화의 함정이 그대로 보여요.</p>
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th>모형</th><th>R²</th><th>수정된 R²</th></tr>
+        <tr><td>age만</td><td class="num">0.98876</td><td class="num">0.98764</td></tr>
+        <tr><td>age + no_siblings</td><td class="num">0.98881 (살짝 오름)</td><td class="num">0.98632 (내려감)</td></tr>
+      </table>
+    </div>
+    <p>R²는 쓸모없는 변수에도 오르지만, 수정된 R²는 "변수만 늘렸네" 하고 깎아요. 그래서 다중회귀는 수정된 R²로 비교해요.</p>
+  </div></details>
+  <details><summary>분산분석(ANOVA)표와 자유도</summary><div class="in">
+    <p>F검정은 3화의 SSR과 SSE를 비교하는 표에서 나와요. 각 제곱합을 자유도로 나눠 "1칸당 크기"로 맞춘 뒤 나눈 값이 F.</p>
+    <div class="tblwrap">
+      <table class="act">
+        <tr><th>요인</th><th>자유도</th><th>제곱합</th><th>평균제곱</th><th>F</th></tr>
+        <tr><td>회귀</td><td class="num">2 (변수 개수)</td><td class="num">SSR 57.66</td><td class="num">28.83</td><td class="num">28.83 ÷ 0.0725 ≈ 397.7</td></tr>
+        <tr><td>잔차</td><td class="num">9</td><td class="num">SSE 0.653</td><td class="num">0.0725</td><td></td></tr>
+        <tr><td>전체</td><td class="num">11</td><td class="num">SST 58.31</td><td></td><td></td></tr>
+      </table>
+    </div>
+    <p><b>전체 데이터 수 = 전체 자유도 + 1</b> = (회귀 2 + 잔차 9) + 1 = 12개. 회귀 자유도는 독립변수 개수와 같아요.</p>
+  </div></details>
+  <div class="memo">읽는 순서: <b>"아래(F) → 가운데(t) → R²"</b>. 회사 면접처럼 "팀 전체 합격? → 개인별 합격? → 점수는?" 순서.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 5개 이상 떠오르면 오늘은 충분해요.</p>
+  <div class="quiz">
+    <details><summary>잔차의 정의와, 회귀계수를 구하는 방법은?</summary><div class="in"><p>잔차 = <b>실제 관측값 − 예측값</b>. 잔차 제곱합이 최소인 선을 고르는 <b>최소제곱법</b>. (최대우도법은 로지스틱)</p></div></details>
+    <details><summary>SST 830, SSE 20이면 R²는? 식은?</summary><div class="in"><p>R² = <b>SSR / SST</b> = 1 − SSE / SST = 1 − 20/830 ≈ <b>0.976</b>. SSR = 830 − 20 = 810.</p></div></details>
+    <details><summary>선형회귀의 가정이 아닌 것: 선형성, 등분산성, 정규성, 다중공선성?</summary><div class="in"><p><b>다중공선성</b>. 가정은 선분정독(선형성, 등분산성, 정규성, 독립성). 다중공선성은 피해야 할 문제.</p></div></details>
+    <details><summary>다중공선성 판단 VIF 기준과, 해결책이 아닌 것은?</summary><div class="in"><p><b>VIF 10 이상</b>(조건수 30 이상). 해결은 변수 제거, PCA, 변수 선택, 릿지. <b>변수 추가</b>는 해결책이 아님.</p></div></details>
+    <details><summary>L1 규제로 일부 계수를 0으로 만드는 회귀는?</summary><div class="in"><p><b>라쏘</b>(절댓값 벌점). 릿지는 L2(제곱), 엘라스틱넷은 L1 + L2.</p></div></details>
+    <details><summary>변수를 하나씩 추가하는 방법은? AIC, BIC는 클수록 좋나?</summary><div class="in"><p><b>전진선택법</b>(제거 = 후진, 둘 다 = 단계적). AIC, BIC는 <b>작을수록</b> 좋고, BIC 벌점이 더 큼.</p></div></details>
+    <details><summary>모형 전체 유의성은 무엇으로? F p &lt; 0.05, age p = 4.34e-10, no_siblings p = 0.851이면?</summary><div class="in"><p>모형 전체 = <b>F통계량</b>(개별 계수 = t). 모형 유의, age 유의, <b>no_siblings는 유의하지 않아 제거 후 재분석</b> 고려.</p></div></details>
+    <details><summary>회귀 자유도 2, 잔차 자유도 9면 데이터 수는? 다중회귀 설명력 지표는?</summary><div class="in"><p>2 + 9 + 1 = <b>12개</b>. 변수만 늘려도 R²는 오르니 다중회귀는 <b>수정된 R²</b>.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>13장 한 문장</h3>
+    <p>원장님이 공부 시간과 점수 사이에 <b>잔차 제곱합이 제일 작은 선</b>(최소제곱법)을 긋고, <b>R²</b>로 설명력을 재고, <b>선분정독</b> 가정과 <b>다중공선성(VIF 10)</b>을 점검하고, 변수는 <b>전진·후진·단계적</b>이나 <b>릿지·라쏘</b>로 고른 뒤, R 결과표를 <b>F → t → R²</b> 순서로 읽는다.</p>
+  </div>
+</section>

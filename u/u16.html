@@ -1,0 +1,344 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 앙상블</a><a href="#e2">2 퍼셉트론</a><a href="#e3">3 은닉층</a><a href="#e4">4 학습</a><a href="#e5">5 함수 고르기</a><a href="#e6">6 혼동행렬</a><a href="#e7">7 지표 계산</a><a href="#e8">8 F1</a><a href="#e9">9 ROC</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 16장 · 31~33쪽 · 이야기로 읽기</span>
+  <h1>원장님, 기계에게 뇌를 달아 주고 채점하다</h1>
+  <p>15장에서 원장님은 합격 예측 선수 5명을 만났어요. 16장은 선수들을 <b>팀으로 묶고(앙상블)</b>, <b>더 센 선수(신경망)</b>를 데려오고, 선수들을 <b>채점하는 법(혼동행렬)</b>을 배우는 이야기예요.</p>
+  <div class="speed">
+    <div><b>시간 없을 때 10분</b>검은 상자 + 그림만</div>
+    <div><b>보통 25분</b>필기 연결 칸까지</div>
+    <div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div>
+  </div>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>모델 여러 개를 <b>팀으로 묶고</b>(앙상블), 뇌처럼 <b>점수를 매기는 칸을 여러 층 쌓은 기계</b>(신경망)를 만들고, 기계가 맞힌 것과 틀린 것을 <b>2×2 칸에 세어서</b>(혼동행렬) 채점한다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 31쪽</span><span class="t">앙상블</span><span class="q">여러 모델을 팀으로 묶기</span></a>
+  <a href="#e2"><span class="n">2~5화 · 32쪽</span><span class="t">인공신경망</span><span class="q">점수 매기기 → 층 쌓기 → 스스로 고치기</span></a>
+  <a href="#e6"><span class="n">6~9화 · 33쪽</span><span class="t">평가지표</span><span class="q">2×2 칸 세기 → 비율 계산 → 그래프</span></a>
+</div>
+
+<!-- ============ 1 ============ -->
+<p class="part" id="en">PART 0 · 앙상블 (31쪽)</p>
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>혼자보다 여럿이: 앙상블</h2><span class="pg">31쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>선수 한 명보다 <b>여러 모델 의견을 모으면</b> 더 잘 맞는다. 모으는 방식이 4가지이고, 차이는 <b>"어떻게 공부시키고 어떻게 합치나"</b>.</div>
+  <div class="fig">
+    <div class="flows">
+      <div class="flow">
+        <div class="fh"><b>보팅</b><span class="tag green">동시 가능</span></div>
+        <div class="fl"><span>모델 A, B, C</span><i>→</i><span>각자 답</span><i>→</i><span class="hi">투표</span></div>
+        <p>답 그대로 다수결 = <b>하드보팅</b> · 확률을 평균 = <b>소프트보팅</b></p>
+      </div>
+      <div class="flow">
+        <div class="fh"><b>배깅</b><span class="tag green">동시 가능</span></div>
+        <div class="fl"><span>전체 데이터</span><i>→</i><span>복원추출로<br>가방 여러 개</span><i>→</i><span>가방마다<br>모델 공부</span><i>→</i><span class="hi">투표</span></div>
+        <p>각자 <b>다른 문제집</b>으로 공부한 학생들의 회의. 이름도 Bootstrap + Aggregating(합치기).</p>
+      </div>
+      <div class="flow">
+        <div class="fh"><b>부스팅</b><span class="tag red">순서대로만</span></div>
+        <div class="fl"><span>모델 1</span><i>→</i><span>틀린 문제에<br>별표(가중치)</span><i>→</i><span>모델 2가<br>별표 집중</span><i>→</i><span>모델 3 …</span><i>→</i><span class="hi">합치기</span></div>
+        <p><b>오답노트 이어 달리기</b>. 앞이 끝나야 뒤가 시작하니 병렬 불가. 틀린 걸 계속 파고들어서 <b>이상치에 민감</b>.</p>
+      </div>
+      <div class="flow">
+        <div class="fh"><b>스태킹</b></div>
+        <div class="fl"><span>모델 A, B, C</span><i>→</i><span>각자 답</span><i>→</i><span class="hi">반장 모델이<br>다시 학습</span></div>
+        <p>답을 보고 최종 판단하는 <b>메타 학습기</b>를 하나 더 둠. 단순 투표보다 한 단계 위.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="linkh">랜덤포레스트 = 배깅 + 의사결정나무</p>
+  <div class="two">
+    <div class="box"><span class="tag green">장점</span><h4>과적합에 강함</h4><p>나무마다 <b>데이터도, 질문 거리(변수)도 무작위로</b> 골라서 서로 덜 닮은 나무들이 투표. 흩어짐(분산)이 줄어요.</p></div>
+    <div class="box"><span class="tag red">단점</span><h4>블랙박스</h4><p>15장 나무 한 그루는 질문 경로가 보이는 화이트박스였죠. 수백 그루가 투표하면 사람이 못 읽어요.</p></div>
+  </div>
+
+  <div class="link">
+    <div class="row"><span class="term">부스팅 종류</span><span>AdaBoost, GBM, <b>XGBoost</b>(GBM보다 빠르고 규제 포함), <b>LightGBM</b>(학습 속도 개선)</span></div>
+  </div>
+
+  <details><summary>36.8%는 어디서 나온 숫자?</summary><div class="in">
+    <p>복원추출로 100번 뽑을 때 특정 학생 한 명이 <b>한 번도 안 뽑힐</b> 확률: 한 번에 안 뽑힐 확률 0.99를 100번 곱하면 약 0.366. 데이터가 엄청 많아지면 약 <b>36.8%</b>로 수렴해요.</p>
+    <p>뜻: 가방마다 <b>약 1/3은 공부에 안 쓰이고 남는다</b>. 이 남은 데이터(OOB, Out-Of-Bag)를 공짜 시험지로 써요.</p>
+  </div></details>
+  <div class="trap">"병렬처리가 <b>안 되는</b> 것은?" → <b>부스팅</b>. 보팅, 배깅, 랜덤포레스트는 각자 동시에 공부할 수 있어요.</div>
+</section>
+
+<p class="part" id="nn">PART 1 · 인공신경망 (32쪽)</p>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>퍼셉트론: 점수 매기는 칸 하나</h2><span class="pg">32쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>뉴런 하나 = <b>항목마다 중요도를 곱해서 다 더하는 계산기</b>. 이게 퍼셉트론이고, 신경망은 이걸 많이 쌓은 것뿐.</div>
+  <div class="fig">
+    <svg viewBox="0 0 440 190" style="max-width:480px" role="img" aria-label="입력 두 개에 가중치를 곱하고 편향을 더해 출력 0.7이 나오는 퍼셉트론">
+      <g font-family="var(--font)">
+        <circle cx="60" cy="50" r="30" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+        <text class="svgtxt" x="60" y="47" text-anchor="middle" font-weight="700">x₁ = 0.5</text>
+        <text class="svgmut" x="60" y="62" text-anchor="middle">모의고사</text>
+        <circle cx="60" cy="140" r="30" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+        <text class="svgtxt" x="60" y="137" text-anchor="middle" font-weight="700">x₂ = 0.3</text>
+        <text class="svgmut" x="60" y="152" text-anchor="middle">결석 비율</text>
+        <line x1="90" y1="55" x2="232" y2="88" stroke="var(--ok)" stroke-width="3"/>
+        <line x1="90" y1="135" x2="232" y2="102" stroke="var(--omr)" stroke-width="5"/>
+        <text x="150" y="58" fill="var(--ok)" font-size="12.5" font-weight="700">w₁ = 0.6</text>
+        <text x="146" y="148" fill="var(--omr)" font-size="12.5" font-weight="700">w₂ = −2.0</text>
+        <circle cx="262" cy="95" r="32" fill="var(--ink)"/>
+        <text x="262" y="92" text-anchor="middle" fill="var(--bg)" font-size="18" font-weight="700">Σ</text>
+        <text x="262" y="110" text-anchor="middle" fill="var(--bg)" font-size="10.5">다 더하기</text>
+        <text class="svgmut" x="262" y="20" text-anchor="middle">편향 b = +1.0 (기본 점수)</text>
+        <line x1="262" y1="26" x2="262" y2="62" stroke="var(--muted)" stroke-dasharray="3 3"/>
+        <line x1="294" y1="95" x2="356" y2="95" stroke="var(--ink)" stroke-width="2"/>
+        <polygon points="356,89 368,95 356,101" fill="var(--ink)"/>
+        <rect x="372" y="74" width="60" height="42" rx="8" fill="var(--hl)"/>
+        <text class="svgtxt" x="402" y="101" text-anchor="middle" font-size="18" font-weight="700">0.7</text>
+        <text class="svgmut" x="262" y="182" text-anchor="middle">선 굵기 = 얼마나 중요하게 보나 · 빨강 = 점수를 깎는 쪽</text>
+      </g>
+    </svg>
+    <div class="calc">
+      <div class="ln"><span>모의고사 0.5 × 중요도 0.6</span><span class="num">+0.3</span></div>
+      <div class="ln"><span>결석 0.3 × 중요도 −2.0 (결석은 크게 깎음)</span><span class="num">−0.6</span></div>
+      <div class="ln"><span>기본 점수(편향)</span><span class="num">+1.0</span></div>
+      <div class="ln"><span>출력</span><span class="num">0.7</span></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">가중치 w</span><span>항목을 <b>얼마나 중요하게 볼지</b>. 음수면 깎는 요인. 기계가 학습으로 스스로 정함.</span></div>
+    <div class="row"><span class="term">편향 b</span><span>항목과 상관없는 <b>기본 점수</b>. 문턱을 올리거나 내림.</span></div>
+  </div>
+  <div class="memo">시험 계산 문제는 딱 이 모양이에요. <b>곱하고, 곱하고, 더하기.</b> 음수 가중치 부호만 조심.</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>칸 하나로는 못 푸는 문제: XOR</h2><span class="pg">32쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>칸 하나(단층 퍼셉트론)는 <b>직선 한 줄</b>밖에 못 긋는다. 직선 한 줄로 못 가르는 문제(XOR)가 나오자, 중간에 칸을 더 넣어(<b>은닉층</b>) 선을 여러 개 긋게 했다.</div>
+  <div class="fig">
+    <div class="two">
+      <svg viewBox="0 0 200 180" role="img" aria-label="OR 문제는 직선 하나로 나뉨">
+        <rect x="30" y="20" width="140" height="120" fill="none" stroke="var(--line)"/>
+        <line x1="20" y1="100" x2="120" y2="10" stroke="var(--ink)" stroke-width="2.5"/>
+        <circle cx="45" cy="125" r="10" fill="var(--omr)"/>
+        <circle cx="155" cy="125" r="10" fill="var(--blue)"/>
+        <circle cx="45" cy="35" r="10" fill="var(--blue)"/>
+        <circle cx="155" cy="35" r="10" fill="var(--blue)"/>
+        <text class="svgtxt" x="100" y="160" text-anchor="middle" font-weight="700">OR: 직선 1개로 OK</text>
+        <text class="svgmut" x="100" y="175" text-anchor="middle">하나라도 참이면 참</text>
+      </svg>
+      <svg viewBox="0 0 200 180" role="img" aria-label="XOR 문제는 대각선끼리 같은 색이라 직선 하나로 못 나누고 두 개가 필요">
+        <rect x="30" y="20" width="140" height="120" fill="none" stroke="var(--line)"/>
+        <line x1="20" y1="95" x2="105" y2="10" stroke="var(--ink)" stroke-width="2.5"/>
+        <line x1="95" y1="150" x2="180" y2="65" stroke="var(--ink)" stroke-width="2.5"/>
+        <circle cx="45" cy="125" r="10" fill="var(--omr)"/>
+        <circle cx="155" cy="35" r="10" fill="var(--omr)"/>
+        <circle cx="155" cy="125" r="10" fill="var(--blue)"/>
+        <circle cx="45" cy="35" r="10" fill="var(--blue)"/>
+        <text class="svgtxt" x="100" y="160" text-anchor="middle" font-weight="700">XOR: 직선 2개 필요</text>
+        <text class="svgmut" x="100" y="175" text-anchor="middle">둘이 다를 때만 참</text>
+      </svg>
+    </div>
+    <div class="legend" style="display:flex;gap:14px;justify-content:center;font-size:12.5px;color:var(--muted);margin-top:6px"><span><b style="color:var(--blue)">●</b> 참</span><span><b style="color:var(--omr)">●</b> 거짓</span></div>
+    <svg viewBox="0 0 420 120" style="max-width:440px;margin-top:14px" role="img" aria-label="입력층, 은닉층, 출력층으로 이어진 다층 퍼셉트론">
+      <g stroke="var(--line)" stroke-width="1.5">
+        <line x1="60" y1="35" x2="210" y2="25"/><line x1="60" y1="35" x2="210" y2="60"/><line x1="60" y1="35" x2="210" y2="95"/>
+        <line x1="60" y1="85" x2="210" y2="25"/><line x1="60" y1="85" x2="210" y2="60"/><line x1="60" y1="85" x2="210" y2="95"/>
+        <line x1="210" y1="25" x2="360" y2="60"/><line x1="210" y1="60" x2="360" y2="60"/><line x1="210" y1="95" x2="360" y2="60"/>
+      </g>
+      <g><circle cx="60" cy="35" r="14" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/><circle cx="60" cy="85" r="14" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+      <circle cx="210" cy="25" r="14" fill="var(--hl)" stroke="var(--amber)" stroke-width="2"/><circle cx="210" cy="60" r="14" fill="var(--hl)" stroke="var(--amber)" stroke-width="2"/><circle cx="210" cy="95" r="14" fill="var(--hl)" stroke="var(--amber)" stroke-width="2"/>
+      <circle cx="360" cy="60" r="14" fill="var(--ink)"/></g>
+      <text class="svgmut" x="60" y="115" text-anchor="middle">입력층</text>
+      <text class="svgtxt" x="210" y="118" text-anchor="middle" font-weight="700">은닉층 (숨은 칸)</text>
+      <text class="svgmut" x="360" y="92" text-anchor="middle">출력층</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">다층 퍼셉트론</span><span>입력과 출력 사이에 <b>은닉층</b>을 넣은 것. 선을 여러 개 그어 꺾인 경계(비선형)도 가능.</span></div>
+    <div class="row"><span class="term">하이퍼파라미터</span><span>은닉층 몇 층, 칸 몇 개는 <b>사람이 정하는 설정</b>. 가중치는 기계가 배우고, 이건 사람이 정함. 너무 많으면 과적합, 너무 적으면 과소적합.</span></div>
+    <div class="row"><span class="term">블랙박스</span><span>숨은 칸 속 계산이 수천 개라 왜 그런 답이 나왔는지 사람이 못 읽음.</span></div>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>기계가 스스로 중요도를 고치는 법</h2><span class="pg">32쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>앞으로 계산해서 답을 내고(<b>순전파</b>), 틀린 만큼을 뒤로 돌려보내 중요도를 고친다(<b>역전파</b>). 고치는 방향은 <b>비탈 아래쪽으로 한 걸음씩</b>(경사하강법).</div>
+  <div class="fig">
+    <svg viewBox="0 0 420 150" style="max-width:440px" role="img" aria-label="골짜기 모양 오차 곡선에서 공이 비탈을 따라 조금씩 내려가 가장 낮은 곳에 도착">
+      <path d="M20 20 C 100 150, 200 150, 210 130 S 330 40, 400 20" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+      <g fill="var(--omr)"><circle cx="58" cy="62" r="7" opacity=".35"/><circle cx="95" cy="98" r="7" opacity=".55"/><circle cx="135" cy="120" r="7" opacity=".8"/><circle cx="178" cy="131" r="8"/></g>
+      <text class="svgtxt" x="40" y="48" font-weight="700">처음 (오차 큼)</text>
+      <text class="svgtxt" x="178" y="114" text-anchor="middle" font-weight="700">가장 낮은 곳 = 오차 최소</text>
+      <text class="svgmut" x="210" y="146" text-anchor="middle">세로 = 오차(손실) · 가로 = 가중치 값</text>
+    </svg>
+  </div>
+  <div class="say"><p>안개 낀 산에서 길 잃었을 때처럼, 발밑이 기울어진 <b>반대 방향(아래쪽)</b>으로 한 걸음씩 가다 보면 골짜기 바닥(오차가 제일 작은 곳)에 닿아요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">손실(오차)</span><span>기계 답과 정답의 차이</span></div>
+    <div class="row"><span class="term">역전파</span><span>출력층에서 생긴 오차를 <b>뒤 층부터 앞 층으로</b> 나눠 보내며 각 가중치를 고침 (미분의 연쇄법칙)</span></div>
+    <div class="row"><span class="term">기울기 소실</span><span>층이 깊으면 뒤로 보내는 신호가 <b>앞 층에 닿기 전에 거의 0</b>이 되어 앞 층이 학습을 못 함</span></div>
+  </div>
+  <details open><summary>기울기 소실은 왜 생기나 (말 전달 게임)</summary><div class="in">
+    <p>역전파는 층을 하나 지날 때마다 그 층의 <b>기울기를 곱해요</b>. 시그모이드는 기울기가 아무리 커도 <b>0.25</b>예요.</p>
+    <div class="calc">
+      <div class="ln"><span>2층 지나면 0.25 × 0.25</span><span class="num">0.0625</span></div>
+      <div class="ln"><span>5층 지나면</span><span class="num">약 0.001</span></div>
+      <div class="ln"><span>10층 지나면</span><span class="num">약 0.000001</span></div>
+    </div>
+    <p>뒷줄 사람이 속삭인 말이 앞줄에 갈수록 안 들리는 것과 같아요. 그래서 기울기가 1로 유지되는 <b>ReLU</b>를 써서 해결해요.</p>
+  </div></details>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>칸마다 붙는 함수 고르기</h2><span class="pg">32쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>숨은 칸에는 <b>신호를 잘 전달하는 함수(ReLU)</b>, 마지막 칸에는 <b>답 모양에 맞는 함수</b>, 채점에는 <b>문제 종류에 맞는 손실함수</b>.</div>
+  <div class="fig">
+    <svg viewBox="0 0 450 120" style="max-width:480px" role="img" aria-label="세 활성함수 모양: 시그모이드 0에서 1, tanh 마이너스1에서 1, ReLU는 0 아래는 0이고 위로는 직선">
+      <g fill="none" stroke-width="2.5">
+        <line x1="15" y1="90" x2="135" y2="90" stroke="var(--line)"/>
+        <path d="M15 89 L45 87 L65 78 L75 66 L85 50 L95 34 L105 22 L125 14 L135 13" stroke="var(--omr)"/>
+        <line x1="165" y1="52" x2="285" y2="52" stroke="var(--line)"/>
+        <path d="M165 89 L195 87 L215 78 L225 66 L235 52 L245 38 L255 26 L275 17 L285 15" stroke="var(--violet)"/>
+        <line x1="315" y1="90" x2="435" y2="90" stroke="var(--line)"/>
+        <path d="M315 90 L375 90 L435 14" stroke="var(--ok)"/>
+      </g>
+      <text class="svgtxt" x="75" y="110" text-anchor="middle" font-weight="700">시그모이드 0~1</text>
+      <text class="svgtxt" x="225" y="110" text-anchor="middle" font-weight="700">tanh −1~1</text>
+      <text class="svgtxt" x="375" y="110" text-anchor="middle" font-weight="700">ReLU max(0, x)</text>
+    </svg>
+    <div class="tblwrap" style="margin-top:10px">
+    <table class="act">
+      <tr><th>어디에</th><th>무엇을</th><th>왜</th></tr>
+      <tr><td>숨은 칸</td><td>시그모이드 → tanh → <b>ReLU</b></td><td>뒤로 갈수록 기울기 소실을 덜 겪음. ReLU는 0보다 크면 그대로 통과라 신호가 안 줄어듦</td></tr>
+      <tr><td>마지막 칸</td><td>둘 중 하나: <b>시그모이드</b></td><td>합격/불합격처럼 이진분류. 확률 하나(0~1)</td></tr>
+      <tr><td></td><td>여럿 중 하나: <b>소프트맥스</b></td><td>합격 0.7, 추가합격 0.2, 불합격 0.1처럼 <b>확률 합이 1</b></td></tr>
+      <tr><td>채점</td><td>숫자 맞히기: <b>MSE</b></td><td>회귀. 빗나간 거리를 제곱해서 평균</td></tr>
+      <tr><td></td><td>이름표 맞히기: <b>크로스 엔트로피</b></td><td>분류. <b>확신하면서 틀릴수록</b> 벌점이 크게</td></tr>
+    </table>
+    </div>
+  </div>
+  <div class="memo">15장 로지스틱에서 본 시그모이드가 그대로 와요. <b>"둘 중 하나 = 시그모이드, 여럿 중 하나 = 소프트맥스"</b>, <b>"회귀 = MSE, 분류 = 크로스 엔트로피"</b> 두 짝만 남기면 됩니다.</div>
+</section>
+
+<p class="part" id="ev">PART 2 · 평가지표 (33쪽)</p>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>채점표 한 장: 혼동행렬</h2><span class="pg">33쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>기계가 "합격(양성)"이라고 한 것과 실제 결과를 <b>2×2 칸에 나눠 세기</b>. 이 네 숫자로 모든 지표를 계산한다.</div>
+  <div class="fig">
+    <div class="cm" role="table" aria-label="혼동행렬: TP 40, FN 20, FP 10, TN 30">
+      <div class="corner">실제 ↓<br>예측 →</div>
+      <div class="h">기계: "합격"<br>(양성 예측)</div>
+      <div class="h">기계: "불합격"<br>(음성 예측)</div>
+      <div class="h">실제<br>합격</div>
+      <div class="c tp"><span class="nm">TP</span><span class="v">40</span><span class="d">합격이라 했고<br>진짜 합격</span></div>
+      <div class="c fn"><span class="nm">FN</span><span class="v">20</span><span class="d">불합격이라 했는데<br>사실 합격 (놓침)</span></div>
+      <div class="h">실제<br>불합격</div>
+      <div class="c fp"><span class="nm">FP</span><span class="v">10</span><span class="d">합격이라 했는데<br>사실 불합격 (헛짚음)</span></div>
+      <div class="c tn"><span class="nm">TN</span><span class="v">30</span><span class="d">불합격이라 했고<br>진짜 불합격</span></div>
+    </div>
+    <p class="cap">원장님 모델로 학생 100명을 예측해 본 결과 (교재 예제 숫자)</p>
+  </div>
+  <div class="memo">이름 읽는 법: <b>뒷글자(P/N) = 기계가 한 말</b>, <b>앞글자(T/F) = 그 말이 맞았나</b>. FP는 "틀리게(F) 합격(P)이라 말함" = 헛짚음. FN은 "틀리게 불합격이라 말함" = 놓침.</div>
+  <div class="trap">교재마다 가로세로(실제/예측) 배치가 바뀔 수 있어요. 칸 위치로 외우지 말고 <b>이름 읽는 법</b>으로 풀면 배치가 바뀌어도 안 헷갈려요.</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>지표는 전부 "어느 줄을 보나"</h2><span class="pg">33쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>모든 지표는 <b>분자 = 맞힌 칸</b>, <b>분모 = 어느 줄 전체</b>. 질문 하나씩만 기억하면 공식은 저절로 나온다.</div>
+  <div class="fig">
+    <p class="linkh" style="margin-top:0">작은 네모 = 위 채점표에서 분모로 쓰는 칸 (왼위 TP, 오위 FN, 왼아래 FP, 오아래 TN)</p>
+    <div class="metric">
+      <div class="mrow"><span class="mn"><span class="mini"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>정확도<small>Accuracy</small></span><span class="mq">전체 중 맞힌 비율은?</span><span class="mv">(40+30)/100<small>= 0.70</small></span></div>
+      <div class="mrow"><span class="mn"><span class="mini"><i class="on"></i><i></i><i class="on"></i><i></i></span>정밀도<small>Precision</small></span><span class="mq">기계가 <b>"합격"이라 한 것 중</b> 진짜 합격은? (기계 말 기준, 세로줄)</span><span class="mv">40/(40+10)<small>= 0.80</small></span></div>
+      <div class="mrow"><span class="mn"><span class="mini"><i class="on"></i><i class="on"></i><i></i><i></i></span>재현율<small>Recall</small></span><span class="mq"><b>진짜 합격생 중</b> 기계가 찾아낸 비율은? (실제 기준, 가로줄)</span><span class="mv">40/(40+20)<small>≈ 0.67</small></span></div>
+      <div class="mrow"><span class="mn"><span class="mini"><i></i><i></i><i class="on"></i><i class="on"></i></span>특이도<small>Specificity</small></span><span class="mq"><b>진짜 불합격생 중</b> 불합격이라 맞힌 비율은?</span><span class="mv">30/(30+10)<small>= 0.75</small></span></div>
+      <div class="mrow"><span class="mn"><span class="mini"><i></i><i></i><i class="on"></i><i class="on"></i></span>FPR<small>거짓 경보율</small></span><span class="mq"><b>진짜 불합격생 중</b> 합격이라 헛짚은 비율 = 1 − 특이도</span><span class="mv">10/(10+30)<small>= 0.25</small></span></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">재현율의 별명들</span><span>민감도 = TPR = Hit Rate. 전부 "진짜 양성 중 잡아낸 비율". 시험에 "다른 것 고르기"로 나오면 <b>특이도</b>가 정답인 경우가 많음.</span></div>
+  </div>
+  <div class="memo">정밀도는 <b>FP(헛짚음)</b>가 분모에, 재현율은 <b>FN(놓침)</b>이 분모에. "정밀한 사람은 헛짚지 않고, 재현 잘하는 사람은 놓치지 않는다."</div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="ep" id="e8">
+  <div class="eph"><span class="no">8화</span><h2>정밀도와 재현율의 줄다리기, F1</h2><span class="pg">33쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>그물을 넓게 치면 다 잡지만(재현율↑) 쓰레기도 딸려 온다(정밀도↓). 그래서 <b>둘을 같이 보는 점수</b>가 F1.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">그물 넓게</span><h4>"조금만 가능성 있어도 합격 예상"</h4><p>진짜 합격생은 거의 다 잡음 → <b>재현율↑</b><br>엉뚱한 학생도 많이 포함 → <b>정밀도↓</b></p></div>
+      <div class="box"><span class="tag red">그물 좁게</span><h4>"확실한 학생만 합격 예상"</h4><p>찍은 건 거의 다 맞음 → <b>정밀도↑</b><br>놓친 합격생이 많아짐 → <b>재현율↓</b></p></div>
+    </div>
+  </div>
+  <details open><summary>왜 그냥 평균이 아니라 조화평균인가</summary><div class="in">
+    <p>"딱 1명만 확실한 학생을 찍은 모델"을 생각해 볼게요. 정밀도 1.0, 재현율 0.1.</p>
+    <div class="calc">
+      <div class="ln"><span>그냥 평균 (1.0 + 0.1) ÷ 2</span><span class="num">0.55 (그럴듯해 보임)</span></div>
+      <div class="ln"><span>F1 = 2 × 1.0 × 0.1 ÷ (1.0 + 0.1)</span><span class="num">약 0.18 (진짜 실력)</span></div>
+    </div>
+    <p>조화평균은 <b>둘 중 하나라도 낮으면 확 깎이게</b> 만들어서 한쪽만 잘하는 꼼수를 잡아내요. 교재 예제의 F1은 2 × 0.8 × 0.67 ÷ 1.47 ≈ <b>0.73</b>.</p>
+  </div></details>
+  <div class="link">
+    <div class="row"><span class="term">Fβ</span><span>β가 1보다 크면 <b>재현율</b>을 더 중시, 1보다 작으면 <b>정밀도</b>를 더 중시. (β 크다 → 놓치면 안 된다, 예: 암 검사)</span></div>
+  </div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="ep" id="e9">
+  <div class="eph"><span class="no">9화</span><h2>한눈에 보는 성적표: ROC와 AUC</h2><span class="pg">33쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>그물 크기를 바꿔 가며 <b>헛짚음(FPR)과 잡아냄(TPR)</b>을 찍은 곡선이 ROC. 곡선 아래 넓이(AUC)가 <b>1에 가까울수록</b> 좋은 모델.</div>
+  <div class="fig">
+    <svg viewBox="0 0 300 250" style="max-width:340px" role="img" aria-label="ROC 곡선: 왼쪽 위로 볼록할수록 좋고, 대각선은 AUC 0.5 무작위 수준">
+      <path d="M50 200 C 60 80, 130 40, 250 30 L250 200 Z" fill="var(--ok-soft)"/>
+      <line x1="50" y1="200" x2="250" y2="200" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="50" y1="200" x2="50" y2="30" stroke="var(--ink)" stroke-width="1.5"/>
+      <line x1="50" y1="200" x2="250" y2="30" stroke="var(--muted)" stroke-dasharray="5 4" stroke-width="1.5"/>
+      <path d="M50 200 C 60 80, 130 40, 250 30" fill="none" stroke="var(--ok)" stroke-width="3"/>
+      <circle cx="50" cy="30" r="5" fill="var(--omr)"/>
+      <text x="58" y="24" font-size="12" font-family="var(--font)" font-weight="700" fill="var(--omr)">완벽 (AUC 1)</text>
+      <text class="svgtxt" x="150" y="150" font-weight="700">AUC</text>
+      <text class="svgmut" x="180" y="128" transform="rotate(-40 180 128)">찍기 수준 (AUC 0.5)</text>
+      <text class="svgtxt" x="150" y="222" text-anchor="middle" font-weight="700">x축 FPR (헛짚음) = 1 − 특이도</text>
+      <text class="svgtxt" x="20" y="115" text-anchor="middle" font-weight="700" transform="rotate(-90 20 115)">y축 TPR (잡아냄) = 민감도</text>
+      <text class="svgmut" x="50" y="214" text-anchor="middle">0</text>
+      <text class="svgmut" x="250" y="214" text-anchor="middle">1</text>
+      <text class="svgmut" x="40" y="34" text-anchor="end">1</text>
+    </svg>
+  </div>
+  <div class="say"><p>좋은 모델은 헛짚음은 적게(왼쪽), 잡아냄은 많이(위쪽). 그래서 <b>왼쪽 위로 볼록할수록</b> 좋고, 그 아래 초록 넓이(AUC)가 커져요. 대각선은 동전 던지기로 찍는 수준이라 0.5.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">AUC 범위</span><span>0.5 ~ 1. <b>1에 가까울수록</b> 좋음</span></div>
+    <div class="row"><span class="term">이익도표</span><span>Lift Chart. 확률 높은 순으로 고객을 줄 세워 등급별 반응률, 반응검출률, 리프트(향상도)를 표로 본 것. 그래프로 그리면 향상도 곡선.</span></div>
+  </div>
+  <div class="trap">ROC 축은 <b>x = FPR(1 − 특이도), y = TPR(민감도)</b>. 반대로 적은 보기가 자주 함정으로 나와요.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">계산 문제는 TP=40, FP=10, FN=20, TN=30 기준. 떠올려 본 뒤 눌러서 확인하세요.</p>
+  <div class="quiz">
+    <details><summary>부트스트랩 가방으로 여러 모델을 공부시킨 뒤 투표하는 기법은?</summary><div class="in"><p><b>배깅</b>. 여기에 의사결정나무를 쓰면 랜덤포레스트.</p></div></details>
+    <details><summary>랜덤포레스트는 화이트박스? 블랙박스? 과적합에는?</summary><div class="in"><p><b>블랙박스</b>, 분산이 줄어 <b>과적합에 강함</b>. 화이트박스는 나무 한 그루.</p></div></details>
+    <details><summary>x₁=0.5, x₂=0.3, w₁=0.6, w₂=−2.0, 편향 1.0일 때 출력은?</summary><div class="in"><p>0.3 − 0.6 + 1.0 = <b>0.7</b>. 곱하고, 곱하고, 더하기.</p></div></details>
+    <details><summary>단층 퍼셉트론이 못 푼 문제와 해결책은?</summary><div class="in"><p><b>XOR</b>. 직선 한 줄로 못 가르니 <b>은닉층</b>을 넣은 다층 퍼셉트론으로 해결.</p></div></details>
+    <details><summary>기울기 소실을 해결하는 활성함수는? 원인 함수는?</summary><div class="in"><p>해결 <b>ReLU</b>, 원인 <b>시그모이드</b>(기울기 최대 0.25라 곱할수록 0에 가까워짐).</p></div></details>
+    <details><summary>정밀도와 재현율은 각각?</summary><div class="in"><p>정밀도 = 합격이라 한 50명 중 진짜 40 → <b>0.80</b>. 재현율 = 진짜 합격 60명 중 찾아낸 40 → <b>약 0.67</b>.</p></div></details>
+    <details><summary>특이도는? 재현율의 다른 이름이 아닌 것은?</summary><div class="in"><p>진짜 불합격 40명 중 맞힌 30 → <b>0.75</b>. 재현율 = 민감도 = TPR = Hit Rate이고, <b>특이도</b>는 다른 개념.</p></div></details>
+    <details><summary>ROC의 x축, y축과 좋은 AUC는?</summary><div class="in"><p>x = <b>FPR(1 − 특이도)</b>, y = <b>TPR(민감도)</b>. AUC는 <b>1에 가까울수록</b> 좋고 0.5는 찍기 수준.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>16장 한 문장</h3>
+    <p>모델을 <b>팀으로 묶고</b>(보팅, 배깅, 부스팅, 스태킹), 점수 칸(퍼셉트론)을 <b>층으로 쌓고</b>(은닉층, XOR 해결), 틀린 만큼 <b>뒤로 보내 고치고</b>(역전파, 경사하강법, ReLU), 다 만든 모델은 <b>2×2 칸으로 채점</b>(혼동행렬 → 정밀도, 재현율, F1, ROC).</p>
+  </div>
+</section>

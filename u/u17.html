@@ -1,0 +1,341 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 정답 없이</a><a href="#e2">2 거리</a><a href="#e3">3 특별한 거리</a><a href="#e4">4 덴드로그램</a><a href="#e5">5 연결법</a><a href="#e6">6 K-means</a><a href="#e7">7 DBSCAN</a><a href="#e8">8 퍼지·EM·SOM</a><a href="#e9">9 실루엣</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 17장 · 34~36쪽 · 이야기로 읽기</span>
+  <h1>원장님의 반 편성: 정답 없이 끼리끼리 묶기</h1>
+  <p>15장 1화에서 원장님은 "정답지가 있느냐 없느냐"로 길을 둘로 나눴어요. 그때 미뤄 둔 <b>정답 없는 공부(비지도학습)</b>의 본편이 17장(군집)과 18장(연관)이에요. 이번엔 합격/불합격 이름표 없이, 학생들을 <b>비슷한 유형끼리 묶어 반을 편성</b>합니다.</p>
+  <div class="speed">
+    <div><b>시간 없을 때 10분</b>검은 상자 + 그림만</div>
+    <div><b>보통 25분</b>필기 연결 칸까지</div>
+    <div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div>
+  </div>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>"비슷하다"를 <b>거리</b>로 재고, 가까운 것부터 합치거나(<b>계층적</b>) 반 개수를 정해 놓고 나누고(<b>K-means</b> 등), 다 묶은 뒤 <b>잘 묶였는지 점수</b>(실루엣)를 매기는 이야기.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 34쪽</span><span class="t">정답 없이 어떻게 나누지?</span><span class="q">군집분석, 계층/비계층</span></a>
+  <a href="#e2"><span class="n">2~3화 · 34쪽</span><span class="t">"비슷하다"를 숫자로?</span><span class="q">유클리디안, 맨하튼, 자카드</span></a>
+  <a href="#e4"><span class="n">4~5화 · 34~35쪽</span><span class="t">가까운 것부터 합치면?</span><span class="q">덴드로그램, 연결법</span></a>
+  <a href="#e6"><span class="n">6화 · 35쪽</span><span class="t">반 개수부터 정하면?</span><span class="q">K-means</span></a>
+  <a href="#e7"><span class="n">7~8화 · 35쪽</span><span class="t">K-means가 안 통하면?</span><span class="q">DBSCAN, 퍼지, EM, SOM</span></a>
+  <a href="#e9"><span class="n">9화 · 36쪽</span><span class="t">잘 묶였나?</span><span class="q">실루엣, WCSS, Elbow</span></a>
+</div>
+
+<p class="part">PART 1 · 무엇으로 재나 (34쪽)</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>정답 없이 반을 나눠야 한다</h2><span class="pg">34쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"이 학생은 무슨 유형"이라는 <b>정답이 없다</b>. 그래서 기계에게 맞히라고 할 수 없고, <b>서로 가까운 학생끼리 묶어 보라</b>고 한다. 이게 군집분석.</div>
+  <div class="fig">
+    <svg viewBox="0 0 300 196" style="max-width:380px" role="img" aria-label="정답 없는 학생 점들이 세 무리로 모여 있고, 원장님이 동그라미로 묶어 반을 만듦"><line x1="20" y1="180" x2="290" y2="180" stroke="var(--line)"/><line x1="20" y1="180" x2="20" y2="10" stroke="var(--line)"/><ellipse cx="80" cy="62" rx="44" ry="30" fill="none" stroke="var(--omr)" stroke-width="2" stroke-dasharray="5 4"/><circle cx="65" cy="49" r="5" fill="var(--ink)"/><circle cx="74" cy="51" r="5" fill="var(--ink)"/><circle cx="56" cy="59" r="5" fill="var(--ink)"/><circle cx="103" cy="72" r="5" fill="var(--ink)"/><circle cx="95" cy="53" r="5" fill="var(--ink)"/><circle cx="82" cy="55" r="5" fill="var(--ink)"/><circle cx="62" cy="49" r="5" fill="var(--ink)"/><text x="80" y="26" text-anchor="middle" fill="var(--omr)" font-size="12" font-weight="700">벼락치기형</text><ellipse cx="222" cy="140" rx="44" ry="30" fill="none" stroke="var(--blue)" stroke-width="2" stroke-dasharray="5 4"/><circle cx="206" cy="154" r="5" fill="var(--ink)"/><circle cx="240" cy="150" r="5" fill="var(--ink)"/><circle cx="239" cy="130" r="5" fill="var(--ink)"/><circle cx="211" cy="144" r="5" fill="var(--ink)"/><circle cx="235" cy="151" r="5" fill="var(--ink)"/><circle cx="243" cy="127" r="5" fill="var(--ink)"/><circle cx="228" cy="145" r="5" fill="var(--ink)"/><text x="222" y="104" text-anchor="middle" fill="var(--blue)" font-size="12" font-weight="700">꾸준형</text><ellipse cx="222" cy="56" rx="44" ry="30" fill="none" stroke="var(--ok)" stroke-width="2" stroke-dasharray="5 4"/><circle cx="222" cy="46" r="5" fill="var(--ink)"/><circle cx="221" cy="43" r="5" fill="var(--ink)"/><circle cx="246" cy="68" r="5" fill="var(--ink)"/><circle cx="225" cy="50" r="5" fill="var(--ink)"/><circle cx="245" cy="58" r="5" fill="var(--ink)"/><circle cx="243" cy="67" r="5" fill="var(--ink)"/><circle cx="222" cy="53" r="5" fill="var(--ink)"/><text x="222" y="20" text-anchor="middle" fill="var(--ok)" font-size="12" font-weight="700">열공형</text><text class="svgmut" x="286" y="194" text-anchor="end">평소 공부 시간 →</text><text class="svgmut" x="11" y="100" text-anchor="middle" transform="rotate(-90 11 100)">시험 직전 몰아치기 →</text></svg>
+    <p class="cap">점 하나 = 학생 한 명. 원장님은 이름표를 준 적 없어요. 점이 모여 있는 모양만 보고 묶었어요.</p>
+  </div>
+  <div class="say"><p>15장 합격 예측은 과거 합격/불합격 기록(정답)이 있어서 채점이 됐어요. 반 편성엔 그런 정답이 없어요. 그래서 할 일이 셋으로 바뀌어요: <b>얼마나 비슷한지 재기</b>, <b>묶는 방법 고르기</b>, <b>잘 묶였는지 확인하기</b>.</p></div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">계층적</span><h4>가까운 둘부터 차례로 합치기</h4><p>1명씩 따로 시작해서 제일 가까운 둘을 합치고, 또 합치고. 결과가 <b>나무 그림(덴드로그램)</b>으로 남아요. 반 개수는 나중에 정함.</p></div>
+      <div class="box"><span class="tag green">비계층적</span><h4>반 개수를 정해 놓고 나누기</h4><p>"반 3개" 정하고 학생을 배정했다 옮겼다 반복. <b>K-means</b>, DBSCAN, 퍼지, EM, SOM 등.</p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">군집분석</span><span>정답 없이 <b>거리나 유사성</b>을 기준으로 비슷한 것끼리 묶는 분석. 비지도학습.</span></div>
+    <div class="row"><span class="term">계층적</span><span>가까운 것부터 <b>병합</b>(또는 큰 덩어리를 <b>분할</b>). 결과는 덴드로그램.</span></div>
+    <div class="row"><span class="term">비계층적</span><span>K-means, DBSCAN, 퍼지, EM, SOM 등. 정해진 수나 규칙대로 한 번에 나눔.</span></div>
+  </div>
+  <div class="trap">군집분석은 <b>분류가 아니에요</b>. 분류(15장)는 정해진 이름표를 맞히는 지도학습, 군집은 이름표 없이 묶는 비지도학습. "벼락치기형"이라는 이름은 묶은 다음에 사람이 붙여요.</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>"비슷하다"를 숫자로: 거리 재기</h2><span class="pg">34쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>비슷한지 아닌지를 눈대중으로 할 순 없으니 <b>거리</b>로 잰다. 가까우면 비슷. 재는 방법이 여럿인 건 <b>"어떤 길로 가느냐"</b>가 다르기 때문.</div>
+  <div class="fig">
+    <svg viewBox="0 0 300 210" style="max-width:360px" role="img" aria-label="A(1,2)에서 B(4,4)까지: 직선은 루트13, 바둑판 길은 3 더하기 2는 5, 더 큰 차이는 3"><line x1="40" y1="186" x2="40" y2="36" stroke="var(--line)"/><line x1="40" y1="186" x2="260" y2="186" stroke="var(--line)"/><text class="svgmut" x="40" y="200" text-anchor="middle">0</text><line x1="84" y1="186" x2="84" y2="36" stroke="var(--line)"/><line x1="40" y1="156" x2="260" y2="156" stroke="var(--line)"/><text class="svgmut" x="84" y="200" text-anchor="middle">1</text><text class="svgmut" x="32" y="160" text-anchor="end">1</text><line x1="128" y1="186" x2="128" y2="36" stroke="var(--line)"/><line x1="40" y1="126" x2="260" y2="126" stroke="var(--line)"/><text class="svgmut" x="128" y="200" text-anchor="middle">2</text><text class="svgmut" x="32" y="130" text-anchor="end">2</text><line x1="172" y1="186" x2="172" y2="36" stroke="var(--line)"/><line x1="40" y1="96" x2="260" y2="96" stroke="var(--line)"/><text class="svgmut" x="172" y="200" text-anchor="middle">3</text><text class="svgmut" x="32" y="100" text-anchor="end">3</text><line x1="216" y1="186" x2="216" y2="36" stroke="var(--line)"/><line x1="40" y1="66" x2="260" y2="66" stroke="var(--line)"/><text class="svgmut" x="216" y="200" text-anchor="middle">4</text><text class="svgmut" x="32" y="70" text-anchor="end">4</text><line x1="260" y1="186" x2="260" y2="36" stroke="var(--line)"/><line x1="40" y1="36" x2="260" y2="36" stroke="var(--line)"/><text class="svgmut" x="260" y="200" text-anchor="middle">5</text><text class="svgmut" x="32" y="40" text-anchor="end">5</text><path d="M84 126 L216 126 L216 66" fill="none" stroke="var(--blue)" stroke-width="4"/><line x1="84" y1="126" x2="216" y2="66" stroke="var(--omr)" stroke-width="3"/><circle cx="84" cy="126" r="7" fill="var(--ink)"/><circle cx="216" cy="66" r="7" fill="var(--ink)"/><text class="svgtxt" x="76" y="116" text-anchor="end" font-weight="700">A (1, 2)</text><text class="svgtxt" x="216" y="54" text-anchor="middle" font-weight="700">B (4, 4)</text><text x="150" y="144" text-anchor="middle" fill="var(--blue)" font-size="12" font-weight="700">가로 차 3 (가장 큼)</text><text x="224" y="100" fill="var(--blue)" font-size="12" font-weight="700">세로 차 2</text><text x="132" y="92" text-anchor="end" fill="var(--omr)" font-size="12" font-weight="700">직선 √13</text></svg>
+    <p class="cap">학생 A(1, 2)와 B(4, 4). 가로, 세로는 두 과목 점수(등급)라고 생각하세요.</p>
+    <div class="calc">
+      <div class="ln"><span>가로 차이 |4 − 1|, 세로 차이 |4 − 2|</span><span class="num">3, 2</span></div>
+      <div class="ln"><span><b>유클리디안</b>: 대각선으로 곧장 √(3² + 2²) = √(9 + 4)</span><span class="num">√13 ≈ 3.61</span></div>
+      <div class="ln"><span><b>맨하튼</b>: 바둑판 길 따라 3 + 2</span><span class="num">5</span></div>
+      <div class="ln"><span><b>체비셰프</b>: 차이 중 가장 큰 것 max(3, 2)</span><span class="num">3</span></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">유클리디안</span><span>자로 잰 <b>직선거리</b>. 차이를 제곱해 더하고 루트. √Σ(xᵢ − yᵢ)²</span></div>
+    <div class="row"><span class="term">맨하튼</span><span>뉴욕 맨해튼 바둑판 도로처럼 <b>꺾어 가는 거리</b>. 차이의 절댓값을 그냥 더함.</span></div>
+    <div class="row"><span class="term">체비셰프</span><span>차이 중 <b>최댓값</b> 하나만. "제일 많이 차이 나는 과목이 몇 점 차?"</span></div>
+    <div class="row"><span class="term">민코우스키</span><span>위 거리들을 한 공식으로 묶은 것. <b>m = 1이면 맨하튼, m = 2면 유클리디안</b>.</span></div>
+  </div>
+  <details><summary>민코우스키의 m을 키우면 어떻게 되나</summary><div class="in">
+    <p>공식은 (Σ|차이|ᵐ)^(1/m). m이 커질수록 큰 차이가 점점 더 크게 반영돼서, 결국 가장 큰 차이 하나만 남아요. 그게 체비셰프예요.</p>
+    <div class="calc">
+      <div class="ln"><span>m = 1 (맨하튼)</span><span class="num">5</span></div>
+      <div class="ln"><span>m = 2 (유클리디안)</span><span class="num">≈ 3.61</span></div>
+      <div class="ln"><span>m = 3</span><span class="num">≈ 3.27</span></div>
+      <div class="ln"><span>m = 10</span><span class="num">≈ 3.005</span></div>
+      <div class="ln"><span>m을 끝없이 키우면 (체비셰프)</span><span class="num">3</span></div>
+    </div>
+  </div></details>
+  <div class="memo">세 숫자 크기 순서는 늘 <b>맨하튼 ≥ 유클리디안 ≥ 체비셰프</b>. 꺾어 가면 제일 멀고, 곧장 가면 그보다 짧고, 한 과목만 보면 제일 짧아요. 계산 답이 이 순서가 아니면 다시 보세요.</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>자가 이상하게 휘는 경우: 단위, 상관, 범주</h2><span class="pg">34쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>그냥 재면 <b>단위가 큰 항목이 거리를 독차지</b>하고, <b>같이 움직이는 항목</b>은 두 번 세어진다. 그래서 표준화 거리, 마할라노비스. 숫자가 아닌 항목은 <b>겹치는 비율</b>(자카드, 코사인)로 잰다.</div>
+
+  <p class="linkh">곤란 1. 단위가 다르면 (표준화 거리)</p>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag red">그냥 재면</span><h4>모의고사 총점이 다 정함</h4><p>A와 B: 자습 10시간 차, 총점 10점 차 → 약 <b>14.1</b><br>A와 C: 자습 1시간 차, 총점 40점 차 → 약 <b>40.0</b><br>"C가 훨씬 다르다"</p></div>
+      <div class="box"><span class="tag green">표준화하고 재면</span><h4>각 항목의 보통 흩어짐으로 나눔</h4><p>자습은 5시간, 총점은 50점이 보통 차이라고 하면<br>A와 B: √(2² + 0.2²) ≈ <b>2.01</b><br>A와 C: √(0.2² + 0.8²) ≈ <b>0.82</b><br>"B가 더 다르다"로 뒤집힘</p></div>
+    </div>
+    <p class="cap">총점 40점 차이는 흔한 일이고, 자습 10시간 차이는 큰 일이에요. 표준화하면 그 감각이 숫자에 반영돼요.</p>
+  </div>
+
+  <p class="linkh">곤란 2. 항목끼리 같이 움직이면 (마할라노비스)</p>
+  <div class="fig">
+    <svg viewBox="0 0 300 210" style="max-width:360px" role="img" aria-label="수학과 과학 점수가 함께 움직이는 길쭉한 무리. 중심에서 같은 직선거리라도 무리 방향의 P는 흔하고, 가로지른 Q는 드묾"><line x1="30" y1="190" x2="290" y2="190" stroke="var(--line)"/><line x1="30" y1="190" x2="30" y2="10" stroke="var(--line)"/><text class="svgmut" x="286" y="204" text-anchor="end">수학 점수 →</text><text class="svgmut" x="36" y="20">↑ 과학 점수</text><ellipse cx="150" cy="104" rx="92" ry="28" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="1.5" transform="rotate(-35 150 104)"/><circle cx="146" cy="113" r="3" fill="var(--blue)"/><circle cx="142" cy="106" r="3" fill="var(--blue)"/><circle cx="123" cy="120" r="3" fill="var(--blue)"/><circle cx="183" cy="86" r="3" fill="var(--blue)"/><circle cx="180" cy="86" r="3" fill="var(--blue)"/><circle cx="162" cy="98" r="3" fill="var(--blue)"/><circle cx="109" cy="143" r="3" fill="var(--blue)"/><circle cx="167" cy="98" r="3" fill="var(--blue)"/><circle cx="93" cy="123" r="3" fill="var(--blue)"/><circle cx="123" cy="118" r="3" fill="var(--blue)"/><circle cx="158" cy="98" r="3" fill="var(--blue)"/><circle cx="161" cy="89" r="3" fill="var(--blue)"/><circle cx="161" cy="101" r="3" fill="var(--blue)"/><circle cx="141" cy="131" r="3" fill="var(--blue)"/><circle cx="172" cy="103" r="3" fill="var(--blue)"/><circle cx="128" cy="110" r="3" fill="var(--blue)"/><circle cx="140" cy="110" r="3" fill="var(--blue)"/><circle cx="169" cy="94" r="3" fill="var(--blue)"/><circle cx="132" cy="105" r="3" fill="var(--blue)"/><circle cx="143" cy="124" r="3" fill="var(--blue)"/><circle cx="129" cy="122" r="3" fill="var(--blue)"/><circle cx="153" cy="83" r="3" fill="var(--blue)"/><circle cx="159" cy="114" r="3" fill="var(--blue)"/><circle cx="92" cy="141" r="3" fill="var(--blue)"/><circle cx="142" cy="99" r="3" fill="var(--blue)"/><circle cx="163" cy="94" r="3" fill="var(--blue)"/><circle cx="114" cy="139" r="3" fill="var(--blue)"/><circle cx="174" cy="99" r="3" fill="var(--blue)"/><circle cx="192" cy="79" r="3" fill="var(--blue)"/><circle cx="146" cy="91" r="3" fill="var(--blue)"/><circle cx="164" cy="87" r="3" fill="var(--blue)"/><circle cx="130" cy="102" r="3" fill="var(--blue)"/><circle cx="120" cy="119" r="3" fill="var(--blue)"/><circle cx="174" cy="62" r="3" fill="var(--blue)"/><circle cx="150" cy="104" r="60" fill="none" stroke="var(--muted)" stroke-dasharray="4 4"/><circle cx="150" cy="104" r="4" fill="var(--ink)"/><circle cx="199" cy="70" r="7" fill="var(--ok)"/><circle cx="184" cy="153" r="7" fill="var(--omr)"/><text class="svgtxt" x="209" y="64" font-weight="700">P 흔함</text><text class="svgtxt" x="194" y="157" font-weight="700">Q 드묾</text><text class="svgmut" x="88" y="180">점선 원: 중심에서 직선거리가 같음</text></svg>
+    <p class="cap">수학 잘하는 학생은 과학도 잘하는 편이라 무리가 비스듬히 길쭉해요. P와 Q는 중심에서 자로 잰 거리가 같지만, P는 무리 방향이라 흔한 학생, Q는 "수학은 높은데 과학은 낮은" 드문 학생이에요.</p>
+  </div>
+
+  <p class="linkh">곤란 3. 숫자가 아니면 (범주형: 자카드, 코사인)</p>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><h4>자카드 유사도</h4><p>학생1 수강: 국, 영, 수, 과<br>학생2 수강: 영, 수, 사<br>겹침 2과목 ÷ 둘 중 하나라도 들은 5과목 = <b>0.4</b></p></div>
+      <div class="box"><h4>코사인 유사도</h4><p>수강 여부를 1/0으로 적은 두 줄(국영수과사)<br>1 1 1 1 0 / 0 1 1 0 1<br>곱해서 더함 2 ÷ (√4 × √3) ≈ <b>0.58</b></p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">표준화 거리</span><span>항목마다 <b>스케일(단위)을 맞춘 뒤</b> 잰 거리</span></div>
+    <div class="row"><span class="term">마할라노비스</span><span>표준화 + <b>변수 간 상관관계</b>까지 고려한 거리. 무리 모양을 따라 재는 자.</span></div>
+    <div class="row"><span class="term">자카드</span><span>|A∩B| / |A∪B|. 겹친 것 ÷ 합친 것. 범주형 유사도.</span></div>
+    <div class="row"><span class="term">코사인</span><span>A·B / (|A||B|). 두 줄이 <b>같은 방향</b>을 가리키는 정도. 1이면 완전히 같은 방향.</span></div>
+  </div>
+  <div class="trap">자카드, 코사인은 <b>유사도</b>라서 <b>클수록 비슷</b>해요. 유클리디안 같은 거리는 <b>작을수록 비슷</b>. 방향이 반대예요.</div>
+</section>
+
+<p class="part">PART 2 · 계층적 군집 (34~35쪽)</p>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>가까운 둘부터 합치기: 덴드로그램</h2><span class="pg">34쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>반 개수를 몰라도 된다. 제일 가까운 둘을 합치는 걸 <b>끝까지 반복</b>하고 그 과정을 나무로 그려 두면, 나중에 <b>원하는 높이에서 가위질</b>해 반 수를 정한다.</div>
+  <div class="fig">
+    <p class="linkh" style="margin-top:0">학생 5명의 모의고사 점수: A 40, B 44, C 60, D 66, E 95</p>
+    <div class="calc">
+      <div class="ln"><span>① 제일 가까운 A와 B (44 − 40)</span><span class="num">4에서 합침</span></div>
+      <div class="ln"><span>② 다음은 C와 D (66 − 60)</span><span class="num">6에서 합침</span></div>
+      <div class="ln"><span>③ AB 무리와 CD 무리 (가장 가까운 44와 60)</span><span class="num">16에서 합침</span></div>
+      <div class="ln"><span>④ 마지막으로 E (95와 가장 가까운 66)</span><span class="num">29에서 합침</span></div>
+    </div>
+    <svg viewBox="0 0 432 214" style="max-width:440px" role="img" aria-label="덴드로그램: A와 B가 4, C와 D가 6, 두 묶음이 16, E가 29에서 합쳐짐. 높이 15에서 자르면 3개, 25에서 자르면 2개"><line x1="36" y1="178" x2="36" y2="18" stroke="var(--line)"/><text class="svgmut" x="31" y="182" text-anchor="end">0</text><line x1="33" y1="178" x2="36" y2="178" stroke="var(--line)"/><text class="svgmut" x="31" y="132" text-anchor="end">10</text><line x1="33" y1="128" x2="36" y2="128" stroke="var(--line)"/><text class="svgmut" x="31" y="82" text-anchor="end">20</text><line x1="33" y1="78" x2="36" y2="78" stroke="var(--line)"/><text class="svgmut" x="31" y="32" text-anchor="end">30</text><line x1="33" y1="28" x2="36" y2="28" stroke="var(--line)"/><text class="svgmut" x="12" y="98" text-anchor="middle" transform="rotate(-90 12 98)">합칠 때 거리(높이)</text><path d="M70 178 L70 158 L120 158 L120 178" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="M180 178 L180 148 L230 148 L230 178" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="M95 158 L95 98 L205 98 L205 148" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="M150 98 L150 33 L300 33 L300 178" fill="none" stroke="var(--ink)" stroke-width="2"/><line x1="40" y1="103" x2="318" y2="103" stroke="var(--omr)" stroke-width="1.5" stroke-dasharray="5 4"/><text x="322" y="107" fill="var(--omr)" font-size="11.5" font-weight="700">15에서 자르면 3개</text><line x1="40" y1="53" x2="318" y2="53" stroke="var(--omr)" stroke-width="1.5" stroke-dasharray="5 4"/><text x="322" y="57" fill="var(--omr)" font-size="11.5" font-weight="700">25에서 자르면 2개</text><text class="svgtxt" x="70" y="194" text-anchor="middle" font-weight="700">A</text><text class="svgmut" x="70" y="208" text-anchor="middle">40점</text><text class="svgtxt" x="120" y="194" text-anchor="middle" font-weight="700">B</text><text class="svgmut" x="120" y="208" text-anchor="middle">44점</text><text class="svgtxt" x="180" y="194" text-anchor="middle" font-weight="700">C</text><text class="svgmut" x="180" y="208" text-anchor="middle">60점</text><text class="svgtxt" x="230" y="194" text-anchor="middle" font-weight="700">D</text><text class="svgmut" x="230" y="208" text-anchor="middle">66점</text><text class="svgtxt" x="300" y="194" text-anchor="middle" font-weight="700">E</text><text class="svgmut" x="300" y="208" text-anchor="middle">95점</text><rect x="86" y="141" width="18" height="13" fill="var(--surface)"/><text class="svgmut" x="95" y="152" text-anchor="middle">4</text><rect x="196" y="131" width="18" height="13" fill="var(--surface)"/><text class="svgmut" x="205" y="142" text-anchor="middle">6</text><rect x="141" y="81" width="18" height="13" fill="var(--surface)"/><text class="svgmut" x="150" y="92" text-anchor="middle">16</text><rect x="216" y="16" width="18" height="13" fill="var(--surface)"/><text class="svgmut" x="225" y="27" text-anchor="middle">29</text></svg>
+    <p class="cap">세로 높이 = 합칠 때의 거리. 빨간 점선으로 자른 아래쪽 줄기 수가 반 개수.</p>
+  </div>
+  <div class="calc" style="margin-top:12px">
+    <div class="ln"><span>높이 15에서 자르면: AB, CD, E</span><span class="num">3개 반</span></div>
+    <div class="ln"><span>높이 25에서 자르면: ABCD, E</span><span class="num">2개 반</span></div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">덴드로그램</span><span>계층적 군집 결과를 그린 <b>나무 모양 그림</b>. Dendro = 나무.</span></div>
+    <div class="row"><span class="term">병합 / 분할</span><span>1명씩에서 합쳐 올라가면 병합(응집형), 전체 한 덩어리에서 쪼개 내려가면 분할형.</span></div>
+  </div>
+  <div class="trap"><b>낮게 자를수록 반이 많아지고</b>, 높게 자를수록 반이 줄어요. 높이 15 → 3개, 25 → 2개. 그리고 한 번 합친 학생은 계층적 방법에선 <b>다시 떼어 내지 않아요</b>(K-means와 다른 점).</div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>무리와 무리 사이 거리는 어디로 재나: 연결법</h2><span class="pg">35쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>학생 둘 사이 거리는 쉬운데, <b>무리 둘 사이</b>는 누구와 누구를 재야 할지 애매하다. 그 기준이 <b>연결법</b> 5가지. 4화 ③에서 쓴 건 "가장 가까운 둘"(최단)이었다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 400 372" style="max-width:500px" role="img" aria-label="두 무리 사이 거리를 재는 다섯 가지 방법을 한 줄 숫자 위에서 비교"><text class="svgmut" x="104" y="14" text-anchor="middle">A 40</text><text class="svgmut" x="138" y="14" text-anchor="middle">B 44</text><text class="svgmut" x="274" y="14" text-anchor="middle">C 60</text><text class="svgmut" x="325" y="14" text-anchor="middle">D 66</text><text class="svgtxt" x="4" y="56" font-weight="700">최단</text><text class="svgmut" x="4" y="70">단일 연결</text><line x1="78" y1="52" x2="359" y2="52" stroke="var(--line)"/><line x1="138" y1="38" x2="274" y2="38" stroke="var(--ink)" stroke-width="2.5"/><line x1="138" y1="34" x2="138" y2="42" stroke="var(--ink)" stroke-width="2.5"/><line x1="274" y1="34" x2="274" y2="42" stroke="var(--ink)" stroke-width="2.5"/><text class="svgtxt" x="206" y="32" text-anchor="middle" font-weight="700">16</text><circle cx="104" cy="52" r="6" fill="var(--omr)"/><circle cx="138" cy="52" r="6" fill="var(--omr)"/><circle cx="274" cy="52" r="6" fill="var(--blue)"/><circle cx="325" cy="52" r="6" fill="var(--blue)"/><text class="svgtxt" x="4" y="122" font-weight="700">최장</text><text class="svgmut" x="4" y="136">완전 연결</text><line x1="78" y1="118" x2="359" y2="118" stroke="var(--line)"/><line x1="104" y1="104" x2="325" y2="104" stroke="var(--ink)" stroke-width="2.5"/><line x1="104" y1="100" x2="104" y2="108" stroke="var(--ink)" stroke-width="2.5"/><line x1="325" y1="100" x2="325" y2="108" stroke="var(--ink)" stroke-width="2.5"/><text class="svgtxt" x="214" y="98" text-anchor="middle" font-weight="700">26</text><circle cx="104" cy="118" r="6" fill="var(--omr)"/><circle cx="138" cy="118" r="6" fill="var(--omr)"/><circle cx="274" cy="118" r="6" fill="var(--blue)"/><circle cx="325" cy="118" r="6" fill="var(--blue)"/><text class="svgtxt" x="4" y="200" font-weight="700">평균</text><text class="svgmut" x="4" y="214">평균 연결</text><line x1="78" y1="196" x2="359" y2="196" stroke="var(--line)"/><line x1="104" y1="184" x2="274" y2="184" stroke="var(--muted)" stroke-width="1.5"/><line x1="104" y1="180" x2="104" y2="188" stroke="var(--muted)" stroke-width="1.5"/><line x1="274" y1="180" x2="274" y2="188" stroke="var(--muted)" stroke-width="1.5"/><line x1="104" y1="175" x2="325" y2="175" stroke="var(--muted)" stroke-width="1.5"/><line x1="104" y1="171" x2="104" y2="179" stroke="var(--muted)" stroke-width="1.5"/><line x1="325" y1="171" x2="325" y2="179" stroke="var(--muted)" stroke-width="1.5"/><line x1="138" y1="166" x2="274" y2="166" stroke="var(--muted)" stroke-width="1.5"/><line x1="138" y1="162" x2="138" y2="170" stroke="var(--muted)" stroke-width="1.5"/><line x1="274" y1="162" x2="274" y2="170" stroke="var(--muted)" stroke-width="1.5"/><line x1="138" y1="157" x2="325" y2="157" stroke="var(--muted)" stroke-width="1.5"/><line x1="138" y1="153" x2="138" y2="161" stroke="var(--muted)" stroke-width="1.5"/><line x1="325" y1="153" x2="325" y2="161" stroke="var(--muted)" stroke-width="1.5"/><text class="svgtxt" x="396" y="176" text-anchor="end" font-weight="700">평균 21</text><circle cx="104" cy="196" r="6" fill="var(--omr)"/><circle cx="138" cy="196" r="6" fill="var(--omr)"/><circle cx="274" cy="196" r="6" fill="var(--blue)"/><circle cx="325" cy="196" r="6" fill="var(--blue)"/><text class="svgtxt" x="4" y="266" font-weight="700">중심</text><text class="svgmut" x="4" y="280">중심 연결</text><line x1="78" y1="262" x2="359" y2="262" stroke="var(--line)"/><circle cx="104" cy="262" r="6" fill="var(--omr)"/><circle cx="138" cy="262" r="6" fill="var(--omr)"/><circle cx="274" cy="262" r="6" fill="var(--blue)"/><circle cx="325" cy="262" r="6" fill="var(--blue)"/><rect x="114" y="255" width="14" height="14" fill="var(--surface)" stroke="var(--omr)" stroke-width="2.5" transform="rotate(45 121 262)"/><rect x="292" y="255" width="14" height="14" fill="var(--surface)" stroke="var(--blue)" stroke-width="2.5" transform="rotate(45 300 262)"/><line x1="121" y1="244" x2="300" y2="244" stroke="var(--ink)" stroke-width="2.5"/><line x1="121" y1="240" x2="121" y2="248" stroke="var(--ink)" stroke-width="2.5"/><line x1="300" y1="240" x2="300" y2="248" stroke="var(--ink)" stroke-width="2.5"/><text class="svgtxt" x="210" y="238" text-anchor="middle" font-weight="700">21</text><text class="svgtxt" x="4" y="340" font-weight="700">와드</text><text class="svgmut" x="4" y="354">편차 제곱합</text><line x1="78" y1="336" x2="359" y2="336" stroke="var(--line)"/><circle cx="104" cy="336" r="6" fill="var(--violet)"/><circle cx="138" cy="336" r="6" fill="var(--violet)"/><circle cx="274" cy="336" r="6" fill="var(--violet)"/><circle cx="325" cy="336" r="6" fill="var(--violet)"/><line x1="210" y1="320" x2="210" y2="346" stroke="var(--violet)" stroke-width="2" stroke-dasharray="3 3"/><text class="svgtxt" x="210" y="316" text-anchor="middle" font-weight="700">합친 평균 52.5</text><text class="svgmut" x="210" y="360" text-anchor="middle">합치면 흩어짐(제곱합)이 26 → 467, 441 증가</text></svg>
+    <p class="cap">빨강 무리 AB(40, 44)와 파랑 무리 CD(60, 66). 같은 두 무리인데 기준마다 거리가 16, 26, 21로 달라요.</p>
+  </div>
+  <div class="tblwrap" style="margin-top:10px">
+    <table class="act">
+      <tr><th>연결법</th><th>무엇을 재나</th><th>예시 계산</th></tr>
+      <tr><td>최단(단일) 연결법</td><td>두 무리에서 <b>가장 가까운</b> 두 학생</td><td>60 − 44 = 16</td></tr>
+      <tr><td>최장(완전) 연결법</td><td>두 무리에서 <b>가장 먼</b> 두 학생</td><td>66 − 40 = 26</td></tr>
+      <tr><td>평균 연결법</td><td><b>모든 쌍</b> 거리의 평균</td><td>(20 + 26 + 16 + 22) ÷ 4 = 21</td></tr>
+      <tr><td>중심 연결법</td><td>두 무리 <b>중심점</b> 사이</td><td>63 − 42 = 21</td></tr>
+      <tr><td>와드 연결법</td><td>합쳤을 때 <b>편차 제곱합이 얼마나 늘어나나</b></td><td>8 + 18 = 26 → 467, 441 증가</td></tr>
+    </table>
+  </div>
+  <details><summary>와드의 제곱합 계산 (몰라도 됨, 뜻만)</summary><div class="in">
+    <p>"제곱합"은 반 평균에서 학생들이 얼마나 흩어져 있나를 재는 점수예요. 작을수록 반이 똘똘 뭉친 것.</p>
+    <div class="calc">
+      <div class="ln"><span>AB반: 평균 42, (40−42)² + (44−42)²</span><span class="num">8</span></div>
+      <div class="ln"><span>CD반: 평균 63, (60−63)² + (66−63)²</span><span class="num">18</span></div>
+      <div class="ln"><span>합친 반: 평균 52.5, 12.5² + 8.5² + 7.5² + 13.5²</span><span class="num">467</span></div>
+      <div class="ln"><span>합쳐서 늘어난 흩어짐 = 와드가 보는 값</span><span class="num">467 − 26 = 441</span></div>
+    </div>
+    <p>와드는 후보 짝마다 이 "늘어난 양"을 계산해서 <b>가장 조금 늘어나는 짝부터</b> 합쳐요. 반이 덜 망가지게.</p>
+  </div></details>
+  <div class="link">
+    <div class="row"><span class="term">최단 연결</span><span>가까운 놈끼리만 보니 무리가 <b>사슬처럼 길게</b> 이어지기 쉬움</span></div>
+    <div class="row"><span class="term">최장 연결</span><span>가장 먼 놈까지 가까워야 합치니 <b>둥글고 촘촘한</b> 무리</span></div>
+    <div class="row"><span class="term">와드 연결</span><span>거리가 아니라 <b>제곱합(편차 제곱합, 오차 제곱합) 증가량</b>이 최소인 쪽으로</span></div>
+  </div>
+  <div class="memo">"<b>제곱합</b>"이라는 말이 보이면 무조건 <b>와드</b>. 최단 = 단일(single), 최장 = 완전(complete). "완전히 다 가까워야 합친다"라서 최장이 완전 연결.</div>
+  <div class="trap">이 예제에선 평균 연결과 중심 연결이 둘 다 21로 같게 나왔지만 <b>재는 대상이 달라요</b>. 평균은 학생 쌍 4개를 다 재서 평균, 중심은 무리마다 중심점 하나씩 찍고 그 둘만 잼.</div>
+</section>
+
+<p class="part">PART 3 · 비계층적 군집 (35쪽)</p>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>K-means: 반 개수 K부터 정하고, 반장 자리를 옮겨 가며</h2><span class="pg">35쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>학생이 수천 명이면 계층적으로 하나하나 합치기엔 너무 오래 걸린다. 그래서 <b>"반 2개"를 먼저 정하고</b>, 중심(반장 자리)을 찍고 → 가까운 반으로 배정 → 중심을 반 평균으로 옮기기를 <b>안 바뀔 때까지</b> 반복.</div>
+  <div class="fig">
+    <div class="two">
+      <svg viewBox="0 0 200 200" role="img" aria-label="① 중심 2개를 아무 데나. K=2 · 가, 나 자리에 찍음"><line x1="34" y1="176" x2="188" y2="176" stroke="var(--line)"/><line x1="34" y1="176" x2="34" y2="29" stroke="var(--line)"/><text class="svgtxt" x="100" y="16" text-anchor="middle" font-weight="700">① 중심 2개를 아무 데나</text><circle cx="56" cy="71" r="6" fill="var(--muted)"/><text class="svgmut" x="44" y="75" text-anchor="end">가</text><circle cx="56" cy="92" r="6" fill="var(--muted)"/><text class="svgmut" x="44" y="96" text-anchor="end">나</text><circle cx="144" cy="155" r="6" fill="var(--muted)"/><text class="svgmut" x="132" y="159" text-anchor="end">다</text><circle cx="166" cy="155" r="6" fill="var(--muted)"/><text class="svgmut" x="177" y="159">라</text><circle cx="122" cy="92" r="6" fill="var(--muted)"/><text class="svgmut" x="122" y="81" text-anchor="middle">마</text><circle cx="56" cy="50" r="6" fill="var(--muted)"/><text class="svgmut" x="44" y="54" text-anchor="end">바</text><rect x="48" y="63" width="16" height="16" fill="none" stroke="var(--omr)" stroke-width="2.5" transform="rotate(45 56 71)"/><rect x="48" y="84" width="16" height="16" fill="none" stroke="var(--blue)" stroke-width="2.5" transform="rotate(45 56 92)"/><text class="svgmut" x="100" y="194" text-anchor="middle">K=2 · 가, 나 자리에 찍음</text></svg>
+      <svg viewBox="0 0 200 200" role="img" aria-label="② 가까운 중심 쪽으로 배정. 빨강 2명 · 파랑 4명"><line x1="34" y1="176" x2="188" y2="176" stroke="var(--line)"/><line x1="34" y1="176" x2="34" y2="29" stroke="var(--line)"/><text class="svgtxt" x="100" y="16" text-anchor="middle" font-weight="700">② 가까운 중심 쪽으로 배정</text><circle cx="56" cy="71" r="6" fill="var(--omr)"/><text class="svgmut" x="44" y="75" text-anchor="end">가</text><circle cx="56" cy="92" r="6" fill="var(--blue)"/><text class="svgmut" x="44" y="96" text-anchor="end">나</text><circle cx="144" cy="155" r="6" fill="var(--blue)"/><text class="svgmut" x="132" y="159" text-anchor="end">다</text><circle cx="166" cy="155" r="6" fill="var(--blue)"/><text class="svgmut" x="177" y="159">라</text><circle cx="122" cy="92" r="6" fill="var(--blue)"/><text class="svgmut" x="122" y="81" text-anchor="middle">마</text><circle cx="56" cy="50" r="6" fill="var(--omr)"/><text class="svgmut" x="44" y="54" text-anchor="end">바</text><rect x="48" y="63" width="16" height="16" fill="none" stroke="var(--omr)" stroke-width="2.5" transform="rotate(45 56 71)"/><rect x="48" y="84" width="16" height="16" fill="none" stroke="var(--blue)" stroke-width="2.5" transform="rotate(45 56 92)"/><text class="svgmut" x="100" y="194" text-anchor="middle">빨강 2명 · 파랑 4명</text></svg>
+      <svg viewBox="0 0 200 200" role="img" aria-label="③ 중심을 무리 평균으로. 새 중심 (1, 5.5) · (4, 2.5)"><line x1="34" y1="176" x2="188" y2="176" stroke="var(--line)"/><line x1="34" y1="176" x2="34" y2="29" stroke="var(--line)"/><text class="svgtxt" x="100" y="16" text-anchor="middle" font-weight="700">③ 중심을 무리 평균으로</text><line x1="56" y1="71" x2="56" y2="60" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/><line x1="56" y1="92" x2="122" y2="124" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="56" cy="71" r="6" fill="var(--omr)"/><text class="svgmut" x="44" y="75" text-anchor="end">가</text><circle cx="56" cy="92" r="6" fill="var(--blue)"/><text class="svgmut" x="44" y="96" text-anchor="end">나</text><circle cx="144" cy="155" r="6" fill="var(--blue)"/><text class="svgmut" x="132" y="159" text-anchor="end">다</text><circle cx="166" cy="155" r="6" fill="var(--blue)"/><text class="svgmut" x="177" y="159">라</text><circle cx="122" cy="92" r="6" fill="var(--blue)"/><text class="svgmut" x="122" y="81" text-anchor="middle">마</text><circle cx="56" cy="50" r="6" fill="var(--omr)"/><text class="svgmut" x="44" y="54" text-anchor="end">바</text><rect x="48" y="52" width="16" height="16" fill="none" stroke="var(--omr)" stroke-width="2.5" transform="rotate(45 56 60)"/><rect x="114" y="116" width="16" height="16" fill="none" stroke="var(--blue)" stroke-width="2.5" transform="rotate(45 122 124)"/><text class="svgmut" x="100" y="194" text-anchor="middle">새 중심 (1, 5.5) · (4, 2.5)</text></svg>
+      <svg viewBox="0 0 200 200" role="img" aria-label="④ 다시 배정: 나가 옮김. 중심 (1, 5) · (5, 2) · 더 안 바뀜"><line x1="34" y1="176" x2="188" y2="176" stroke="var(--line)"/><line x1="34" y1="176" x2="34" y2="29" stroke="var(--line)"/><text class="svgtxt" x="100" y="16" text-anchor="middle" font-weight="700">④ 다시 배정: 나가 옮김</text><line x1="56" y1="60" x2="56" y2="71" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/><line x1="122" y1="124" x2="144" y2="134" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="56" cy="71" r="6" fill="var(--omr)"/><text class="svgmut" x="44" y="75" text-anchor="end">가</text><circle cx="56" cy="92" r="6" fill="var(--omr)"/><text class="svgmut" x="44" y="96" text-anchor="end">나</text><circle cx="144" cy="155" r="6" fill="var(--blue)"/><text class="svgmut" x="132" y="159" text-anchor="end">다</text><circle cx="166" cy="155" r="6" fill="var(--blue)"/><text class="svgmut" x="177" y="159">라</text><circle cx="122" cy="92" r="6" fill="var(--blue)"/><text class="svgmut" x="122" y="81" text-anchor="middle">마</text><circle cx="56" cy="50" r="6" fill="var(--omr)"/><text class="svgmut" x="44" y="54" text-anchor="end">바</text><circle cx="56" cy="92" r="11" fill="none" stroke="var(--ink)" stroke-width="2"/><rect x="48" y="63" width="16" height="16" fill="none" stroke="var(--omr)" stroke-width="2.5" transform="rotate(45 56 71)"/><rect x="136" y="126" width="16" height="16" fill="none" stroke="var(--blue)" stroke-width="2.5" transform="rotate(45 144 134)"/><text class="svgmut" x="100" y="194" text-anchor="middle">중심 (1, 5) · (5, 2) · 더 안 바뀜</text></svg>
+    </div>
+    <div class="legend"><span><i style="background:var(--omr)"></i>빨강 반</span><span><i style="background:var(--blue)"></i>파랑 반</span><span>◇ = 반의 중심</span><span>점선 = 중심이 옮겨 간 길</span></div>
+    <div class="calc">
+      <div class="ln"><span>② 나(1, 4)는 빨강 중심(1, 5)까지 1, 파랑 중심(1, 4)까지 0</span><span class="num">파랑</span></div>
+      <div class="ln"><span>③ 파랑 반 4명(나, 다, 라, 마)의 평균 ((1+5+6+4)/4, (4+1+1+4)/4)</span><span class="num">(4, 2.5)</span></div>
+      <div class="ln"><span>④ 나는 이제 빨강 중심(1, 5.5)까지 1.5, 파랑 중심(4, 2.5)까지 약 3.35</span><span class="num">빨강으로 이동</span></div>
+      <div class="ln"><span>⑤ 새 중심 (1, 5), (5, 2)로 다시 배정해도 아무도 안 옮김</span><span class="num">끝</span></div>
+    </div>
+  </div>
+  <div class="say"><p>나 학생은 처음엔 파랑 반이었다가 중심이 옮겨 가자 빨강 반으로 갔어요. K-means에선 <b>한 번 배정돼도 다른 반으로 옮길 수 있어요</b>. 계층적 방법과 반대예요.</p></div>
+  <div class="two" style="margin-top:12px">
+    <div class="box"><span class="tag red">약점 1</span><h4>처음 중심을 어디 찍나에 따라 결과가 바뀜</h4><p>초기 중심점에 민감. 그래서 여러 번 돌려 보고 제일 나은 걸 고르기도 해요.</p></div>
+    <div class="box"><span class="tag red">약점 2</span><h4>이상치에 끌려감</h4><p>평균은 튀는 값 하나에 확 끌려가요. 점수 50, 52, 54, 56, <b>98</b>이면 평균 62. 아무 학생과도 안 가까운 자리.</p></div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">K 사전 지정</span><span>반 개수 <b>K를 미리 지정</b>해야 함. 어떻게 정하나는 9화 Elbow Method.</span></div>
+    <div class="row"><span class="term">K-medoids</span><span>중심을 평균 대신 <b>실제 학생 한 명</b>으로. 위 예에서 54점 학생이 중심(다른 학생과 거리 합 52로 최소). 98에 덜 끌려가서 <b>이상치에 강건</b>.</span></div>
+    <div class="row"><span class="term">K-modes</span><span>범주형 자료용. 평균 대신 <b>최빈값</b>(가장 많이 나온 값)을 중심으로.</span></div>
+  </div>
+  <div class="trap">"K-means는 한 번 할당된 데이터가 다른 군집으로 <b>이동할 수 없다</b>" → <b>틀린 말</b>. 중심이 바뀌면 이동해요.</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>반 모양이 동그랗지 않으면: DBSCAN</h2><span class="pg">35쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>K-means는 중심에서 가까운 순으로 자르니 <b>동그란 무리</b>만 잘 찾는다. 초승달처럼 휜 무리나 외톨이가 있으면 망가진다. DBSCAN은 <b>촘촘하게 이어진 곳(밀도)</b>을 따라 번져 나가며 묶는다.</div>
+  <div class="fig">
+    <div class="two">
+      <svg viewBox="0 0 280 196" role="img" aria-label="K-means: 중심 기준으로 자름. 초승달 모양을 반씩 잘라 버림"><text class="svgtxt" x="140" y="16" text-anchor="middle" font-weight="700">K-means: 중심 기준으로 자름</text><circle cx="165" cy="105" r="5" fill="var(--omr)"/><circle cx="162" cy="88" r="5" fill="var(--omr)"/><circle cx="154" cy="73" r="5" fill="var(--omr)"/><circle cx="142" cy="61" r="5" fill="var(--blue)"/><circle cx="127" cy="53" r="5" fill="var(--blue)"/><circle cx="110" cy="50" r="5" fill="var(--blue)"/><circle cx="93" cy="53" r="5" fill="var(--blue)"/><circle cx="78" cy="61" r="5" fill="var(--blue)"/><circle cx="66" cy="73" r="5" fill="var(--blue)"/><circle cx="58" cy="88" r="5" fill="var(--blue)"/><circle cx="55" cy="105" r="5" fill="var(--blue)"/><circle cx="110" cy="78" r="5" fill="var(--blue)"/><circle cx="113" cy="94" r="5" fill="var(--blue)"/><circle cx="121" cy="110" r="5" fill="var(--blue)"/><circle cx="133" cy="122" r="5" fill="var(--omr)"/><circle cx="148" cy="130" r="5" fill="var(--omr)"/><circle cx="165" cy="132" r="5" fill="var(--omr)"/><circle cx="182" cy="130" r="5" fill="var(--omr)"/><circle cx="197" cy="122" r="5" fill="var(--omr)"/><circle cx="209" cy="110" r="5" fill="var(--omr)"/><circle cx="217" cy="94" r="5" fill="var(--omr)"/><circle cx="220" cy="78" r="5" fill="var(--omr)"/><circle cx="260" cy="35" r="5" fill="var(--omr)"/><circle cx="40" cy="155" r="5" fill="var(--blue)"/><text class="svgmut" x="140" y="188" text-anchor="middle">초승달 모양을 반씩 잘라 버림</text></svg>
+      <svg viewBox="0 0 280 196" role="img" aria-label="DBSCAN: 촘촘하게 이어진 곳끼리. 모양대로 2개 + 외톨이는 노이즈"><text class="svgtxt" x="140" y="16" text-anchor="middle" font-weight="700">DBSCAN: 촘촘하게 이어진 곳끼리</text><circle cx="110" cy="50" r="24" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="1.5"/><circle cx="165" cy="105" r="5" fill="var(--omr)"/><circle cx="162" cy="88" r="5" fill="var(--omr)"/><circle cx="154" cy="73" r="5" fill="var(--omr)"/><circle cx="142" cy="61" r="5" fill="var(--omr)"/><circle cx="127" cy="53" r="5" fill="var(--omr)"/><circle cx="110" cy="50" r="5" fill="var(--omr)"/><circle cx="93" cy="53" r="5" fill="var(--omr)"/><circle cx="78" cy="61" r="5" fill="var(--omr)"/><circle cx="66" cy="73" r="5" fill="var(--omr)"/><circle cx="58" cy="88" r="5" fill="var(--omr)"/><circle cx="55" cy="105" r="5" fill="var(--omr)"/><circle cx="110" cy="78" r="5" fill="var(--blue)"/><circle cx="113" cy="94" r="5" fill="var(--blue)"/><circle cx="121" cy="110" r="5" fill="var(--blue)"/><circle cx="133" cy="122" r="5" fill="var(--blue)"/><circle cx="148" cy="130" r="5" fill="var(--blue)"/><circle cx="165" cy="132" r="5" fill="var(--blue)"/><circle cx="182" cy="130" r="5" fill="var(--blue)"/><circle cx="197" cy="122" r="5" fill="var(--blue)"/><circle cx="209" cy="110" r="5" fill="var(--blue)"/><circle cx="217" cy="94" r="5" fill="var(--blue)"/><circle cx="220" cy="78" r="5" fill="var(--blue)"/><circle cx="260" cy="35" r="8" fill="none" stroke="var(--ink)" stroke-width="1.5"/><circle cx="40" cy="155" r="8" fill="none" stroke="var(--ink)" stroke-width="1.5"/><circle cx="260" cy="35" r="5" fill="var(--muted)"/><circle cx="40" cy="155" r="5" fill="var(--muted)"/><text class="svgmut" x="252" y="58" text-anchor="middle">노이즈</text><text class="svgmut" x="40" y="142" text-anchor="middle">노이즈</text><text x="138" y="32" fill="var(--amber)" font-size="11" font-weight="700">반경 Eps</text><text class="svgmut" x="140" y="188" text-anchor="middle">모양대로 2개 + 외톨이는 노이즈</text></svg>
+    </div>
+    <p class="cap">같은 학생들. 왼쪽은 중심 기준으로 반씩 잘라 모양이 엉망이고, 외톨이 둘도 억지로 반에 넣었어요. 오른쪽은 이어진 모양대로 2개, 외톨이는 노이즈로 빼 둬요.</p>
+  </div>
+  <div class="say"><p>규칙은 둘뿐이에요. "내 주변 <b>반경 Eps</b> 안에 <b>최소 MinPts명</b> 이상 있으면 붐비는 곳이다." 붐비는 곳끼리 이어지면 한 반, 어디에도 못 끼면 노이즈.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">밀도 기반</span><span>얼마나 <b>촘촘히 모여 있나</b>로 묶음 (K-means는 거리 기반)</span></div>
+    <div class="row"><span class="term">Eps</span><span>이웃으로 볼 <b>반경</b> (그림의 노란 원)</span></div>
+    <div class="row"><span class="term">MinPts</span><span>붐빈다고 인정할 <b>최소 점 수</b></span></div>
+    <div class="row"><span class="term">장점</span><span>군집 수를 <b>미리 정할 필요 없음</b>, <b>노이즈와 이상치에 강함</b>, <b>임의 모양</b> 군집 가능</span></div>
+  </div>
+  <div class="trap">DBSCAN은 군집 수(K)를 안 정하는 대신 <b>Eps(반경), MinPts(최소 점 수)는 미리 정해야</b> 해요. "아무것도 안 정한다"가 아니에요. 그리고 계층적 방법이 아니라 <b>비계층적</b>.</div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="ep" id="e8">
+  <div class="eph"><span class="no">8화</span><h2>딱 잘라 정하기 어려울 때: 퍼지, EM, SOM</h2><span class="pg">35쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>경계에 선 학생을 억지로 한 반에 넣는 대신 <b>"기초반일 확률 0.58"</b>처럼 걸쳐 두는 방법(퍼지, EM), 그리고 학생들을 <b>2차원 지도에 펼쳐 놓는</b> 방법(SOM).</div>
+
+  <p class="linkh">퍼지와 EM: 소속을 확률로</p>
+  <div class="fig">
+    <svg viewBox="0 0 340 196" style="max-width:420px" role="img" aria-label="점수 분포가 종 두 개로 겹쳐 있음. 66점 학생은 기초반 종 소속 확률 0.58, 심화반 0.42"><line x1="30" y1="150" x2="324" y2="150" stroke="var(--line)"/><path d="M30 149 L38 147 L47 145 L55 141 L64 136 L72 129 L80 120 L89 111 L97 101 L106 93 L114 87 L122 85 L131 87 L139 93 L148 101 L156 111 L164 120 L173 129 L181 136 L190 141 L198 145 L206 147 L215 149 L223 149 L232 150 L240 150 L248 150 L257 150 L265 150 L274 150 L282 150 L290 150 L299 150 L307 150 L316 150 L324 150" fill="none" stroke="var(--omr)" stroke-width="2.5"/><path d="M30 150 L38 150 L47 150 L55 150 L64 150 L72 150 L80 150 L89 150 L97 150 L106 150 L114 150 L122 150 L131 150 L139 150 L148 149 L156 149 L164 147 L173 145 L181 140 L190 133 L198 123 L206 111 L215 99 L223 87 L232 79 L240 76 L248 79 L257 87 L265 99 L274 111 L282 123 L290 133 L299 140 L307 145 L316 147 L324 149" fill="none" stroke="var(--blue)" stroke-width="2.5"/><text class="svgmut" x="72" y="166" text-anchor="middle">40점</text><text class="svgmut" x="156" y="166" text-anchor="middle">60점</text><text class="svgmut" x="240" y="166" text-anchor="middle">80점</text><text class="svgmut" x="324" y="166" text-anchor="middle">100점</text><text x="122" y="76" text-anchor="middle" fill="var(--omr)" font-size="12" font-weight="700">기초반 종</text><text x="240" y="66" text-anchor="middle" fill="var(--blue)" font-size="12" font-weight="700">심화반 종</text><line x1="181" y1="150" x2="181" y2="100" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="181" cy="150" r="6" fill="var(--ink)"/><text class="svgtxt" x="181" y="94" text-anchor="middle" font-weight="700">66점 학생</text><text class="svgmut" x="170" y="188" text-anchor="middle">기초반일 확률 0.58 · 심화반일 확률 0.42 (딱 잘라 정하지 않음)</text></svg>
+    <p class="cap">전체 점수 분포를 보니 종 모양 두 개가 겹쳐 있어요(혼합분포). 66점 학생은 두 종 사이에 걸쳐 있어요.</p>
+    <div class="flows" style="margin-top:12px">
+      <div class="flow">
+        <div class="fh"><b>EM 알고리즘</b><span class="tag green">분포 기반</span></div>
+        <div class="fl"><span>종 2개를<br>대충 그림</span><i>→</i><span class="hi">E단계<br>학생마다 소속 확률</span><i>→</i><span class="hi">M단계<br>그 확률로 종 다시 그림</span><i>→</i><span>안 바뀔 때까지<br>반복</span></div>
+        <p>E = Expectation(기댓값 계산), M = Maximization(그 기댓값이 <b>가장 그럴듯해지도록</b> 종의 평균, 퍼짐을 고침). 15장 최대우도법의 "그럴듯함"이 여기서도 나와요.</p>
+      </div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">퍼지 군집</span><span>Fuzzy = 흐릿한. 학생마다 반마다 <b>소속 정도(소속도, 확률)</b>를 매김. "기초반 0.7, 심화반 0.3"</span></div>
+    <div class="row"><span class="term">EM 알고리즘</span><span>데이터가 <b>여러 분포가 섞인 것(혼합분포)</b>이라 보고, E단계와 M단계를 반복해 각 분포를 찾음. <b>분포 기반</b>.</span></div>
+  </div>
+  <div class="memo">K-means와 EM은 모양이 닮았어요. K-means: 배정하고 → 중심 옮기기. EM: 확률 매기고(E) → 종 다시 그리기(M). 차이는 <b>딱 잘라 배정하나, 확률로 걸쳐 두나</b>.</div>
+
+  <p class="linkh">SOM: 학생들을 지도 한 장에 펼치기</p>
+  <div class="fig">
+    <svg viewBox="0 0 380 186" style="max-width:460px" role="img" aria-label="학생 한 명의 여러 항목이 지도 칸 모두에 연결되고, 가장 닮은 칸 하나가 승자가 되어 그 칸과 이웃이 학생 쪽으로 조금 바뀜"><rect x="10" y="19" width="56" height="22" rx="6" fill="var(--blue-soft)" stroke="var(--blue)"/><text class="svgtxt" x="38" y="34" text-anchor="middle">국어</text><rect x="10" y="49" width="56" height="22" rx="6" fill="var(--blue-soft)" stroke="var(--blue)"/><text class="svgtxt" x="38" y="64" text-anchor="middle">수학</text><rect x="10" y="79" width="56" height="22" rx="6" fill="var(--blue-soft)" stroke="var(--blue)"/><text class="svgtxt" x="38" y="94" text-anchor="middle">영어</text><rect x="10" y="109" width="56" height="22" rx="6" fill="var(--blue-soft)" stroke="var(--blue)"/><text class="svgtxt" x="38" y="124" text-anchor="middle">출석</text><rect x="10" y="139" width="56" height="22" rx="6" fill="var(--blue-soft)" stroke="var(--blue)"/><text class="svgtxt" x="38" y="154" text-anchor="middle">자습</text><g stroke="var(--line)" stroke-width="0.8"><line x1="66" y1="30" x2="180" y2="80"/><line x1="66" y1="60" x2="180" y2="80"/><line x1="66" y1="90" x2="180" y2="80"/><line x1="66" y1="120" x2="180" y2="80"/><line x1="66" y1="150" x2="180" y2="80"/></g><rect x="182" y="22" width="26" height="26" rx="5" fill="var(--surface)" stroke="var(--line)"/><rect x="212" y="22" width="26" height="26" rx="5" fill="var(--omr-soft)" stroke="var(--omr)"/><rect x="242" y="22" width="26" height="26" rx="5" fill="var(--omr-soft)" stroke="var(--omr)"/><rect x="272" y="22" width="26" height="26" rx="5" fill="var(--omr-soft)" stroke="var(--omr)"/><rect x="182" y="52" width="26" height="26" rx="5" fill="var(--surface)" stroke="var(--line)"/><rect x="212" y="52" width="26" height="26" rx="5" fill="var(--omr-soft)" stroke="var(--omr)"/><rect x="242" y="52" width="26" height="26" rx="5" fill="var(--omr)" stroke="var(--omr)"/><rect x="272" y="52" width="26" height="26" rx="5" fill="var(--omr-soft)" stroke="var(--omr)"/><rect x="182" y="82" width="26" height="26" rx="5" fill="var(--surface)" stroke="var(--line)"/><rect x="212" y="82" width="26" height="26" rx="5" fill="var(--omr-soft)" stroke="var(--omr)"/><rect x="242" y="82" width="26" height="26" rx="5" fill="var(--omr-soft)" stroke="var(--omr)"/><rect x="272" y="82" width="26" height="26" rx="5" fill="var(--omr-soft)" stroke="var(--omr)"/><rect x="182" y="112" width="26" height="26" rx="5" fill="var(--surface)" stroke="var(--line)"/><rect x="212" y="112" width="26" height="26" rx="5" fill="var(--surface)" stroke="var(--line)"/><rect x="242" y="112" width="26" height="26" rx="5" fill="var(--surface)" stroke="var(--line)"/><rect x="272" y="112" width="26" height="26" rx="5" fill="var(--surface)" stroke="var(--line)"/><text class="svgtxt" x="240" y="158" text-anchor="middle" font-weight="700">2차원 지도(경쟁층)</text><text class="svgmut" x="240" y="174" text-anchor="middle">진한 칸 = 승자 · 연한 칸 = 이웃도 따라 바뀜</text><text class="svgmut" x="38" y="182" text-anchor="middle">입력층</text></svg>
+    <p class="cap">학생 한 명의 여러 항목이 지도의 모든 칸에 연결돼요(완전연결). 칸들이 서로 "내가 이 학생이랑 제일 닮았다"고 경쟁하고, 이긴 칸과 그 이웃이 학생 쪽으로 조금 닮아 가요.</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">SOM</span><span>Self-Organizing Map, <b>자기조직화지도</b>. 신경망 기반으로 여러 항목(고차원)을 2차원 지도로 줄이면서(<b>차원 축소</b>) 비슷한 학생을 가까운 칸에 모음(<b>군집화</b>).</span></div>
+    <div class="row"><span class="term">경쟁 학습</span><span>칸들이 경쟁해서 <b>승자 노드</b> 하나가 이기고, 승자와 이웃만 바뀜</span></div>
+    <div class="row"><span class="term">순전파만</span><span>입력 → 지도 한 방향 계산만. <b>역전파 없음</b>.</span></div>
+  </div>
+  <details open><summary>왜 SOM에는 역전파가 없나</summary><div class="in">
+    <p>16장 신경망의 역전파는 "정답과 <b>틀린 만큼</b>을 뒤로 보내 고치기"였어요. 그런데 군집에는 <b>정답이 없어요</b>. 틀린 만큼을 잴 수가 없으니 뒤로 보낼 것도 없죠. 대신 "제일 닮은 칸이 학생 쪽으로 다가간다"는 경쟁 규칙으로 배워요.</p>
+  </div></details>
+  <div class="trap">"SOM은 <b>역전파</b> 알고리즘을 사용한다" → <b>틀림</b>. 신경망이라서 16장처럼 역전파를 쓸 것 같지만, 정답 없는 비지도라 <b>순전파만</b>.</div>
+</section>
+
+<p class="part">PART 4 · 잘 묶였나 (36쪽)</p>
+
+<!-- ============ 9 ============ -->
+<section class="ep" id="e9">
+  <div class="eph"><span class="no">9화</span><h2>반 편성 채점: 실루엣과 Elbow</h2><span class="pg">36쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>정답이 없으니 정확도로 채점할 수 없다. 대신 <b>"우리 반 친구들과는 가깝고, 옆 반과는 먼가"</b>로 채점한다(실루엣). 반 개수 K는 <b>흩어짐이 더는 크게 안 줄어드는 지점</b>에서 고른다(Elbow).</div>
+
+  <p class="linkh">실루엣 계수: 학생 한 명씩 "나 반 잘 왔나" 점수</p>
+  <div class="fig">
+    <div class="calc" style="margin-top:0">
+      <div class="ln"><span>a = 우리 반 친구들과의 평균 거리 (가 → 나 1, 바 1)</span><span class="num">1.0</span></div>
+      <div class="ln"><span>b = 가장 가까운 옆 반과의 평균 거리 (가 → 다, 라, 마)</span><span class="num">약 5.07</span></div>
+      <div class="ln"><span>s = (b − a) ÷ (둘 중 큰 값) = (5.07 − 1.0) ÷ 5.07</span><span class="num">약 0.80</span></div>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>마 학생: 우리 반(다, 라)과 평균 a</span><span class="num">약 3.38</span></div>
+      <div class="ln"><span>마 학생: 옆 반(가, 나, 바)과 평균 b</span><span class="num">약 3.26</span></div>
+      <div class="ln"><span>s = (3.26 − 3.38) ÷ 3.38</span><span class="num">약 −0.04</span></div>
+    </div>
+    <svg viewBox="0 0 320 92" style="max-width:400px" role="img" aria-label="실루엣 범위 마이너스1에서 1. 가는 0.80, 마는 마이너스 0.04"><rect x="30" y="40" width="130" height="12" fill="var(--omr-soft)"/><rect x="160" y="40" width="130" height="12" fill="var(--ok-soft)"/><line x1="160" y1="34" x2="160" y2="58" stroke="var(--muted)"/><text class="svgmut" x="30" y="74" text-anchor="start">−1 잘못 배정</text><text class="svgmut" x="160" y="74" text-anchor="middle">0 경계</text><text class="svgmut" x="290" y="74" text-anchor="end">1 딱 맞음</text><circle cx="264" cy="46" r="7" fill="var(--ok)"/><text class="svgtxt" x="264" y="28" text-anchor="middle" font-weight="700">가 0.80</text><circle cx="155" cy="46" r="7" fill="var(--amber)"/><text class="svgtxt" x="155" y="28" text-anchor="end" font-weight="700">마 −0.04</text></svg>
+    <p class="cap">6화 K-means 결과로 계산. 가는 확실히 제 반, 마는 두 반 경계에 끼어 있어서 0 근처(살짝 마이너스).</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">a(i)</span><span>같은 군집 안 다른 점들과의 <b>평균 거리</b> (작을수록 좋음)</span></div>
+    <div class="row"><span class="term">b(i)</span><span><b>가장 가까운 다른 군집</b> 점들과의 평균 거리 (클수록 좋음)</span></div>
+    <div class="row"><span class="term">범위</span><span><b>−1 ~ 1</b>. 1에 가까울수록 잘 묶임, 0이면 경계, 마이너스면 옆 반이 더 어울림</span></div>
+  </div>
+
+  <p class="linkh">Elbow Method: 반을 몇 개로 할까</p>
+  <div class="fig">
+    <svg viewBox="0 0 320 200" style="max-width:380px" role="img" aria-label="K가 1에서 5로 늘 때 WCSS가 47.5, 10, 2.5, 1, 0.5로 줄어들고 K=2에서 꺾임"><line x1="40" y1="166" x2="290" y2="166" stroke="var(--line)"/><line x1="40" y1="166" x2="40" y2="20" stroke="var(--line)"/><polyline points="40,33 100,138 160,159 220,163 280,165" fill="none" stroke="var(--ink)" stroke-width="2.5"/><circle cx="40" cy="33" r="5" fill="var(--ink)"/><text class="svgmut" x="40" y="180" text-anchor="middle">K=1</text><text class="svgtxt" x="50" y="25">47.5</text><circle cx="100" cy="138" r="8" fill="var(--omr)"/><text class="svgmut" x="100" y="180" text-anchor="middle">K=2</text><text class="svgtxt" x="110" y="130">10</text><circle cx="160" cy="159" r="5" fill="var(--ink)"/><text class="svgmut" x="160" y="180" text-anchor="middle">K=3</text><text class="svgtxt" x="170" y="151">2.5</text><circle cx="220" cy="163" r="5" fill="var(--ink)"/><text class="svgmut" x="220" y="180" text-anchor="middle">K=4</text><text class="svgtxt" x="230" y="155">1</text><circle cx="280" cy="165" r="5" fill="var(--ink)"/><text class="svgmut" x="280" y="180" text-anchor="middle">K=5</text><text class="svgtxt" x="290" y="157">0.5</text><text x="116" y="110" fill="var(--omr)" font-size="12" font-weight="700">팔꿈치: 여기서 꺾임</text><text class="svgmut" x="34" y="12">↑ WCSS (반 안 흩어짐)</text><text class="svgmut" x="300" y="194" text-anchor="end">반 개수 K →</text></svg>
+    <p class="cap">6화 학생 6명을 K = 1~5로 나눠 본 WCSS. 반을 늘리면 흩어짐은 계속 줄지만, K = 2 이후론 줄어드는 폭이 확 작아져요.</p>
+  </div>
+  <div class="say"><p>반을 학생 수만큼 만들면 WCSS는 0이 되지만 그건 반 편성이 아니죠. 그래서 "<b>더 쪼개도 별 이득이 없어지는 곳</b>", 그래프가 팔꿈치처럼 꺾이는 곳에서 멈춰요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">WCSS</span><span>Within-Cluster Sum of Squares, <b>군집 내 제곱합</b>. 반 안에서 중심과의 거리 제곱을 다 더한 값. 작을수록 똘똘 뭉침(응집).</span></div>
+    <div class="row"><span class="term">Elbow Method</span><span>K를 늘려 가며 WCSS를 그렸을 때 <b>꺾이는(감소가 완만해지는) 지점</b>이 최적 K</span></div>
+    <div class="row"><span class="term">좋은 군집</span><span>군집 <b>안은 가깝게(응집도↑)</b>, 군집 <b>사이는 멀게(분리도↑)</b></span></div>
+  </div>
+  <div class="trap">Elbow는 WCSS가 <b>가장 작은 곳</b>도, <b>0이 되는 곳</b>도 아니에요. <b>꺾이는 곳</b>. 그리고 실루엣 범위는 0~1이 아니라 <b>−1 ~ 1</b>.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 5개 이상 떠오르면 오늘은 충분해요.</p>
+  <div class="quiz">
+    <details><summary>A(1, 2)와 B(4, 4)의 유클리디안, 맨하튼, 체비셰프 거리는?</summary><div class="in"><p>차이 3과 2. 유클리디안 <b>√13</b>, 맨하튼 3 + 2 = <b>5</b>, 체비셰프 max(3, 2) = <b>3</b>.</p></div></details>
+    <details><summary>변수 간 상관관계까지 고려하는 거리는? 범주형 유사도는?</summary><div class="in"><p>상관 고려는 <b>마할라노비스</b>. 범주형은 <b>자카드</b>(겹침 ÷ 합침), 코사인 유사도.</p></div></details>
+    <details><summary>덴드로그램을 높이 15에서 자르면 3개, 25에서 자르면?</summary><div class="in"><p><b>2개</b>. 높게 자를수록 반이 줄어요.</p></div></details>
+    <details><summary>"편차 제곱합 증가량이 최소"가 되도록 합치는 연결법은? 가장 먼 두 점으로 재는 건?</summary><div class="in"><p>제곱합은 <b>와드</b>. 가장 먼 두 점은 <b>최장(완전) 연결법</b>.</p></div></details>
+    <details><summary>K-means에서 한 번 배정된 학생은 반을 옮길 수 없다?</summary><div class="in"><p><b>틀림</b>. 중심이 옮겨 가면 다른 반으로 이동 가능. K-means는 초기 중심점과 이상치에 민감하고, 이상치 보완은 <b>K-medoids</b>.</p></div></details>
+    <details><summary>DBSCAN에 대해 옳은 것: 군집 수 사전 지정? 이상치에는?</summary><div class="in"><p><b>밀도 기반</b>, 군집 수 미리 안 정함(대신 Eps, MinPts), <b>노이즈와 이상치에 강함</b>.</p></div></details>
+    <details><summary>E단계와 M단계를 반복하는 방법은? SOM이 쓰지 않는 것은?</summary><div class="in"><p><b>EM 알고리즘</b>(분포 기반). SOM은 경쟁 학습, 순전파만 쓰고 <b>역전파는 안 씀</b>.</p></div></details>
+    <details><summary>실루엣 계수의 범위와 좋은 값, Elbow의 최적 K는?</summary><div class="in"><p>실루엣 <b>−1 ~ 1</b>, 1에 가까울수록 좋음. Elbow는 WCSS 감소가 <b>완만해지는(꺾이는) 지점</b>.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>17장 한 문장</h3>
+    <p>정답 없는 반 편성에서 원장님은 "비슷함"을 <b>거리</b>로 재고(유클리디안, 맨하튼, 마할라노비스, 자카드), 가까운 것부터 합쳐 <b>덴드로그램</b>을 자르거나(연결법, 와드), <b>K를 정해 중심을 옮기거나</b>(K-means), <b>밀도</b>(DBSCAN), <b>확률</b>(퍼지, EM), <b>지도</b>(SOM)로 묶고, <b>실루엣과 Elbow</b>로 채점한다. 묶는 대신 "같이 사는 것"을 찾는 연관분석은 다음 단원.</p>
+  </div>
+</section>

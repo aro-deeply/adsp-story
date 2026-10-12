@@ -1,0 +1,235 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 DB 특징</a><a href="#e2">2 설계 순서</a><a href="#e3">3 DBMS·SQL</a><a href="#e4">4 회사 시스템</a><a href="#e5">5 웨어하우스</a><a href="#e6">6 레이크·하둡</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 2장 · 3~4쪽 · 이야기로 읽기</span>
+  <h1>편의점 사장님, 엑셀 지옥에서 창고를 짓다</h1>
+  <p>1장에서 영수증으로 답을 찾던 사장님이 2호점, 3호점을 냈어요. 지점마다 엑셀 파일이 따로 놀고 숫자가 서로 안 맞기 시작해요. 2장은 <b>모두가 같이 쓰는 잘 정리된 창고(데이터베이스)</b>를 짓고, 그 창고를 <b>목적별로 나눠 쓰는</b> 이야기예요.</p>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>흩어진 엑셀 대신 <b>하나의 창고(DB)</b>를 순서대로 설계하고(개논물), <b>SQL로 말을 걸고</b>, 커지면 <b>계산대용(OLTP)</b>, <b>분석용(OLAP, 웨어하우스)</b>, <b>뭐든 다 붓는 호수(레이크)</b>로 나눠 쓴다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 3쪽</span><span class="t">엑셀은 왜 안 되나?</span><span class="q">DB 4특징 공통저변</span></a>
+  <a href="#e2"><span class="n">2화 · 3쪽</span><span class="t">창고는 어떤 순서로?</span><span class="q">설계 절차 개논물</span></a>
+  <a href="#e3"><span class="n">3화 · 3쪽</span><span class="t">창고에 어떻게 말 거나?</span><span class="q">DBMS, SQL</span></a>
+  <a href="#e4"><span class="n">4화 · 3쪽</span><span class="t">계산대와 사무실은 다르다?</span><span class="q">OLTP, OLAP, CRM…</span></a>
+  <a href="#e5"><span class="n">5화 · 4쪽</span><span class="t">본사 기록 보관소는?</span><span class="q">DW, ETL, ODS</span></a>
+  <a href="#e6"><span class="n">6화 · 4쪽</span><span class="t">사진, 리뷰는 어디에?</span><span class="q">데이터 레이크, 하둡</span></a>
+</div>
+<p class="maphint">1과목 줄거리: 1장 영수증(데이터) → <b>2장 창고(DB)</b> → 3장 홍수(빅데이터) → 4장 경고등(위기, 개인정보) → 5장 사람(데이터 사이언티스트).</p>
+
+<p class="part">PART 1 · 창고 짓기 (3쪽)</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>지점마다 엑셀이 따로 노는 지옥</h2><span class="pg">3쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>1호점 파일엔 단골 김씨가 "010-1234", 2호점 파일엔 "010-9999". 어느 게 맞지? 이 혼란을 끝내려면 창고가 <b>같이 쓰이고, 하나로 합쳐 있고, 저장돼 있고, 바뀌어도 정확</b>해야 한다. 이게 DB의 4특징.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag red">DB 전 · 지점별 엑셀</span><h4>같은 손님이 세 군데에</h4><p>1호점: 김OO 010-1234<br>2호점: 김OO 010-9999<br>3호점: 김OO (번호 없음)</p><p style="margin-top:6px;color:var(--muted);font-size:13.5px">중복, 서로 다름, 누가 고쳤는지 모름</p></div>
+      <div class="box"><span class="tag green">DB 후 · 창고 하나</span><h4>손님 한 명 = 기록 한 줄</h4><p>모든 지점이 같은 창고를 봄<br>번호를 바꾸면 모든 지점에 바로 반영</p><p style="margin-top:6px;color:var(--muted);font-size:13.5px">중복 없음, 늘 최신, 늘 정확</p></div>
+    </div>
+    <div class="tblwrap" style="margin-top:12px">
+      <table class="act">
+        <tr><th>DB 특징</th><th>뜻</th><th>사장님 가게에서</th></tr>
+        <tr><td>공용 데이터</td><td>여러 사용자가 <b>다른 목적으로 같이</b> 씀</td><td>점장은 재고, 사장님은 매출, 본사는 회계를 같은 창고에서</td></tr>
+        <tr><td>통합된 데이터</td><td>같은 데이터가 <b>중복되지 않음</b></td><td>김씨 기록은 딱 한 줄</td></tr>
+        <tr><td>저장된 데이터</td><td>컴퓨터가 접근할 수 있는 <b>저장 매체에</b> 저장</td><td>공책이 아니라 서버에</td></tr>
+        <tr><td>변화되는 데이터</td><td>추가, 수정, 삭제가 있어도 <b>정확한 현재 상태</b> 유지</td><td>새 손님, 번호 변경, 탈퇴가 매일 있어도 정확</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">무결성 (Integrity)</span><span>데이터가 <b>틀림없이 정확하게</b> 유지되는 성질. "변화되는 데이터"의 목표.</span></div>
+    <div class="row"><span class="term">정보 축적·전달 측면 가치</span><span><b>기계가독성</b>(컴퓨터가 읽을 수 있음), <b>검색가독성</b>(원하는 것을 바로 찾음), <b>원격조작성</b>(멀리서도 다룸). 공책 장부엔 없는 장점 3가지.</span></div>
+  </div>
+  <div class="trap">"휘발성 데이터"는 DB 특징이 <b>아니에요</b>. 5화의 데이터 웨어하우스는 오히려 <b>비휘발성</b>이 특징이라, 둘을 섞은 보기가 나와요.</div>
+  <div class="memo"><b>공통저변</b> (공통의 저변): <b>공</b>용, <b>통</b>합, <b>저</b>장, <b>변</b>화.</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>창고는 어떤 순서로 짓나</h2><span class="pg">3쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>집 짓기와 같다. 뭘 원하는지 듣고 → 스케치 → 상세 도면 → 실제 공사. 머릿속 그림에서 <b>점점 기계 쪽으로 구체화</b>되는 순서라서 거꾸로 할 수가 없다.</div>
+  <div class="fig">
+    <div class="pipe">
+      <div class="st"><span class="nm">요구조건 분석</span><span class="rg">무엇이 필요?</span><span class="ex">"손님, 상품, 주문을 관리하고 싶어요" 듣기</span></div>
+      <div class="st hi"><span class="nm">① 개념적 설계</span><span class="rg">스케치</span><span class="ex">손님이 주문을 한다, 주문에 상품이 담긴다 → <b>ERD</b>, 개념 스키마</span></div>
+      <div class="st hi"><span class="nm">② 논리적 설계</span><span class="rg">상세 도면</span><span class="ex">손님 표, 주문 표의 칸(열)과 연결 규칙 정하기 → 논리 모델링</span></div>
+      <div class="st hi"><span class="nm">③ 물리적 설계</span><span class="rg">실제 공사</span><span class="ex">어느 디스크에, 어떤 저장 구조로, 인덱스는 어디에</span></div>
+    </div>
+    <p class="arrowline">요구조건 분석 → 개념 → 논리 → 물리 &nbsp;·&nbsp; 사람의 말에서 기계의 저장 구조로</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">ERD</span><span>Entity Relationship Diagram. "손님", "주문" 같은 대상(개체)과 그 사이 관계를 그린 <b>스케치 그림</b>. 개념적 설계의 결과물.</span></div>
+    <div class="row"><span class="term">논리 모델링</span><span>스케치를 표(테이블) 구조로 옮기는 작업</span></div>
+    <div class="row"><span class="term">물리적 설계</span><span>실제 저장 장치에 <b>어떻게 저장할지</b>(저장 구조, 접근 방법) 정하기</span></div>
+  </div>
+  <div class="memo"><b>개논물</b> (개가 논물을 마신다). 그리고 맨 앞엔 늘 <b>요구조건 분석</b>. "듣고, 스케치하고, 도면 그리고, 공사한다."</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>창고지기와 창고에 말 거는 언어</h2><span class="pg">3쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>창고를 관리하는 프로그램이 <b>DBMS</b>, 창고에 일을 시키는 말이 <b>SQL</b>. SQL은 "창고 틀을 만들어"(DDL), "물건 넣고 빼"(DML), "출입 권한 줘"(DCL)로 나뉜다.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">표로 정리하는 창고</span><h4>관계형 DBMS</h4><p>모든 걸 행과 열의 <b>표(테이블)</b>로 저장하고 표끼리 연결.</p><p style="margin-top:6px"><b>MySQL, MariaDB, Oracle</b></p></div>
+      <div class="box"><span class="tag green">표에 안 맞는 것도 담는 창고</span><h4>NoSQL</h4><p>리뷰, 사진 정보처럼 <b>비정형 데이터</b>를 저장, 처리. 표 규칙이 느슨함.</p><p style="margin-top:6px"><b>HBase, MongoDB, Redis, Cassandra</b></p></div>
+    </div>
+    <div class="flows" style="margin-top:12px">
+      <div class="flow">
+        <div class="fh"><b>DDL</b><span class="tag blue">정의어 · 틀</span></div>
+        <div class="fl"><span class="hi">CREATE</span><span>ALTER</span><span>DROP</span></div>
+        <p>"손님 표를 <b>만들어</b>, 칸 하나 <b>바꿔</b>, 표를 <b>없애</b>." 표 자체를 다룸.</p>
+      </div>
+      <div class="flow">
+        <div class="fh"><b>DML</b><span class="tag green">조작어 · 내용물</span></div>
+        <div class="fl"><span class="hi">SELECT</span><span>INSERT</span><span>UPDATE</span><span>DELETE</span></div>
+        <p>"김씨 기록 <b>찾아</b>, 새 손님 <b>넣어</b>, 번호 <b>고쳐</b>, 탈퇴 손님 <b>지워</b>." 표 안의 줄(행)을 다룸.</p>
+      </div>
+      <div class="flow">
+        <div class="fh"><b>DCL</b><span class="tag red">제어어 · 권한</span></div>
+        <div class="fl"><span class="hi">GRANT</span><span>REVOKE</span></div>
+        <p>"2호점 점장에게 열람 권한 <b>줘</b>, 그만둔 알바 권한 <b>뺏어</b>."</p>
+      </div>
+    </div>
+  </div>
+  <p class="linkh">창고 안내판들: 헷갈리는 네 단어</p>
+  <div class="link">
+    <div class="row"><span class="term">스키마</span><span>창고의 <b>설계도</b>. DB 구조와 제약조건(규칙)을 적은 명세.</span></div>
+    <div class="row"><span class="term">메타데이터</span><span><b>데이터를 설명하는 데이터</b>. 예: 사진의 촬영 날짜, "이 칸은 전화번호, 11자리".</span></div>
+    <div class="row"><span class="term">데이터 사전</span><span>메타데이터를 모아 둔 <b>저장소</b>.</span></div>
+    <div class="row"><span class="term">인덱스</span><span>책 뒤 색인처럼 <b>빨리 찾게(정렬, 탐색)</b> 돕는 보조 도구.</span></div>
+  </div>
+  <div class="trap"><b>SELECT</b>는 "조회"라서 DML이 아닐 것 같지만 <b>DML</b>이에요. <b>CREATE</b>는 표 자체를 만드니 DDL. COMMIT, ROLLBACK(작업 확정, 되돌리기)은 <b>TCL</b>로 따로 나누기도 하고 DCL에 넣는 교재도 있어요. 권한 GRANT, REVOKE는 어디서나 DCL.</div>
+  <div class="memo">DDL은 <b>틀</b>(Definition, 정의), DML은 <b>내용물</b>(Manipulation, 조작), DCL은 <b>권한</b>(Control, 제어). 가운데 글자만 보면 돼요.</div>
+</section>
+
+<p class="part">PART 2 · 창고를 목적별로 나눠 쓰기 (3~4쪽)</p>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>계산대 창고와 사무실 창고는 다르다</h2><span class="pg">3쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>지점이 10개가 되자 문제가 생겼다. 사장님이 무거운 분석을 돌리면 <b>계산대 결제가 느려진다</b>. 그래서 "지금 거래 처리용"(OLTP)과 "쌓인 걸 분석용"(OLAP)을 나눈다. 회사 안 다른 시스템들도 결국 <b>무엇을 관리하느냐</b>로 이름이 붙었다.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">계산대 · 지금 이 순간</span><h4>OLTP</h4><p>Online <b>Transaction</b> Processing. <b>다량의 짧은 거래</b>를 실시간 처리.</p><p style="margin-top:6px">결제, 주문, 포인트 적립. 한 건은 작지만 쉴 새 없이 많음.</p></div>
+      <div class="box"><span class="tag green">사무실 · 쌓인 기록</span><h4>OLAP</h4><p>Online <b>Analytical</b> Processing. <b>다차원 데이터를 대화식으로</b> 분석.</p><p style="margin-top:6px">"지점별 × 월별 × 상품별 매출"을 이리저리 돌려 보기.</p></div>
+    </div>
+    <div class="tblwrap" style="margin-top:12px">
+      <table class="act">
+        <tr><th>이름</th><th>무엇을 관리하나</th><th>사장님 가게에서</th></tr>
+        <tr><td>CRM</td><td><b>고객</b> 관계 관리</td><td>단골 포인트, 생일 쿠폰</td></tr>
+        <tr><td>SCM</td><td><b>공급망</b> 관리</td><td>납품업체, 물류, 재고 흐름</td></tr>
+        <tr><td>ERP</td><td><b>전사</b> 자원 관리</td><td>회계, 인사, 재고, 구매를 하나로</td></tr>
+        <tr><td>RTE</td><td><b>실시간</b> 기업</td><td>본사가 모든 지점 상황을 실시간으로</td></tr>
+        <tr><td>KMS</td><td><b>지식</b> 관리 시스템</td><td>1장의 발주 매뉴얼을 모아 공유</td></tr>
+        <tr><td>BI</td><td><b>리포트</b> 중심 도구</td><td>"지난달 매출 보고서" (무슨 일이 있었나)</td></tr>
+        <tr><td>BA</td><td><b>통계 기반 통찰</b>, 예측까지</td><td>"다음 달 어디가 잘 팔릴까" (BI보다 한 걸음 앞)</td></tr>
+        <tr><td>블록체인</td><td>참여자 모두가 정보를 <b>분산 저장</b></td><td>장부를 한 곳이 아니라 모두가 나눠 들고 있음</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="memo">OLTP의 <b>T = Transaction(거래)</b>, OLAP의 <b>A = Analytical(분석)</b>. 글자 하나로 끝나요. BI는 "<b>과거</b> 보고서", BA는 "<b>미래</b>까지 분석".</div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>본사의 기록 보관소, 데이터 웨어하우스</h2><span class="pg">4쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>지점 DB, 납품 DB, 고객 DB가 다 따로라 "지난 3년 전체 흐름"을 볼 수가 없다. 그래서 <b>분석용으로 한곳에 모아 정리해 둔 중앙 창고</b>(DW)를 만든다. 넣는 과정이 ETL, 넣기 전 잠깐 쌓아 두는 곳이 ODS.</div>
+  <div class="fig">
+    <svg viewBox="0 0 520 180" style="max-width:540px" role="img" aria-label="지점 DB, 고객 DB, 납품 DB에서 추출한 데이터가 ODS에 임시 저장되고 변환, 적재를 거쳐 데이터 웨어하우스로 들어감">
+      <g fill="var(--surface)" stroke="var(--line)">
+        <rect x="10" y="14" width="100" height="36" rx="8"/><rect x="10" y="64" width="100" height="36" rx="8"/><rect x="10" y="114" width="100" height="36" rx="8"/>
+      </g>
+      <text class="svgtxt" x="60" y="37" text-anchor="middle">지점 판매 DB</text>
+      <text class="svgtxt" x="60" y="87" text-anchor="middle">고객 DB</text>
+      <text class="svgtxt" x="60" y="137" text-anchor="middle">납품 DB</text>
+      <g stroke="var(--muted)" stroke-width="1.5"><line x1="110" y1="32" x2="180" y2="76"/><line x1="110" y1="82" x2="180" y2="82"/><line x1="110" y1="132" x2="180" y2="88"/></g>
+      <text class="svgmut" x="145" y="22" text-anchor="middle">E 추출</text>
+      <rect x="180" y="58" width="110" height="48" rx="8" fill="var(--amber-soft)" stroke="var(--amber)"/>
+      <text class="svgtxt" x="235" y="79" text-anchor="middle" font-weight="700">ODS</text>
+      <text class="svgmut" x="235" y="95" text-anchor="middle">임시 저장소</text>
+      <line x1="290" y1="82" x2="366" y2="82" stroke="var(--ink)" stroke-width="2"/>
+      <polygon points="366,76 378,82 366,88" fill="var(--ink)"/>
+      <text class="svgmut" x="334" y="70" text-anchor="middle">T 변환</text>
+      <text class="svgmut" x="334" y="102" text-anchor="middle">L 적재</text>
+      <rect x="380" y="40" width="130" height="84" rx="10" fill="var(--ink)"/>
+      <text x="445" y="76" text-anchor="middle" fill="var(--bg)" font-size="14" font-weight="700">데이터</text>
+      <text x="445" y="96" text-anchor="middle" fill="var(--bg)" font-size="14" font-weight="700">웨어하우스</text>
+      <text class="svgmut" x="260" y="172" text-anchor="middle">ETL = 뽑고(Extract), 모양 맞추고(Transform), 싣는(Load) 이동 과정 전체</text>
+    </svg>
+  </div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><h4>주제지향성</h4><p>"매출", "고객"처럼 <b>분석 주제별로</b> 정리. 계산대처럼 업무 순서대로가 아님.</p></div>
+      <div class="box"><h4>통합성</h4><p>지점마다 "남/여", "M/F"로 다르던 표기를 <b>하나로 맞춰</b> 모음.</p></div>
+      <div class="box"><h4>시계열성</h4><p>지난 3년, 5년의 <b>과거 이력</b>을 시간 순으로 보관.</p></div>
+      <div class="box"><h4>비휘발성</h4><p>한 번 넣으면 수시로 고치지 않는 <b>읽기 전용</b> 기록 보관소.</p></div>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">ETL</span><span>Extract(추출) Transform(변환) Load(적재). 데이터를 옮기는 <b>과정</b>.</span></div>
+    <div class="row"><span class="term">ODS</span><span>Operational Data Store. 여러 DB에서 뽑은 데이터를 DW에 넣기 전 <b>임시로 저장</b>하는 <b>곳</b>.</span></div>
+  </div>
+  <div class="trap">ETL은 <b>과정</b>, ODS는 <b>장소</b>. "임시로 저장하는 곳은?" 하면 ODS예요. 그리고 DW는 <b>비휘발성</b>. "휘발성"이 들어간 보기는 오답.</div>
+  <div class="memo"><b>주통시비</b>: 주제, 통합, 시계열, 비휘발. 1화 DB 특징 <b>공통저변</b>과 짝으로 외워요. DB는 매일 바뀌는 "변화", DW는 안 바뀌는 "비휘발".</div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>사진, 리뷰, 영상은 어디에 담나</h2><span class="pg">4쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>웨어하우스는 정리해서 넣느라 손이 많이 가고, 리뷰 사진이나 CCTV 영상은 표에 맞지도 않는다. 그래서 <b>모양 상관없이 원본 그대로 일단 다 붓는 호수</b>(데이터 레이크)가 생겼다. 너무 커서 컴퓨터 한 대로 못 다루니 <b>여러 대를 묶는 하둡</b>.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">정리된 창고</span><h4>데이터 웨어하우스</h4><p>정형 데이터를 <b>정리, 변환해서</b> 주제별로 보관. 분석 준비 완료 상태.</p></div>
+      <div class="box"><span class="tag green">모든 걸 받는 호수</span><h4>데이터 레이크</h4><p>정형, 반정형, 비정형을 <b>원본 그대로 모두</b> 저장. 쓸 때 꺼내서 가공.</p></div>
+    </div>
+    <svg viewBox="0 0 430 140" style="max-width:460px;margin-top:14px" role="img" aria-label="하둡: 큰 데이터를 여러 컴퓨터에 나눠 저장(HDFS)하고 각 컴퓨터가 동시에 처리한 뒤 결과를 합침(MapReduce)">
+      <rect x="10" y="50" width="90" height="40" rx="8" fill="var(--ink)"/>
+      <text x="55" y="75" text-anchor="middle" fill="var(--bg)" font-size="12.5" font-weight="700">큰 데이터</text>
+      <g stroke="var(--muted)" stroke-width="1.5"><line x1="100" y1="64" x2="160" y2="28"/><line x1="100" y1="70" x2="160" y2="70"/><line x1="100" y1="76" x2="160" y2="112"/></g>
+      <g fill="var(--blue-soft)" stroke="var(--blue)">
+        <rect x="160" y="12" width="110" height="32" rx="7"/><rect x="160" y="54" width="110" height="32" rx="7"/><rect x="160" y="96" width="110" height="32" rx="7"/>
+      </g>
+      <text class="svgtxt" x="215" y="33" text-anchor="middle">컴퓨터 1 · 처리</text>
+      <text class="svgtxt" x="215" y="75" text-anchor="middle">컴퓨터 2 · 처리</text>
+      <text class="svgtxt" x="215" y="117" text-anchor="middle">컴퓨터 3 · 처리</text>
+      <g stroke="var(--muted)" stroke-width="1.5"><line x1="270" y1="28" x2="330" y2="64"/><line x1="270" y1="70" x2="330" y2="70"/><line x1="270" y1="112" x2="330" y2="76"/></g>
+      <rect x="330" y="50" width="90" height="40" rx="8" fill="var(--ok-soft)" stroke="var(--ok)"/>
+      <text class="svgtxt" x="375" y="75" text-anchor="middle" font-weight="700">결과 합치기</text>
+    </svg>
+    <p class="cap">나눠서 저장하는 것 = HDFS · 나눠서 동시에(병렬) 처리하고 합치는 것 = MapReduce</p>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">하둡 (Hadoop)</span><span>여러 컴퓨터를 묶어 대용량을 처리하는 <b>오픈소스</b></span></div>
+    <div class="row"><span class="term">HDFS</span><span>분산 파일 <b>저장</b> (여러 컴퓨터에 나눠 담기)</span></div>
+    <div class="row"><span class="term">MapReduce</span><span>분산된 데이터를 <b>병렬 처리</b> (나눠서 동시에 계산하고 합치기)</span></div>
+  </div>
+  <div class="fix">요약노트에 데이터 레이크가 "비정형 저장소"라고만 적혀 있다면, 정확한 설명은 <b>정형, 반정형, 비정형 모두를 원본 그대로</b>예요. 시험 보기도 이쪽이 정답이에요.</div>
+  <div class="memo">HDFS의 <b>FS = File System(저장)</b>, MapReduce는 <b>나눠서(Map) 모아 줄인다(Reduce)</b> = 처리. 웨어하우스는 정리된 창고, 레이크는 다 받는 호수.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 5개 이상 떠오르면 오늘은 충분해요.</p>
+  <div class="quiz">
+    <details><summary>DB의 4특징은? "휘발성"은 들어가나?</summary><div class="in"><p><b>공용, 통합, 저장, 변화</b>(공통저변). 휘발성은 없어요. DW는 반대로 비휘발성.</p></div></details>
+    <details><summary>같은 데이터가 중복되지 않는다는 DB 특징은?</summary><div class="in"><p><b>통합된 데이터</b>. 김씨 기록은 딱 한 줄.</p></div></details>
+    <details><summary>DB 설계 순서는?</summary><div class="in"><p><b>요구조건 분석 → 개념적 → 논리적 → 물리적</b>(개논물). 듣고, 스케치, 도면, 공사.</p></div></details>
+    <details><summary>SELECT, INSERT, UPDATE, CREATE 중 DML이 아닌 것은? GRANT는?</summary><div class="in"><p><b>CREATE</b>는 틀을 만드는 DDL. GRANT는 권한이라 <b>DCL</b>.</p></div></details>
+    <details><summary>MongoDB, Redis, Oracle, Cassandra 중 NoSQL이 아닌 것은?</summary><div class="in"><p><b>Oracle</b>. 관계형 DBMS예요.</p></div></details>
+    <details><summary>결제, 주문 같은 짧은 거래를 실시간 처리하는 시스템은?</summary><div class="in"><p><b>OLTP</b>(T = Transaction). 분석은 OLAP.</p></div></details>
+    <details><summary>DW의 4특징과, 넣기 전 임시 저장소의 이름은?</summary><div class="in"><p><b>주제지향, 통합, 시계열, 비휘발</b>(주통시비). 임시 저장소는 <b>ODS</b>. ETL은 옮기는 과정.</p></div></details>
+    <details><summary>데이터 레이크의 정확한 설명과, 하둡에서 병렬 처리를 맡는 기술은?</summary><div class="in"><p>레이크 = <b>정형, 반정형, 비정형 모두 원본 그대로</b>. 병렬 처리는 <b>MapReduce</b>(저장은 HDFS).</p></div></details>
+  </div>
+  <div class="end">
+    <h3>2장 한 문장</h3>
+    <p>흩어진 엑셀을 <b>공통저변</b>의 창고(DB)로 바꾸고, <b>개논물</b> 순서로 설계해 <b>SQL</b>(DDL 틀, DML 내용물, DCL 권한)로 다룬다. 커지면 계산대용 <b>OLTP</b>와 분석용 <b>OLAP</b>을 나누고, <b>주통시비</b> 보관소(DW)와 뭐든 받는 호수(레이크, 하둡)를 둔다. 그런데 앱 주문, SNS 리뷰, 매장 센서까지 데이터가 홍수처럼 밀려오는데… 다음 장, <b>빅데이터</b>.</p>
+  </div>
+</section>

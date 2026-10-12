@@ -1,0 +1,309 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 모집단·표본</a><a href="#e2">2 뽑는 법</a><a href="#e3">3 막대와 곡선</a><a href="#e4">4 이산 분포</a><a href="#e5">5 연속 분포</a><a href="#e6">6 기댓값</a><a href="#e7">7 중심극한정리</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 11장 · 18~20쪽 · 이야기로 읽기</span>
+  <h1>원장님, 전국 수험생을 다 볼 수는 없다</h1>
+  <p>10장에서 원장님은 우리 학원 성적표를 요약했어요. 이번엔 욕심이 생겼어요. "전국 고3 50만 명 중 우리 학생은 어디쯤일까?" 50만 명을 다 조사할 수는 없으니 <b>일부만 뽑고</b>, 숫자가 어떤 <b>모양</b>으로 나오는지 미리 알아 두는 단원이에요.</p>
+  <div class="speed">
+    <div><b>시간 없을 때 10분</b>검은 상자 + 그림만</div>
+    <div><b>보통 25분</b>분포 카드의 "어떤 상황"까지</div>
+    <div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div>
+  </div>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>전체(모집단)를 다 못 보니 <b>제대로 섞어서 일부(표본)를 뽑고</b>, 숫자가 나오는 모양(확률분포)을 상황별로 알아 두면, <b>표본 평균은 결국 종 모양으로 모인다</b>(중심극한정리)는 사실 덕분에 12장에서 전체를 짐작할 수 있다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 18쪽</span><span class="t">왜 일부만 보나?</span><span class="q">모집단, 표본, 추론</span></a>
+  <a href="#e2"><span class="n">2화 · 18쪽</span><span class="t">어떻게 뽑나?</span><span class="q">랜덤, 계통, 집락, 층화</span></a>
+  <a href="#e3"><span class="n">3화 · 19쪽</span><span class="t">막대냐 곡선이냐?</span><span class="q">이산, 연속</span></a>
+  <a href="#e4"><span class="n">4~5화 · 19쪽</span><span class="t">어떤 상황에 어떤 모양?</span><span class="q">이항, 포아송, 정규, t, χ², F</span></a>
+  <a href="#e6"><span class="n">6화 · 19~20쪽</span><span class="t">평균 몇이 나오나?</span><span class="q">기댓값 계산</span></a>
+  <a href="#e7"><span class="n">7화 · 20쪽</span><span class="t">평균들을 모으면?</span><span class="q">중심극한정리, 표준오차</span></a>
+</div>
+<p class="maphint">분포 이름은 외우지 말고 <b>"어떤 상황에서 무엇을 세나"</b>와 짝지으세요. 시험 문제도 상황을 주고 이름을 고르게 해요.</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>국 간은 한 숟갈로 본다: 모집단과 표본</h2><span class="pg">18쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>전국 50만 명을 다 시험 보게 할 순 없다. 잘 섞인 일부를 보고 전체를 짐작하는 게 <b>추론통계</b>. 국 한 숟갈이 맛있으면 냄비 전체도 맛있다고 보는 것과 같다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 460 170" style="max-width:480px" role="img" aria-label="모집단 50만 명에서 표본 500명을 뽑고, 표본으로 모집단을 짐작함">
+      <circle cx="100" cy="85" r="72" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+      <text class="svgtxt" x="100" y="80" text-anchor="middle" font-weight="700">모집단</text>
+      <text class="svgmut" x="100" y="97" text-anchor="middle">전국 고3 50만 명</text>
+      <text class="svgmut" x="100" y="112" text-anchor="middle">= 냄비 전체</text>
+      <circle cx="360" cy="85" r="34" fill="var(--omr-soft)" stroke="var(--omr)" stroke-width="2"/>
+      <text class="svgtxt" x="360" y="82" text-anchor="middle" font-weight="700">표본</text>
+      <text class="svgmut" x="360" y="98" text-anchor="middle">500명</text>
+      <path d="M176 60 Q 250 30 320 62" fill="none" stroke="var(--ink)" stroke-width="2"/>
+      <polygon points="320,62 308,52 310,66" fill="var(--ink)"/>
+      <text class="svgtxt" x="248" y="36" text-anchor="middle" font-weight="700">① 뽑기 (표본추출)</text>
+      <path d="M322 112 Q 250 145 176 112" fill="none" stroke="var(--omr)" stroke-width="2" stroke-dasharray="5 4"/>
+      <polygon points="176,112 190,114 184,124" fill="var(--omr)"/>
+      <text class="svgtxt" x="248" y="160" text-anchor="middle" font-weight="700" style="fill:var(--omr)">② 짐작하기 (추론통계)</text>
+    </svg>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">모집단 (Population)</span><span>알고 싶은 대상 전체. 냄비 속 국 전부</span></div>
+    <div class="row"><span class="term">표본 (Sample)</span><span>실제로 조사하는 일부. 한 숟갈</span></div>
+    <div class="row"><span class="term">추론통계</span><span>표본으로 모집단을 짐작하는 일. 12장의 추정과 가설검정이 여기에 속함</span></div>
+    <div class="row"><span class="term">복원 / 비복원추출</span><span>뽑은 걸 <b>다시 넣고</b> 또 뽑기 / <b>다시 안 넣고</b> 뽑기. 4화 초기하분포에서 다시 나와요</span></div>
+  </div>
+  <div class="say"><p>단, 국을 <b>저어서</b> 떠야 해요. 위에 뜬 기름만 뜨면 짜게 느껴지죠. "어떻게 섞어서 뜨나"가 2화의 표본추출 방법이에요.</p></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>어떻게 뽑아야 한쪽으로 안 쏠릴까: 표본추출 4가지</h2><span class="pg">18쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>원장님이 학생 24명 중 일부에게만 설문을 하려 한다. <b>제비뽑기(랜덤)</b>, <b>4번째마다(계통)</b>, <b>반 통째로(집락)</b>, <b>학년별로 골고루(층화)</b>. 헷갈리는 건 집락과 층화 둘뿐.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">단순무작위(랜덤)</span>
+        <svg viewBox="0 0 220 92" role="img" aria-label="24명 중 무작위로 6명 선택"><circle cx="20" cy="16" r="7" fill="var(--line)"/><circle cx="44" cy="16" r="7" fill="var(--omr)"/><circle cx="68" cy="16" r="7" fill="var(--line)"/><circle cx="92" cy="16" r="7" fill="var(--line)"/><circle cx="116" cy="16" r="7" fill="var(--omr)"/><circle cx="140" cy="16" r="7" fill="var(--line)"/><circle cx="20" cy="36" r="7" fill="var(--line)"/><circle cx="44" cy="36" r="7" fill="var(--line)"/><circle cx="68" cy="36" r="7" fill="var(--omr)"/><circle cx="92" cy="36" r="7" fill="var(--line)"/><circle cx="116" cy="36" r="7" fill="var(--line)"/><circle cx="140" cy="36" r="7" fill="var(--line)"/><circle cx="20" cy="56" r="7" fill="var(--omr)"/><circle cx="44" cy="56" r="7" fill="var(--line)"/><circle cx="68" cy="56" r="7" fill="var(--line)"/><circle cx="92" cy="56" r="7" fill="var(--line)"/><circle cx="116" cy="56" r="7" fill="var(--line)"/><circle cx="140" cy="56" r="7" fill="var(--omr)"/><circle cx="20" cy="76" r="7" fill="var(--line)"/><circle cx="44" cy="76" r="7" fill="var(--line)"/><circle cx="68" cy="76" r="7" fill="var(--line)"/><circle cx="92" cy="76" r="7" fill="var(--omr)"/><circle cx="116" cy="76" r="7" fill="var(--line)"/><circle cx="140" cy="76" r="7" fill="var(--line)"/></svg>
+        <p>제비뽑기로 아무나 6명.</p></div>
+      <div class="box"><span class="tag blue">계통</span>
+        <svg viewBox="0 0 220 92" role="img" aria-label="번호 순으로 3번부터 4명 간격으로 6명 선택"><circle cx="20" cy="16" r="7" fill="var(--line)"/><circle cx="44" cy="16" r="7" fill="var(--line)"/><circle cx="68" cy="16" r="7" fill="var(--omr)"/><circle cx="92" cy="16" r="7" fill="var(--line)"/><circle cx="116" cy="16" r="7" fill="var(--line)"/><circle cx="140" cy="16" r="7" fill="var(--line)"/><circle cx="20" cy="36" r="7" fill="var(--omr)"/><circle cx="44" cy="36" r="7" fill="var(--line)"/><circle cx="68" cy="36" r="7" fill="var(--line)"/><circle cx="92" cy="36" r="7" fill="var(--line)"/><circle cx="116" cy="36" r="7" fill="var(--omr)"/><circle cx="140" cy="36" r="7" fill="var(--line)"/><circle cx="20" cy="56" r="7" fill="var(--line)"/><circle cx="44" cy="56" r="7" fill="var(--line)"/><circle cx="68" cy="56" r="7" fill="var(--omr)"/><circle cx="92" cy="56" r="7" fill="var(--line)"/><circle cx="116" cy="56" r="7" fill="var(--line)"/><circle cx="140" cy="56" r="7" fill="var(--line)"/><circle cx="20" cy="76" r="7" fill="var(--omr)"/><circle cx="44" cy="76" r="7" fill="var(--line)"/><circle cx="68" cy="76" r="7" fill="var(--line)"/><circle cx="92" cy="76" r="7" fill="var(--line)"/><circle cx="116" cy="76" r="7" fill="var(--omr)"/><circle cx="140" cy="76" r="7" fill="var(--line)"/></svg>
+        <p>번호 매기고 3번, 7번, 11번… <b>일정 간격</b>으로.</p></div>
+      <div class="box"><span class="tag green">집락(군집)</span>
+        <svg viewBox="0 0 220 92" role="img" aria-label="한 줄이 한 반. 반마다 여러 색 학생이 섞여 있고, 2반과 4반을 통째로 선택"><circle cx="20" cy="16" r="7" fill="var(--blue)"/><circle cx="44" cy="16" r="7" fill="var(--ok)"/><circle cx="68" cy="16" r="7" fill="var(--violet)"/><circle cx="92" cy="16" r="7" fill="var(--amber)"/><circle cx="116" cy="16" r="7" fill="var(--blue)"/><circle cx="140" cy="16" r="7" fill="var(--ok)"/><circle cx="20" cy="36" r="7" fill="var(--violet)"/><circle cx="44" cy="36" r="7" fill="var(--amber)"/><circle cx="68" cy="36" r="7" fill="var(--blue)"/><circle cx="92" cy="36" r="7" fill="var(--ok)"/><circle cx="116" cy="36" r="7" fill="var(--violet)"/><circle cx="140" cy="36" r="7" fill="var(--amber)"/><circle cx="20" cy="56" r="7" fill="var(--blue)"/><circle cx="44" cy="56" r="7" fill="var(--ok)"/><circle cx="68" cy="56" r="7" fill="var(--violet)"/><circle cx="92" cy="56" r="7" fill="var(--amber)"/><circle cx="116" cy="56" r="7" fill="var(--blue)"/><circle cx="140" cy="56" r="7" fill="var(--ok)"/><circle cx="20" cy="76" r="7" fill="var(--violet)"/><circle cx="44" cy="76" r="7" fill="var(--amber)"/><circle cx="68" cy="76" r="7" fill="var(--blue)"/><circle cx="92" cy="76" r="7" fill="var(--ok)"/><circle cx="116" cy="76" r="7" fill="var(--violet)"/><circle cx="140" cy="76" r="7" fill="var(--amber)"/><rect x="8" y="25" width="144" height="22" rx="6" fill="none" stroke="var(--ink)" stroke-width="2"/><text class="svgtxt" x="160" y="40" font-weight="700">2반 ✓</text><rect x="8" y="65" width="144" height="22" rx="6" fill="none" stroke="var(--ink)" stroke-width="2"/><text class="svgtxt" x="160" y="80" font-weight="700">4반 ✓</text></svg>
+        <p>한 줄 = 한 반. 반마다 여러 학생이 섞여 있어 반끼리 비슷하니, <b>2반, 4반을 통째로</b> 선택.</p></div>
+      <div class="box"><span class="tag red">층화</span>
+        <svg viewBox="0 0 220 92" role="img" aria-label="한 줄이 한 학년. 학년 안은 같은 색이고, 학년마다 일부씩 골고루 선택"><circle cx="20" cy="16" r="7" fill="var(--blue)"/><circle cx="44" cy="16" r="7" fill="var(--blue)"/><circle cx="44" cy="16" r="10" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="68" cy="16" r="7" fill="var(--blue)"/><circle cx="92" cy="16" r="7" fill="var(--blue)"/><circle cx="116" cy="16" r="7" fill="var(--blue)"/><circle cx="116" cy="16" r="10" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="140" cy="16" r="7" fill="var(--blue)"/><circle cx="20" cy="36" r="7" fill="var(--ok)"/><circle cx="20" cy="36" r="10" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="44" cy="36" r="7" fill="var(--ok)"/><circle cx="68" cy="36" r="7" fill="var(--ok)"/><circle cx="92" cy="36" r="7" fill="var(--ok)"/><circle cx="92" cy="36" r="10" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="116" cy="36" r="7" fill="var(--ok)"/><circle cx="140" cy="36" r="7" fill="var(--ok)"/><circle cx="20" cy="56" r="7" fill="var(--violet)"/><circle cx="44" cy="56" r="7" fill="var(--violet)"/><circle cx="44" cy="56" r="10" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="68" cy="56" r="7" fill="var(--violet)"/><circle cx="92" cy="56" r="7" fill="var(--violet)"/><circle cx="116" cy="56" r="7" fill="var(--violet)"/><circle cx="116" cy="56" r="10" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="140" cy="56" r="7" fill="var(--violet)"/><circle cx="20" cy="76" r="7" fill="var(--amber)"/><circle cx="20" cy="76" r="10" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="44" cy="76" r="7" fill="var(--amber)"/><circle cx="68" cy="76" r="7" fill="var(--amber)"/><circle cx="92" cy="76" r="7" fill="var(--amber)"/><circle cx="92" cy="76" r="10" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="116" cy="76" r="7" fill="var(--amber)"/><circle cx="140" cy="76" r="7" fill="var(--amber)"/><text class="svgmut" x="166" y="20">1학년</text><text class="svgmut" x="166" y="40">2학년</text><text class="svgmut" x="166" y="60">3학년</text><text class="svgmut" x="166" y="80">4학년</text></svg>
+        <p>한 줄 = 한 학년. 학년 안은 비슷하고 학년끼리는 다르니, <b>학년마다 조금씩</b> 뽑기.</p></div>
+    </div>
+    <p class="cap">색 = 학생 유형. 빨간 점, 굵은 테두리 = 뽑힌 학생</p>
+  </div>
+  <div class="tblwrap" style="margin-top:10px">
+  <table class="act">
+    <tr><th></th><th>무엇으로 나누나</th><th>그룹 안</th><th>그룹끼리</th><th>뽑는 법</th></tr>
+    <tr><td>집락(군집)</td><td>반(班), 지역</td><td><b>이질적</b> (다양하게 섞임)</td><td><b>동질적</b> (반끼리 비슷)</td><td><b>군집 자체를 선택</b> (통째로)</td></tr>
+    <tr><td>층화</td><td>학년, 성별</td><td><b>동질적</b> (비슷한 사람끼리)</td><td><b>이질적</b> (학년끼리 다름)</td><td><b>모든 층에서</b> 조금씩</td></tr>
+  </table>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">집락(군집)</span><span>군집 <b>내부는 이질적</b>, 군집 <b>간은 동질적</b>. 군집 자체를 선택</span></div>
+    <div class="row"><span class="term">층화</span><span>층 <b>내부는 동질적</b>, 층 <b>간은 이질적</b>. 각 층에서 뽑기</span></div>
+    <div class="row"><span class="term">랜덤(단순무작위) / 계통</span><span>무작위로 뽑기 / 번호를 매겨 일정 간격으로</span></div>
+    <div class="row"><span class="term">비례 층화추출</span><span>층 크기 비율대로 뽑기. 1학년이 전체의 50%면 표본에서도 50%</span></div>
+  </div>
+  <div class="memo"><b>"내부가 동질이면 층화."</b> 층(層)은 지층처럼 같은 것끼리 쌓인 줄. 집락(集落)은 마을처럼 다양한 사람이 모여 사는 덩어리.</div>
+  <div class="trap">집락과 층화는 내부/외부 동질·이질이 <b>정확히 반대</b>예요. 보기에서 하나만 바꿔 내니 "층화 = 학년별" 장면 하나로 판단하세요.</div>
+</section>
+
+<p class="part">PART 1 · 확률분포 (19쪽)</p>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>셀 수 있으면 막대, 잴 수 있으면 곡선</h2><span class="pg">19쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"합격자 몇 명"은 0, 1, 2…로 <b>셀 수 있어서</b> 막대 그림(이산). "키 몇 cm"는 170.3, 170.31…로 <b>끝없이 잘게 잴 수 있어서</b> 매끈한 곡선(연속). 확률분포는 "어떤 값이 얼마나 자주 나오나"의 모양이다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 470 170" role="img" aria-label="왼쪽 이산분포는 막대 높이가 확률, 오른쪽 연속분포는 곡선 아래 넓이가 확률">
+      <text class="svgtxt" x="120" y="16" text-anchor="middle" font-weight="700">이산: 막대 높이 = 확률</text>
+      <text class="svgtxt" x="350" y="16" text-anchor="middle" font-weight="700">연속: 곡선 아래 넓이 = 확률</text>
+      <line x1="25" y1="120" x2="215" y2="120" stroke="var(--ink)" stroke-width="1.5"/>
+      <g fill="var(--blue)"><rect x="31" y="110" width="14" height="10"/><rect x="47" y="79" width="14" height="41"/><rect x="64" y="41" width="14" height="79"/><rect x="80" y="30" width="14" height="90"/><rect x="96" y="52" width="14" height="68"/><rect x="113" y="85" width="14" height="35"/><rect x="129" y="108" width="14" height="12"/><rect x="146" y="117" width="14" height="3"/></g>
+      <g class="svgmut" text-anchor="middle"><text x="38" y="134">0</text><text x="87" y="134">3</text><text x="136" y="134">6</text><text x="202" y="134">10</text></g>
+      <text class="svgmut" x="120" y="152" text-anchor="middle">10명 중 합격자 수 (합격률 0.3)</text>
+      <path d="M367 41 L370 45 L373 50 L377 55 L380 60 L383 65 L387 71 L390 76 L393 81 L397 86 L400 91 L400 120 L367 120 Z" fill="var(--omr-soft)" stroke="none"/>
+      <line x1="250" y1="120" x2="450" y2="120" stroke="var(--ink)" stroke-width="1.5"/>
+      <path d="M250 119 L254 119 L258 118 L262 117 L267 116 L271 115 L275 113 L279 111 L283 108 L288 104 L292 101 L296 96 L300 91 L304 85 L308 79 L312 72 L317 65 L321 59 L325 52 L329 46 L333 41 L338 36 L342 33 L346 31 L350 30 L354 31 L358 33 L362 36 L367 41 L371 46 L375 52 L379 59 L383 65 L388 72 L392 79 L396 85 L400 91 L404 96 L408 101 L412 104 L417 108 L421 111 L425 113 L429 115 L433 116 L438 117 L442 118 L446 119 L450 119" fill="none" stroke="var(--omr)" stroke-width="2.5"/>
+      <text class="svgtxt" x="392" y="50" font-weight="700" style="fill:var(--omr)">이 구간일 확률</text>
+      <g class="svgmut" text-anchor="middle"><text x="350" y="134">170</text><text x="383" y="134">175</text><text x="417" y="134">180</text><text x="317" y="134">165</text><text x="283" y="134">160</text></g>
+      <text class="svgmut" x="350" y="152" text-anchor="middle">키 (cm)</text>
+    </svg>
+  </div>
+  <div class="two" style="margin-top:12px">
+    <div class="box"><span class="tag blue">이산확률분포</span><h4>확률질량함수</h4><p>값마다 확률이 <b>뭉텅이(질량)</b>로 붙어 있음. "정확히 3명일 확률" = 막대 하나 높이.</p></div>
+    <div class="box"><span class="tag red">연속확률분포</span><h4>확률밀도함수</h4><p>정확히 175.000…cm일 확률은 0. 그래서 <b>"175~180cm 사이"처럼 구간의 넓이</b>로 확률을 말함.</p></div>
+  </div>
+  <div class="memo">이산 = <b>셀</b> 수 있음 = <b>질량</b>(막대). 연속 = <b>잴</b> 수 있음 = <b>밀도</b>(곡선 넓이).</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>"몇 번, 몇 명"을 세는 분포 7형제 (이산)</h2><span class="pg">19쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>전부 <b>"성공/실패를 반복해서 무엇을 세나"</b>의 변형이다. 한 번이면 베르누이, n번 중 성공 수면 이항, 첫 성공까지 기다리면 기하, 일정 시간 동안 몇 번이면 포아송.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">베르누이</span>
+        <svg viewBox="0 0 150 92" style="max-width:220px" role="img" aria-label="두 막대: 불합격 0.7, 합격 0.3"><line x1="5" y1="70" x2="145" y2="70" stroke="var(--line)"/><g fill="var(--blue)"><rect x="30" y="20" width="36" height="50"/><rect x="84" y="49" width="36" height="21"/></g><text class="svgmut" x="48" y="84" text-anchor="middle">0 실패</text><text class="svgmut" x="102" y="84" text-anchor="middle">1 성공</text></svg>
+        <h4>결과가 둘 중 하나인 1회 시행</h4><p>한 학생이 이번 모의고사에 합격선을 넘나, 못 넘나.</p></div>
+      <div class="box"><span class="tag blue">이항</span>
+        <svg viewBox="0 0 150 92" style="max-width:220px" role="img" aria-label="10번 중 성공 횟수 막대, 3 근처가 가장 높음"><line x1="5" y1="70" x2="145" y2="70" stroke="var(--line)"/><g fill="var(--blue)"><rect x="11" y="65" width="10" height="5"/><rect x="23" y="47" width="10" height="23"/><rect x="35" y="26" width="10" height="44"/><rect x="46" y="20" width="10" height="50"/><rect x="58" y="32" width="10" height="38"/><rect x="70" y="51" width="10" height="19"/><rect x="82" y="63" width="10" height="7"/><rect x="94" y="68" width="10" height="2"/></g><text class="svgmut" x="16" y="84" text-anchor="middle">0</text><text class="svgmut" x="134" y="84" text-anchor="middle">10</text></svg>
+        <h4>n번 베르누이 중 성공 횟수</h4><p>10명 중 합격자 수. 동전 20번 중 앞면 수. 평균 np, 분산 np(1 − p).</p></div>
+      <div class="box"><span class="tag blue">기하</span>
+        <svg viewBox="0 0 150 92" style="max-width:220px" role="img" aria-label="1번째가 가장 높고 갈수록 줄어드는 막대"><line x1="5" y1="70" x2="145" y2="70" stroke="var(--line)"/><g fill="var(--blue)"><rect x="11" y="20" width="11" height="50"/><rect x="24" y="35" width="11" height="35"/><rect x="37" y="46" width="11" height="24"/><rect x="50" y="53" width="11" height="17"/><rect x="63" y="58" width="11" height="12"/><rect x="76" y="62" width="11" height="8"/><rect x="89" y="64" width="11" height="6"/><rect x="102" y="66" width="11" height="4"/><rect x="115" y="67" width="11" height="3"/><rect x="128" y="68" width="11" height="2"/></g><text class="svgmut" x="16" y="84" text-anchor="middle">1번째</text><text class="svgmut" x="128" y="84" text-anchor="middle">10번째</text></svg>
+        <h4><b>처음</b> 성공할 때까지 시행 횟수</h4><p>재수생이 몇 번째 도전에 처음 합격하나.</p></div>
+      <div class="box"><span class="tag blue">음이항</span>
+        <svg viewBox="0 0 150 92" style="max-width:220px" role="img" aria-label="3번째부터 시작해 4, 5번째에서 가장 높고 줄어드는 막대"><line x1="5" y1="70" x2="145" y2="70" stroke="var(--line)"/><g fill="var(--blue)"><rect x="11" y="37" width="11" height="33"/><rect x="24" y="20" width="11" height="50"/><rect x="37" y="20" width="11" height="50"/><rect x="50" y="28" width="11" height="42"/><rect x="63" y="39" width="11" height="31"/><rect x="76" y="48" width="11" height="22"/><rect x="89" y="55" width="11" height="15"/><rect x="102" y="61" width="11" height="9"/><rect x="115" y="64" width="11" height="6"/><rect x="128" y="66" width="11" height="4"/></g><text class="svgmut" x="16" y="84" text-anchor="middle">3번째</text><text class="svgmut" x="128" y="84" text-anchor="middle">12번째</text></svg>
+        <h4><b>r번</b> 성공할 때까지 시행 횟수</h4><p>모의고사 합격선을 3번 넘을 때까지 몇 번 보나. 기하분포를 r번으로 늘린 것.</p></div>
+      <div class="box"><span class="tag red">초기하</span>
+        <svg viewBox="0 0 150 92" style="max-width:220px" role="img" aria-label="당첨 0개부터 4개까지 막대, 2개가 가장 높음"><line x1="5" y1="70" x2="145" y2="70" stroke="var(--line)"/><g fill="var(--omr)"><rect x="26" y="62" width="18" height="8"/><rect x="46" y="26" width="18" height="44"/><rect x="66" y="20" width="18" height="50"/><rect x="86" y="57" width="18" height="13"/><rect x="106" y="69" width="18" height="1"/></g><text class="svgmut" x="35" y="84" text-anchor="middle">0</text><text class="svgmut" x="75" y="84" text-anchor="middle">2</text><text class="svgmut" x="115" y="84" text-anchor="middle">4</text></svg>
+        <h4><b>비복원</b>추출에서 성공 횟수</h4><p>구슬 10개 중 당첨 4개. 다시 안 넣고 4번 뽑아 당첨 몇 개? (2개일 확률 약 0.43). 다시 넣으면 이항.</p></div>
+      <div class="box"><span class="tag blue">다항</span>
+        <svg viewBox="0 0 150 92" style="max-width:220px" role="img" aria-label="주사위 20번 던진 결과 예: 각 면이 나온 횟수 3, 4, 2, 5, 3, 3"><line x1="5" y1="70" x2="145" y2="70" stroke="var(--line)"/><g fill="var(--blue)"><rect x="11" y="40" width="20" height="30"/><rect x="33" y="30" width="20" height="40"/><rect x="54" y="50" width="20" height="20"/><rect x="76" y="20" width="20" height="50"/><rect x="98" y="40" width="20" height="30"/><rect x="119" y="40" width="20" height="30"/></g><g class="svgmut" text-anchor="middle"><text x="21" y="84">1</text><text x="43" y="84">2</text><text x="64" y="84">3</text><text x="86" y="84">4</text><text x="108" y="84">5</text><text x="129" y="84">6</text></g></svg>
+        <h4>결과가 <b>여러 개</b>인 시행의 각 횟수</h4><p>주사위 20번에 각 면이 몇 번씩. 이항의 "성공/실패"를 여러 갈래로 늘린 것. (그림은 한 번 해 본 결과 예)</p></div>
+      <div class="box"><span class="tag blue">포아송</span>
+        <svg viewBox="0 0 150 92" style="max-width:220px" role="img" aria-label="한 시간 전화 수 0부터 8까지, 1과 2가 가장 높음"><line x1="5" y1="70" x2="145" y2="70" stroke="var(--line)"/><g fill="var(--blue)"><rect x="11" y="45" width="12" height="25"/><rect x="25" y="20" width="12" height="50"/><rect x="40" y="20" width="12" height="50"/><rect x="54" y="37" width="12" height="33"/><rect x="69" y="53" width="12" height="17"/><rect x="83" y="63" width="12" height="7"/><rect x="98" y="68" width="12" height="2"/><rect x="112" y="69" width="12" height="1"/></g><text class="svgmut" x="17" y="84" text-anchor="middle">0통</text><text class="svgmut" x="118" y="84" text-anchor="middle">7통</text></svg>
+        <h4><b>단위 시간·공간</b>당 사건 발생 수</h4><p>학원에 한 시간 동안 걸려 오는 상담 전화 수. 하루 출생자 수.</p></div>
+      <div class="box" style="border-color:var(--ink);border-width:2px"><h4>헷갈릴 때 질문 순서</h4><p>① "한 시간에, 하루에"가 보이면 → <b>포아송</b><br>② "비복원, 다시 넣지 않고" → <b>초기하</b><br>③ "~할 때까지" → 처음이면 <b>기하</b>, r번이면 <b>음이항</b><br>④ "n번 중 몇 번" → <b>이항</b> (결과가 여러 개면 <b>다항</b>)<br>⑤ 딱 1번 → <b>베르누이</b></p></div>
+    </div>
+  </div>
+  <div class="trap"><b>포아송은 이산</b>이에요. "연속형이 아닌 것은?"에 t, F, 카이제곱 사이로 포아송이 끼어 나와요. 전화 수는 2.5통이 없으니 셀 수 있는 값.</div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>"얼마나"를 재는 곡선들 (연속)</h2><span class="pg">19쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>주인공은 <b>정규분포(종 모양)</b>. 그 주변에 검정용 도구 셋: 표본이 적을 때 쓰는 <b>t</b>, 범주·분산을 보는 <b>카이제곱</b>, 분산 두 개를 비교하는 <b>F</b>. 12장 가설검정의 연장들이다.</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">정규분포</span>
+        <svg viewBox="0 0 150 95" style="max-width:220px" role="img" aria-label="좌우 대칭 종 모양"><g transform="translate(10,0)"><line x1="0" y1="85" x2="130" y2="85" stroke="var(--line)"/><path d="M0 85 L4 85 L7 85 L11 84 L15 83 L19 82 L22 81 L26 78 L30 75 L33 71 L37 66 L41 59 L45 52 L48 45 L52 38 L56 32 L59 28 L63 25 L67 25 L71 28 L74 32 L78 38 L82 45 L85 52 L89 59 L93 66 L97 71 L100 75 L104 78 L108 81 L111 82 L115 83 L119 84 L123 85 L126 85 L130 85" fill="none" stroke="var(--blue)" stroke-width="2.5"/></g></svg>
+        <h4>종 모양, 좌우 대칭</h4><p>키, IQ, 시험 성적. 평균 주변이 많고 양 끝이 드묾.</p></div>
+      <div class="box"><span class="tag red">t분포</span>
+        <svg viewBox="0 0 150 95" style="max-width:220px" role="img" aria-label="정규분포보다 가운데가 낮고 꼬리가 두꺼운 종 모양. 점선은 정규분포"><g transform="translate(10,0)"><line x1="0" y1="85" x2="130" y2="85" stroke="var(--line)"/><path d="M0 85 L4 85 L7 85 L11 84 L15 83 L19 82 L22 81 L26 78 L30 75 L33 71 L37 66 L41 59 L45 52 L48 45 L52 38 L56 32 L59 28 L63 25 L67 25 L71 28 L74 32 L78 38 L82 45 L85 52 L89 59 L93 66 L97 71 L100 75 L104 78 L108 81 L111 82 L115 83 L119 84 L123 85 L126 85 L130 85" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M0 83 L4 82 L7 82 L11 81 L15 80 L19 79 L22 78 L26 76 L30 74 L33 71 L37 67 L41 62 L45 57 L48 51 L52 44 L56 38 L59 33 L63 30 L67 30 L71 33 L74 38 L78 44 L82 51 L85 57 L89 62 L93 67 L97 71 L100 74 L104 76 L108 78 L111 79 L115 80 L119 81 L123 82 L126 82 L130 83" fill="none" stroke="var(--omr)" stroke-width="2.5"/></g></svg>
+        <h4>정규와 비슷, <b>꼬리가 두꺼움</b></h4><p>표본이 작을 때(30 미만) <b>평균</b> 검정. 적게 봤으니 "튀는 값도 꽤 나올 수 있다"고 여유를 둔 모양.</p></div>
+      <div class="box"><span class="tag red">카이제곱분포 (χ²)</span>
+        <svg viewBox="0 0 150 95" style="max-width:220px" role="img" aria-label="0에서 시작해 왼쪽에 봉우리, 오른쪽으로 꼬리가 긴 모양"><g transform="translate(10,0)"><line x1="0" y1="85" x2="130" y2="85" stroke="var(--line)"/><path d="M0 85 L4 36 L7 27 L11 25 L15 27 L19 30 L22 34 L26 39 L30 43 L33 48 L37 52 L41 56 L45 59 L48 63 L52 65 L56 68 L59 70 L63 72 L67 74 L71 75 L74 77 L78 78 L82 79 L85 80 L89 80 L93 81 L97 82 L100 82 L104 82 L108 83 L111 83 L115 83 L119 84 L123 84 L126 84 L130 84" fill="none" stroke="var(--omr)" stroke-width="2.5"/><text class="svgmut" x="0" y="95" text-anchor="middle">0</text></g></svg>
+        <h4>정규 변수들의 <b>제곱합</b></h4><p>범주형 자료 검정(적합도, 독립성, 동질성), 모분산 검정. "반별 합격자 수가 기대와 맞나?"</p></div>
+      <div class="box"><span class="tag red">F분포</span>
+        <svg viewBox="0 0 150 95" style="max-width:220px" role="img" aria-label="0에서 시작해 1보다 앞에 봉우리, 오른쪽 꼬리가 긴 모양"><g transform="translate(10,0)"><line x1="0" y1="85" x2="130" y2="85" stroke="var(--line)"/><path d="M0 85 L4 63 L7 42 L11 31 L15 27 L19 27 L22 30 L26 34 L30 39 L33 44 L37 49 L41 53 L45 57 L48 60 L52 63 L56 66 L59 68 L63 70 L67 72 L71 74 L74 75 L78 76 L82 77 L85 78 L89 79 L93 80 L97 80 L100 81 L104 81 L108 82 L111 82 L115 82 L119 82 L123 83 L126 83 L130 83" fill="none" stroke="var(--omr)" stroke-width="2.5"/><text class="svgmut" x="0" y="95" text-anchor="middle">0</text></g></svg>
+        <h4>두 카이제곱의 <b>비율</b></h4><p><b>두 집단의 분산 비교</b>(등분산 검정). "A반과 B반, 흩어진 정도가 같나?"</p></div>
+      <div class="box"><span class="tag blue">균일분포</span>
+        <svg viewBox="0 0 150 95" style="max-width:220px" role="img" aria-label="일정 구간에서 높이가 평평한 직사각형"><g transform="translate(10,0)"><line x1="0" y1="85" x2="130" y2="85" stroke="var(--line)"/><path d="M0 85 L22 85 L22 25 L108 25 L108 85 L130 85" fill="none" stroke="var(--blue)" stroke-width="2.5"/></g></svg>
+        <h4>모든 값의 확률이 같음</h4><p>시곗바늘이 0~12 어디서 멈출까. 평평한 판.</p></div>
+      <div class="box"><span class="tag blue">지수분포</span>
+        <svg viewBox="0 0 150 95" style="max-width:220px" role="img" aria-label="0에서 가장 높고 미끄럼틀처럼 내려가는 곡선"><g transform="translate(10,0)"><line x1="0" y1="85" x2="130" y2="85" stroke="var(--line)"/><path d="M0 25 L4 33 L7 40 L11 46 L15 51 L19 56 L22 60 L26 63 L30 66 L33 68 L37 71 L41 73 L45 74 L48 76 L52 77 L56 78 L59 79 L63 80 L67 80 L71 81 L74 82 L78 82 L82 82 L85 83 L89 83 L93 83 L97 84 L100 84 L104 84 L108 84 L111 84 L115 84 L119 84 L123 84 L126 85 L130 85" fill="none" stroke="var(--blue)" stroke-width="2.5"/></g></svg>
+        <h4>사건 <b>사이의 시간 간격</b></h4><p>상담 전화가 한 통 온 뒤 다음 전화까지 몇 분. (포아송은 "몇 통", 지수는 "몇 분 뒤")</p></div>
+      <div class="box"><span class="tag blue">감마분포</span>
+        <svg viewBox="0 0 150 95" style="max-width:220px" role="img" aria-label="0에서 시작해 봉우리 후 오른쪽 꼬리"><g transform="translate(10,0)"><line x1="0" y1="85" x2="130" y2="85" stroke="var(--line)"/><path d="M0 85 L4 78 L7 65 L11 50 L15 39 L19 31 L22 26 L26 25 L30 26 L33 29 L37 33 L41 38 L45 43 L48 48 L52 53 L56 57 L59 61 L63 65 L67 68 L71 71 L74 73 L78 75 L82 77 L85 78 L89 80 L93 81 L97 81 L100 82 L104 83 L108 83 L111 83 L115 84 L119 84 L123 84 L126 84 L130 84" fill="none" stroke="var(--blue)" stroke-width="2.5"/></g></svg>
+        <h4>지수분포의 일반화</h4><p>한 통이 아니라 "전화 3통이 올 때까지" 걸리는 시간.</p></div>
+      <div class="box"><span class="tag blue">베타분포</span>
+        <svg viewBox="0 0 150 95" style="max-width:220px" role="img" aria-label="0과 1 사이에만 있는 봉우리 모양"><g transform="translate(10,0)"><line x1="0" y1="85" x2="130" y2="85" stroke="var(--line)"/><path d="M0 85 L4 66 L7 52 L11 41 L15 33 L19 29 L22 26 L26 25 L30 26 L33 28 L37 31 L41 34 L45 38 L48 43 L52 47 L56 52 L59 56 L63 60 L67 64 L71 68 L74 71 L78 74 L82 76 L85 78 L89 80 L93 82 L97 83 L100 83 L104 84 L108 84 L111 85 L115 85 L119 85 L123 85 L126 85 L130 85" fill="none" stroke="var(--blue)" stroke-width="2.5"/><text class="svgmut" x="0" y="95" text-anchor="middle">0</text><text class="svgmut" x="130" y="95" text-anchor="middle">1</text></g></svg>
+        <h4><b>0~1 사이 비율</b></h4><p>우리 학원 합격률이 0.2쯤일지, 0.3쯤일지에 대한 분포.</p></div>
+    </div>
+  </div>
+  <p class="linkh">12장에서 쓰는 검정 도구 3개</p>
+  <div class="tblwrap">
+  <table class="act">
+    <tr><th>분포</th><th>무엇을 검정</th><th>원장님 질문</th></tr>
+    <tr><td>t분포</td><td><b>평균</b> (표본이 작을 때)</td><td>새 수업 들은 학생 15명 평균이 전국 평균보다 높나?</td></tr>
+    <tr><td>카이제곱</td><td><b>범주</b>(적합도, 독립성, 동질성), <b>모분산</b></td><td>반(班)과 합격 여부는 관계가 있나?</td></tr>
+    <tr><td>F분포</td><td><b>분산 두 개 비교</b></td><td>A반과 B반 점수 흩어짐이 같나? (같아야 t검정 쓰기 편함)</td></tr>
+  </table>
+  </div>
+  <div class="memo"><b>t = 평균, 카이제곱 = 범주·분산, F = 분산 두 개 비교.</b> 이름 순서대로 "티(평균) 카(범주) 에프(분산 비)".</div>
+  <details><summary>왜 카이제곱과 F는 0에서 시작하고 오른쪽으로 꼬리가 길까?</summary><div class="in">
+    <p>카이제곱은 <b>제곱의 합</b>이라 음수가 될 수 없어요. F는 <b>카이제곱 ÷ 카이제곱</b>(분산 ÷ 분산)이라 역시 음수가 없죠. 그래서 둘 다 0부터 시작하고, 가끔 아주 큰 값이 나오니 오른쪽 꼬리가 길어요.</p>
+    <p>t와 정규는 평균에서 위아래로 벗어난 정도라 좌우 대칭이에요. t는 표본이 커질수록(30 이상) 정규분포와 거의 같아져요.</p>
+  </div></details>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>동전 3개를 던지면 앞면은 평균 몇 개?</h2><span class="pg">19~20쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>10장 3화의 기댓값 = <b>값 × 확률을 다 더한 것</b>. 경우를 다 적어 칸을 세면 확률이 나오고, 무게중심이 기댓값이다.</div>
+  <div class="fig">
+    <div class="tblwrap">
+    <table class="act">
+      <tr><th>앞면 수 X</th><th>나오는 경우 (H=앞, T=뒤)</th><th>경우 수</th><th>확률</th></tr>
+      <tr><td>0</td><td class="num">TTT</td><td>1</td><td>1/8</td></tr>
+      <tr><td>1</td><td class="num">HTT, THT, TTH</td><td>3</td><td>3/8</td></tr>
+      <tr><td>2</td><td class="num">HHT, HTH, THH</td><td>3</td><td>3/8</td></tr>
+      <tr><td>3</td><td class="num">HHH</td><td>1</td><td>1/8</td></tr>
+    </table>
+    </div>
+    <svg viewBox="0 0 360 170" style="max-width:400px;margin-top:10px" role="img" aria-label="앞면 0, 1, 2, 3개 확률 막대 1/8, 3/8, 3/8, 1/8. 가운데 1.5에 무게중심">
+      <line x1="50" y1="120" x2="310" y2="120" stroke="var(--ink)" stroke-width="1.5"/>
+      <g fill="var(--blue)"><rect x="61" y="90" width="58" height="30"/><rect x="121" y="30" width="58" height="90"/><rect x="181" y="30" width="58" height="90"/><rect x="241" y="90" width="58" height="30"/></g>
+      <g class="svgtxt" text-anchor="middle"><text x="90" y="84">1/8</text><text x="150" y="24">3/8</text><text x="210" y="24">3/8</text><text x="270" y="84">1/8</text></g>
+      <g class="svgmut" text-anchor="middle"><text x="90" y="136">0개</text><text x="150" y="136">1개</text><text x="210" y="136">2개</text><text x="270" y="136">3개</text></g>
+      <polygon points="180,140 170,156 190,156" fill="var(--omr)"/>
+      <text class="svgtxt" x="198" y="154" font-weight="700" style="fill:var(--omr)">기댓값 1.5</text>
+    </svg>
+    <div class="calc">
+      <div class="ln"><span>0×1/8 + 1×3/8 + 2×3/8 + 3×1/8 = 12/8</span><span class="num">1.5개</span></div>
+      <div class="ln"><span>지름길: 이항분포 평균 np = 3 × 0.5</span><span class="num">1.5개</span></div>
+      <div class="ln"><span>0~12 균일분포(시곗바늘)의 기댓값: 평평하니 한가운데</span><span class="num">6</span></div>
+    </div>
+  </div>
+  <div class="say"><p>동전 3개는 "3번 던져 앞면 수"라 4화의 <b>이항분포</b>예요. 그래서 np 지름길이 통해요. 균일분포는 모든 값이 똑같이 나오니 무게중심이 정확히 가운데예요.</p></div>
+</section>
+
+<p class="part">PART 2 · 중심극한정리 (20쪽)</p>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>표본 평균들을 모으면 종 모양이 된다: 중심극한정리</h2><span class="pg">20쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>학생 한 명 한 명의 자습시간은 한쪽으로 쏠려 있어도, <b>30명씩 뽑아 평균을 내고 그 평균들을 모으면 종 모양(정규분포)</b>이 된다. 모집단 모양과 상관없이. 그래서 12장에서 정규분포 하나로 계산할 수 있다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 500 175" role="img" aria-label="세 히스토그램. 학생 한 명씩은 오른쪽 꼬리가 긴 모양, 4명 평균은 덜 쏠림, 30명 평균은 좁은 종 모양. 셋 다 가운데는 10시간">
+      <g fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="0.8">
+        <rect x="20.5" y="78.4" width="8.3" height="41.6"/><rect x="29.8" y="85.9" width="8.3" height="34.1"/><rect x="39.2" y="92.1" width="8.3" height="27.9"/><rect x="48.5" y="97.2" width="8.3" height="22.8"/><rect x="57.8" y="101.3" width="8.3" height="18.7"/><rect x="67.2" y="104.7" width="8.3" height="15.3"/><rect x="76.5" y="107.5" width="8.3" height="12.5"/><rect x="85.8" y="109.7" width="8.3" height="10.3"/><rect x="95.2" y="111.6" width="8.3" height="8.4"/><rect x="104.5" y="113.1" width="8.3" height="6.9"/><rect x="113.8" y="114.4" width="8.3" height="5.6"/><rect x="123.2" y="115.4" width="8.3" height="4.6"/><rect x="132.5" y="116.2" width="8.3" height="3.8"/><rect x="141.8" y="116.9" width="8.3" height="3.1"/><rect x="151.2" y="117.5" width="8.3" height="2.5"/>
+        <rect x="180.5" y="117.9" width="8.3" height="2.1"/><rect x="189.8" y="104.0" width="8.3" height="16.0"/><rect x="199.2" y="87.3" width="8.3" height="32.7"/><rect x="208.5" y="79.6" width="8.3" height="40.4"/><rect x="217.8" y="81.2" width="8.3" height="38.8"/><rect x="227.2" y="88.0" width="8.3" height="32.0"/><rect x="236.5" y="96.2" width="8.3" height="23.8"/><rect x="245.8" y="103.5" width="8.3" height="16.5"/><rect x="255.2" y="109.2" width="8.3" height="10.8"/><rect x="264.5" y="113.2" width="8.3" height="6.8"/><rect x="273.8" y="115.9" width="8.3" height="4.1"/><rect x="283.2" y="117.6" width="8.3" height="2.4"/><rect x="292.5" y="118.6" width="8.3" height="1.4"/><rect x="301.8" y="119.2" width="8.3" height="0.8"/>
+      </g>
+      <g fill="var(--omr)" stroke="none">
+        <rect x="359.2" y="118.6" width="8.3" height="1.4"/><rect x="368.5" y="91.0" width="8.3" height="29.0"/><rect x="377.8" y="30.0" width="8.3" height="90.0"/><rect x="387.2" y="42.5" width="8.3" height="77.5"/><rect x="396.5" y="93.4" width="8.3" height="26.6"/><rect x="405.8" y="115.4" width="8.3" height="4.6"/>
+      </g>
+      <g stroke="var(--ink)" stroke-width="1.5"><line x1="20" y1="120" x2="160" y2="120"/><line x1="180" y1="120" x2="320" y2="120"/><line x1="340" y1="120" x2="480" y2="120"/></g>
+      <g stroke="var(--ink)" stroke-dasharray="3 3"><line x1="67" y1="20" x2="67" y2="120"/><line x1="227" y1="20" x2="227" y2="120"/><line x1="387" y1="20" x2="387" y2="120"/></g>
+      <g class="svgmut" text-anchor="middle">
+        <text x="20" y="134">0</text><text x="67" y="134">10</text><text x="160" y="134">30</text>
+        <text x="180" y="134">0</text><text x="227" y="134">10</text><text x="320" y="134">30</text>
+        <text x="340" y="134">0</text><text x="387" y="134">10</text><text x="480" y="134">30시간</text>
+      </g>
+      <g class="svgtxt" text-anchor="middle" font-weight="700"><text x="90" y="154">학생 한 명씩</text><text x="250" y="154">4명씩 뽑은 평균</text><text x="410" y="154">30명씩 뽑은 평균</text></g>
+      <g class="svgmut" text-anchor="middle"><text x="90" y="170">한쪽으로 쏠림 · 흩어짐 10</text><text x="250" y="170">덜 쏠림 · 흩어짐 5</text><text x="410" y="170">종 모양 · 흩어짐 약 1.8</text></g>
+      <text class="svgmut" x="73" y="16">평균 10시간</text>
+    </svg>
+    <p class="cap">학생 주간 자습시간 (모평균 10시간, 표준편차 10시간인 쏠린 모집단). 막대 = 그 값이 나오는 비율</p>
+  </div>
+  <div class="say"><p>평균을 내면 많이 한 학생과 적게 한 학생이 <b>서로 상쇄</b>돼요. 그래서 뽑는 인원이 늘수록 평균들은 진짜 평균(10시간) 근처로 모이고, 양쪽으로 고르게 퍼진 종 모양이 돼요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">중심극한정리</span><span>모집단 분포와 <b>상관없이</b>, 표본 크기가 충분히 크면(보통 <b>30 이상</b>) <b>표본평균의 분포</b>는 정규분포에 가까워짐</span></div>
+    <div class="row"><span class="term">표본평균의 기댓값</span><span>= μ (모평균). 위 세 그림 모두 가운데가 10</span></div>
+    <div class="row"><span class="term">표본평균의 분산</span><span>= σ²/n. 많이 뽑을수록 작아짐</span></div>
+    <div class="row"><span class="term">표준오차</span><span>표본평균의 표준편차 = <b>σ/√n</b>. 10/√4 = 5, 10/√30 ≈ 1.8</span></div>
+  </div>
+  <p class="linkh">표준오차 = "표본 평균이 진짜 평균에서 보통 얼마나 빗나가나"</p>
+  <div class="fig">
+    <svg viewBox="0 0 440 175" style="max-width:480px" role="img" aria-label="모표준편차 10일 때 4명, 16명, 100명 평균의 분포. 인원이 늘수록 70점 근처로 좁고 높게 모임">
+      <line x1="20" y1="140" x2="420" y2="140" stroke="var(--ink)" stroke-width="1.5"/>
+      <path d="M20 140 L30 140 L40 139 L50 139 L60 139 L70 138 L80 137 L90 136 L100 135 L110 134 L120 132 L130 130 L140 128 L150 126 L160 124 L170 122 L180 120 L190 118 L200 117 L210 116 L220 116 L230 116 L240 117 L250 118 L260 120 L270 122 L280 124 L290 126 L300 128 L310 130 L320 132 L330 134 L340 135 L350 136 L360 137 L370 138 L380 139 L390 139 L400 139 L410 140 L420 140" fill="none" stroke="var(--muted)" stroke-width="2"/>
+      <path d="M103 140 L109 140 L115 140 L121 139 L127 139 L132 138 L138 138 L144 136 L150 135 L156 132 L162 130 L168 126 L173 122 L179 117 L185 112 L191 107 L197 102 L202 98 L208 95 L214 93 L220 92 L226 93 L232 95 L237 98 L243 102 L249 107 L255 112 L261 117 L267 122 L272 126 L278 130 L284 132 L290 135 L296 136 L302 138 L308 138 L313 139 L319 139 L325 140 L331 140 L337 140" fill="none" stroke="var(--blue)" stroke-width="2.5"/>
+      <path d="M173 140 L176 140 L178 139 L180 139 L183 138 L185 136 L187 134 L190 131 L192 127 L194 121 L197 114 L199 105 L201 95 L204 83 L206 71 L208 58 L211 46 L213 35 L215 27 L218 22 L220 20 L222 22 L225 27 L227 35 L229 46 L232 58 L234 71 L236 83 L239 95 L241 105 L243 114 L246 121 L248 127 L250 131 L253 134 L255 136 L257 138 L260 139 L262 139 L264 140 L267 140" fill="none" stroke="var(--omr)" stroke-width="2.5"/>
+      <g class="svgmut" text-anchor="middle"><text x="20" y="156">55</text><text x="87" y="156">60</text><text x="153" y="156">65</text><text x="220" y="156">70점</text><text x="287" y="156">75</text><text x="353" y="156">80</text><text x="420" y="156">85</text></g>
+      <text class="svgtxt" x="232" y="24" font-weight="700" style="fill:var(--omr)">n=100: σ/√n = 10/10 = 1</text>
+      <text class="svgtxt" x="276" y="98" font-weight="700" style="fill:var(--blue)">n=16: 10/4 = 2.5</text>
+      <text class="svgtxt" x="330" y="126" font-weight="700" style="fill:var(--muted)">n=4: 10/2 = 5</text>
+      <text class="svgmut" x="220" y="172" text-anchor="middle">모평균 70점, 모표준편차 σ = 10점인 시험에서 n명씩 뽑은 평균의 분포</text>
+    </svg>
+  </div>
+  <div class="memo">인원을 <b>4배</b> 늘려야 표준오차가 <b>절반</b>이 돼요(√4 = 2). 4명 → 16명이면 5 → 2.5.</div>
+  <div class="trap">세 가지 함정 보기: ① "모집단이 정규분포일 때만 성립" (X, 상관없음) ② "표본이 커지면 표본평균의 분산이 커진다" (X, σ²/n으로 작아짐) ③ "표본의 <b>개별 값들</b>이 정규분포가 된다" (X, <b>표본평균</b>의 분포가 정규).</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">상황 문장을 읽고 장면을 먼저 떠올린 뒤 눌러 보세요.</p>
+  <div class="quiz">
+    <details><summary>군집을 통째로 고르고 군집 내부는 이질적인 방법은? 층화추출의 내부/외부는?</summary><div class="in"><p><b>집락(군집)추출</b>(반 통째로). 층화는 <b>층 내부 동질, 층 간 이질</b>(학년별).</p></div></details>
+    <details><summary>번호를 매겨 일정 간격으로 뽑는 방법은?</summary><div class="in"><p><b>계통추출</b>. 3번, 7번, 11번…</p></div></details>
+    <details><summary>한 시간 동안 콜센터 전화 수는 무슨 분포? 이산인가 연속인가?</summary><div class="in"><p><b>포아송분포</b>, 횟수를 세니 <b>이산</b>. "연속형이 아닌 것"으로도 나와요.</p></div></details>
+    <details><summary>처음 성공할 때까지의 시행 횟수는? r번 성공까지는? 비복원추출의 성공 횟수는?</summary><div class="in"><p>처음까지 <b>기하</b>, r번까지 <b>음이항</b>, 비복원이면 <b>초기하</b>(복원이면 이항).</p></div></details>
+    <details><summary>표본이 30 미만일 때 평균 검정 분포는? 두 집단 분산이 같은지 검정하는 분포는?</summary><div class="in"><p>소표본 평균 = <b>t분포</b>(꼬리 두꺼움). 분산 두 개의 비율 = <b>F분포</b>.</p></div></details>
+    <details><summary>동전 3개를 던질 때 앞면 개수의 기댓값은?</summary><div class="in"><p>0×1/8 + 1×3/8 + 2×3/8 + 3×1/8 = 12/8 = <b>1.5</b>. 지름길 np = 3 × 0.5.</p></div></details>
+    <details><summary>중심극한정리로 옳은 것: 표본이 커지면 무엇이 정규분포에 가까워지나?</summary><div class="in"><p>모집단 분포와 상관없이 <b>표본평균의 분포</b>가 정규분포에 가까워져요. 개별 값이 아님. 분산 σ²/n은 오히려 작아짐.</p></div></details>
+    <details><summary>표본평균의 표준편차(표준오차)는? 분산은?</summary><div class="in"><p>표준오차 <b>σ/√n</b>, 분산 <b>σ²/n</b>.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>11장 한 문장</h3>
+    <p>원장님은 전국 50만 명을 다 못 보니 <b>잘 섞어 일부를 뽑고</b>(랜덤, 계통, 집락, 층화), 숫자가 나오는 <b>모양</b>을 상황별로 알아 두었다(셀 수 있으면 이항·포아송 같은 막대, 잴 수 있으면 정규·t·χ²·F 같은 곡선). 그리고 <b>표본평균은 결국 종 모양으로, σ/√n만큼만 흔들리며 모인다</b>(중심극한정리). 이 사실로 12장에서 전체를 짐작하고 효과를 판정한다.</p>
+  </div>
+</section>

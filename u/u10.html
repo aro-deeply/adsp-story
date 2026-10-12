@@ -1,0 +1,428 @@
+<nav class="nav" aria-label="화 이동">
+  <a href="#e0">지도</a><a href="#e1">1 척도</a><a href="#e2">2 확률</a><a href="#e3">3 기댓값</a><a href="#e4">4 가운데</a><a href="#e5">5 퍼짐</a><a href="#e6">6 변동계수</a><a href="#e7">7 공분산</a><a href="#e8">8 왜도·첨도</a><a href="#e9">9 R summary</a><a href="#qz">확인</a>
+</nav>
+
+<header id="e0">
+  <span class="k">ADsP 10장 · 16~18쪽 · 이야기로 읽기</span>
+  <h1>원장님, 성적표 엑셀을 처음 열다</h1>
+  <p>15·16장의 입시학원 원장님이 아직 예측 모델을 만들기 전 이야기예요. 손에 있는 건 학생 성적표 한 장. 이 숫자들을 <b>어떻게 읽고, 한 줄로 요약하나</b>를 배우는 단원입니다. 11장(일부만 뽑기), 12장(효과 판정)으로 이어져요.</p>
+  <div class="speed">
+    <div><b>시간 없을 때 10분</b>검은 상자 + 그림만</div>
+    <div><b>보통 30분</b>계산 줄까지 따라 하기</div>
+    <div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div>
+  </div>
+</header>
+
+<div class="core"><small>이 단원 전체를 한 문장으로</small>성적표 칸마다 <b>숫자의 급(척도)</b>이 다르고, 숫자 더미는 <b>가운데가 어디냐</b>(평균, 중앙값)와 <b>얼마나 흩어졌냐</b>(분산, 표준편차), <b>어느 쪽으로 기울었냐</b>(왜도)로 요약한다.</div>
+
+<p class="linkh">흐름 지도 (누르면 이동)</p>
+<div class="map">
+  <a href="#e1"><span class="n">1화 · 16쪽</span><span class="t">이 숫자, 더해도 되나?</span><span class="q">명목, 순서, 등간, 비율</span></a>
+  <a href="#e2"><span class="n">2~3화 · 16쪽</span><span class="t">몇 명쯤 겹치나?</span><span class="q">확률 공식, 기댓값</span></a>
+  <a href="#e4"><span class="n">4화 · 17쪽</span><span class="t">가운데는 어디?</span><span class="q">평균, 중앙값, 최빈값</span></a>
+  <a href="#e5"><span class="n">5~6화 · 17쪽</span><span class="t">얼마나 흩어졌나?</span><span class="q">분산, 표준편차, 변동계수</span></a>
+  <a href="#e7"><span class="n">7~8화 · 17쪽</span><span class="t">같이 움직이나? 기울었나?</span><span class="q">공분산, 상관, 왜도, 첨도</span></a>
+  <a href="#e9"><span class="n">9화 · 18쪽</span><span class="t">R이 요약해 주면</span><span class="q">summary() 읽기</span></a>
+</div>
+<p class="maphint">수식이 나오면 항상 같은 순서예요. ① 이 계산이 답하려는 질문, ② 학생 5명짜리 작은 숫자, ③ 공식은 그걸 기호로 적은 것뿐.</p>
+
+<!-- ============ 1 ============ -->
+<section class="ep" id="e1">
+  <div class="eph"><span class="no">1화</span><h2>이 숫자, 더해도 되나? 척도 4계단</h2><span class="pg">16쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>성적표에 숫자처럼 생긴 게 다 숫자는 아니다. "3반 + 5반 = 8반"은 말이 안 되듯, <b>칸마다 할 수 있는 계산이 다르다</b>. 그 급수가 척도이고, 계단을 올라갈수록 할 수 있는 게 늘어난다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 480 200" role="img" aria-label="척도 4계단: 명목, 순서, 등간, 비율 순으로 높아지며 할 수 있는 계산이 하나씩 늘어남">
+      <rect x="10" y="130" width="112" height="40" rx="6" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <rect x="126" y="100" width="112" height="70" rx="6" fill="var(--blue-soft)" stroke="var(--blue)"/>
+      <rect x="242" y="70" width="112" height="100" rx="6" fill="var(--ok-soft)" stroke="var(--ok)"/>
+      <rect x="358" y="40" width="112" height="130" rx="6" fill="var(--ok-soft)" stroke="var(--ok)"/>
+      <text class="svgtxt" x="66" y="124" text-anchor="middle" font-weight="700">명목</text>
+      <text class="svgtxt" x="66" y="148" text-anchor="middle">반 이름, 혈액형</text>
+      <text class="svgmut" x="66" y="163" text-anchor="middle">같다/다르다만</text>
+      <text class="svgtxt" x="182" y="94" text-anchor="middle" font-weight="700">순서(서열)</text>
+      <text class="svgtxt" x="182" y="122" text-anchor="middle">석차, 학년</text>
+      <text class="svgmut" x="182" y="138" text-anchor="middle">+ 크다/작다</text>
+      <text class="svgtxt" x="298" y="64" text-anchor="middle" font-weight="700">등간(구간)</text>
+      <text class="svgtxt" x="298" y="92" text-anchor="middle">교실 온도, 지수</text>
+      <text class="svgmut" x="298" y="108" text-anchor="middle">+ 더하기/빼기</text>
+      <text class="svgmut" x="298" y="124" text-anchor="middle">0도 ≠ 온도 없음</text>
+      <text class="svgtxt" x="414" y="34" text-anchor="middle" font-weight="700">비율</text>
+      <text class="svgtxt" x="414" y="62" text-anchor="middle">키, 나이, 무게</text>
+      <text class="svgmut" x="414" y="78" text-anchor="middle">+ 곱하기/나누기</text>
+      <text class="svgmut" x="414" y="94" text-anchor="middle">0 = 진짜 없음</text>
+      <text class="svgmut" x="414" y="110" text-anchor="middle">정보 가장 많음</text>
+      <line x1="12" y1="178" x2="236" y2="178" stroke="var(--blue)" stroke-width="2"/>
+      <line x1="244" y1="178" x2="468" y2="178" stroke="var(--ok)" stroke-width="2"/>
+      <text class="svgtxt" x="124" y="194" text-anchor="middle" font-weight="700">질적 척도 (이름표에 가까움)</text>
+      <text class="svgtxt" x="356" y="194" text-anchor="middle" font-weight="700">양적 척도 (진짜 크기)</text>
+    </svg>
+    <p class="cap">한 계단 올라갈 때마다 아래 계단의 계산은 다 되고, 하나가 더 늘어나요.</p>
+  </div>
+  <div class="say"><p>등간과 비율을 가르는 질문은 하나예요. <b>"0이 진짜 '없음'인가?"</b> 공부시간 0시간은 공부를 안 한 것이라 "4시간은 2시간의 2배"가 말이 돼요. 교실 온도 0도는 온도가 없는 게 아니라서 "20도는 10도보다 2배 덥다"는 틀린 말이에요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">명목척도</span><span>어느 집단인지 이름표만. 성별, 대학교, 혈액형</span></div>
+    <div class="row"><span class="term">순서(서열)척도</span><span>순서 관계는 있지만 간격은 몰라요. 1등과 2등 차이가 2등과 3등 차이와 같다는 보장이 없음</span></div>
+    <div class="row"><span class="term">등간(구간)척도</span><span>간격이 의미 있음. <b>덧셈, 뺄셈만</b>. 온도, 지수</span></div>
+    <div class="row"><span class="term">비율척도</span><span><b>절대 0</b>이 있어 사칙연산 모두 가능. <b>가장 많은 정보를 가진 척도</b>. 무게, 나이, 키</span></div>
+    <div class="row"><span class="term">질적 / 양적</span><span>명목, 순서 = 질적 척도 · 등간, 비율 = 양적 척도</span></div>
+  </div>
+  <div class="fix">요약노트의 "비율척도 = 가장 많이 수집되는 자료"는 틀린 표현이에요. 정확히는 <b>"가장 많은 정보를 가진 척도"</b>.</div>
+  <div class="trap">온도는 숫자가 크고 마이너스도 있어서 비율척도처럼 보이지만 <b>등간척도</b>예요. 0도가 "없음"이 아니니까요.</div>
+</section>
+
+<p class="part">PART 1 · 확률 (16쪽)</p>
+
+<!-- ============ 2 ============ -->
+<section class="ep" id="e2">
+  <div class="eph"><span class="no">2화</span><h2>수학반과 영어반, 몇 명이 겹치나</h2><span class="pg">16쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>확률 공식은 전부 <b>칸 세기</b>. 겹치는 사람을 두 번 세지 않으려고 빼고(덧셈 정리), "영어반 안에서만" 보면 분모가 바뀐다(조건부 확률).</div>
+  <div class="fig">
+    <svg viewBox="0 0 480 200" style="max-width:480px" role="img" aria-label="학원생 100명 중 수학반 40명, 영어반 30명, 둘 다 12명. 수학만 28, 영어만 18, 둘 다 안 들음 42">
+      <rect x="10" y="10" width="460" height="180" rx="10" fill="var(--bg)" stroke="var(--line)"/>
+      <circle cx="195" cy="100" r="72" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2" fill-opacity=".85"/>
+      <circle cx="290" cy="100" r="62" fill="var(--omr-soft)" stroke="var(--omr)" stroke-width="2" fill-opacity=".7"/>
+      <text class="svgtxt" x="150" y="24" text-anchor="middle" font-weight="700" style="fill:var(--blue)">수학반 A · 40명</text>
+      <text class="svgtxt" x="330" y="30" text-anchor="middle" font-weight="700" style="fill:var(--omr)">영어반 B · 30명</text>
+      <text class="svgtxt" x="165" y="104" text-anchor="middle" font-size="20" font-weight="700">28</text>
+      <text class="svgmut" x="165" y="120" text-anchor="middle">수학만</text>
+      <text class="svgtxt" x="245" y="104" text-anchor="middle" font-size="20" font-weight="700">12</text>
+      <text class="svgmut" x="245" y="120" text-anchor="middle">둘 다</text>
+      <text class="svgtxt" x="318" y="104" text-anchor="middle" font-size="20" font-weight="700">18</text>
+      <text class="svgmut" x="318" y="120" text-anchor="middle">영어만</text>
+      <text class="svgmut" x="405" y="170" text-anchor="middle">둘 다 안 들음 42</text>
+      <text class="svgmut" x="30" y="182">학원생 전체 100명</text>
+    </svg>
+    <div class="calc">
+      <div class="ln"><span>수학 <b>또는</b> 영어 듣는 학생: 40 + 30 − 12 (두 번 센 12명 빼기)</span><span class="num">58명 → 0.58</span></div>
+      <div class="ln"><span><b>영어반 안에서</b> 수학도 듣는 비율: 12 ÷ 30</span><span class="num">0.4</span></div>
+      <div class="ln"><span>수학반 비율 × 영어반 비율: 0.4 × 0.3</span><span class="num">0.12</span></div>
+      <div class="ln"><span>실제 둘 다 듣는 비율 12 ÷ 100 도 0.12 → 곱셈이 딱 맞음</span><span class="num">독립!</span></div>
+    </div>
+  </div>
+  <div class="say"><p>영어반 학생만 놓고 봐도 수학반 비율이 40%, 학원 전체에서도 40%. <b>영어반이라는 정보가 수학반 확률을 하나도 안 바꿨어요.</b> 이게 독립이에요.</p></div>
+  <p class="linkh">공식은 위 칸 세기를 기호로 적은 것</p>
+  <div class="link">
+    <div class="row"><span class="term">덧셈 정리</span><span>P(A∪B) = P(A) + P(B) − P(A∩B). ∪ = 또는(합집합), ∩ = 둘 다(교집합)</span></div>
+    <div class="row"><span class="term">조건부 확률</span><span>P(A|B) = P(A∩B) / P(B). 세로줄 | 뒤 B가 <b>새 분모</b>. "B 안에서만 보면"</span></div>
+    <div class="row"><span class="term">독립사건</span><span>P(A∩B) = P(A) × P(B), 그래서 P(A|B) = P(A). 서로 영향 없음</span></div>
+    <div class="row"><span class="term">배반사건</span><span>P(A∩B) = 0. 동시에 못 일어남. 같은 시간대 오전반과 오전 특강, 동전 앞면과 뒷면</span></div>
+  </div>
+  <div class="two" style="margin-top:12px">
+    <div class="box"><span class="tag blue">독립</span><h4>곱하기가 성립</h4><p>두 원이 겹쳐 있어도 괜찮아요. 한쪽 정보가 다른 쪽 확률을 <b>안 바꾸면</b> 독립.</p></div>
+    <div class="box"><span class="tag red">배반</span><h4>교집합이 0</h4><p>두 원이 <b>아예 안 겹침</b>. 한쪽이 일어나면 다른 쪽은 확률 0이 되니, 오히려 서로 영향이 큰 사이예요.</p></div>
+  </div>
+  <div class="trap">"독립이면 P(A∩B) = 0"은 틀린 보기예요. <b>교집합 0은 배반</b>, <b>곱하기는 독립</b>. 시험은 이 둘을 바꿔 써서 내요.</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="ep" id="e3">
+  <div class="eph"><span class="no">3화</span><h2>한 학생이 일주일에 지각을 몇 번 할까</h2><span class="pg">16쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"지각 횟수"처럼 결과에 숫자를 붙인 게 <b>확률변수</b>. 오래 지켜보면 평균 몇 번이 나오나 = <b>기댓값</b>. 그 평균에서 얼마나 출렁이나 = <b>분산</b>.</div>
+  <div class="fig">
+    <svg viewBox="0 0 360 185" style="max-width:400px" role="img" aria-label="지각 0번 확률 0.2, 1번 0.5, 2번 0.3인 막대그래프. 무게중심 1.1에 받침대">
+      <line x1="40" y1="120" x2="320" y2="120" stroke="var(--ink)" stroke-width="1.5"/>
+      <g fill="var(--blue)"><rect x="61" y="84" width="78" height="36"/><rect x="141" y="30" width="78" height="90"/><rect x="221" y="66" width="78" height="54"/></g>
+      <text class="svgtxt" x="100" y="78" text-anchor="middle" font-weight="700">0.2</text>
+      <text class="svgtxt" x="180" y="24" text-anchor="middle" font-weight="700">0.5</text>
+      <text class="svgtxt" x="260" y="60" text-anchor="middle" font-weight="700">0.3</text>
+      <text class="svgtxt" x="100" y="136" text-anchor="middle">0번</text>
+      <text class="svgtxt" x="168" y="136" text-anchor="middle">1번</text>
+      <text class="svgtxt" x="260" y="136" text-anchor="middle">2번</text>
+      <line x1="188" y1="121" x2="188" y2="146" stroke="var(--omr)" stroke-dasharray="3 3"/><polygon points="188,146 178,162 198,162" fill="var(--omr)"/>
+      <text class="svgtxt" x="206" y="160" font-weight="700" style="fill:var(--omr)">무게중심 = 기댓값 1.1</text>
+    </svg>
+    <div class="calc">
+      <div class="ln"><span>기댓값: 0×0.2 + 1×0.5 + 2×0.3</span><span class="num">E(X) = 1.1번</span></div>
+      <div class="ln"><span>제곱의 평균: 0²×0.2 + 1²×0.5 + 2²×0.3</span><span class="num">E(X²) = 1.7</span></div>
+      <div class="ln"><span>분산: 1.7 − 1.1² = 1.7 − 1.21</span><span class="num">Var(X) = 0.49</span></div>
+    </div>
+  </div>
+  <div class="say"><p>막대 판을 손가락 하나로 받친다고 생각해 보세요. 균형이 잡히는 점이 기댓값 1.1이에요. 실제로 1.1번 지각하는 날은 없지만, <b>몇 주 평균을 내면 1.1 근처</b>로 모여요.</p></div>
+  <p class="linkh">공식 기호 이름표</p>
+  <div class="link">
+    <div class="row"><span class="term">확률변수</span><span>표본공간의 결과에 <b>숫자를 대응</b>시킨 것. 주사위 눈 1~6, 지각 횟수 0·1·2</span></div>
+    <div class="row"><span class="term">이산확률분포</span><span>값이 0, 1, 2…처럼 <b>셀 수 있는</b> 분포. 11장에서 모양별로 만나요</span></div>
+    <div class="row"><span class="term">E(X) = Σ x·f(x)</span><span>Σ = 다 더하기, x = 나올 수 있는 값, f(x) = 그 값의 확률. <b>값 × 확률을 다 더한 것</b> = 장기적 평균, 분포의 무게중심</span></div>
+    <div class="row"><span class="term">Var(X)</span><span>E[(X − μ)²] = E(X²) − [E(X)]². μ(뮤) = 기댓값. 두 식은 같은 값(위에서 둘 다 0.49)</span></div>
+    <div class="row"><span class="term">이항분포 평균·분산</span><span>평균 <b>np</b>, 분산 <b>np(1 − p)</b>. 10문제를 정답률 0.3으로 찍으면 평균 3개, 분산 10×0.3×0.7 = <b>2.1</b></span></div>
+  </div>
+  <details><summary>E[(X − μ)²]로 직접 계산해도 0.49인가요?</summary><div class="in">
+    <p>네. 평균 1.1에서 떨어진 거리를 제곱해서 확률로 가중평균하면 돼요.</p>
+    <div class="calc">
+      <div class="ln"><span>(0 − 1.1)² × 0.2 = 1.21 × 0.2</span><span class="num">0.242</span></div>
+      <div class="ln"><span>(1 − 1.1)² × 0.5 = 0.01 × 0.5</span><span class="num">0.005</span></div>
+      <div class="ln"><span>(2 − 1.1)² × 0.3 = 0.81 × 0.3</span><span class="num">0.243</span></div>
+      <div class="ln"><span>합계</span><span class="num">0.49</span></div>
+    </div>
+    <p>시험 계산은 "제곱의 평균 − 평균의 제곱"이 더 빨라요.</p>
+  </div></details>
+</section>
+
+<p class="part">PART 2 · 기초 통계량 (17쪽)</p>
+
+<!-- ============ 4 ============ -->
+<section class="ep" id="e4">
+  <div class="eph"><span class="no">4화</span><h2>"우리 학생들은 보통 몇 시간 공부하나?" 가운데 찾기</h2><span class="pg">17쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>"보통"을 한 숫자로 말하는 방법이 셋. 다 더해서 나눈 <b>평균</b>, 줄 세워 한가운데 <b>중앙값</b>, 가장 많이 나온 <b>최빈값</b>. 튀는 학생 한 명이 있으면 평균만 크게 흔들린다.</div>
+  <div class="fig">
+    <svg viewBox="0 0 480 150" role="img" aria-label="주간 공부시간 7명: 10, 12, 12, 14, 16, 20, 56시간. 최빈값 12, 중앙값 14, 평균 20">
+      <line x1="30" y1="96" x2="460" y2="96" stroke="var(--ink)" stroke-width="1.5"/>
+      <g fill="var(--blue)">
+        <circle cx="100" cy="86" r="7"/><circle cx="114" cy="86" r="7"/><circle cx="114" cy="70" r="7"/><circle cx="128" cy="86" r="7"/><circle cx="142" cy="86" r="7"/><circle cx="170" cy="86" r="7"/>
+      </g>
+      <circle cx="422" cy="86" r="7" fill="var(--omr)"/>
+      <text class="svgtxt" x="422" y="68" text-anchor="middle" font-weight="700" style="fill:var(--omr)">56시간 (1명)</text>
+      <g class="svgmut" text-anchor="middle"><text x="30" y="112">0</text><text x="100" y="112">10</text><text x="170" y="112">20</text><text x="240" y="112">30</text><text x="310" y="112">40</text><text x="380" y="112">50</text><text x="450" y="112">60</text></g>
+      <line x1="114" y1="20" x2="114" y2="60" stroke="var(--muted)" stroke-width="2"/>
+      <text class="svgtxt" x="108" y="16" text-anchor="end">최빈값 12</text>
+      <line x1="128" y1="34" x2="128" y2="60" stroke="var(--ink)" stroke-width="2"/>
+      <text class="svgtxt" x="132" y="30" font-weight="700">중앙값 14</text>
+      <polygon points="170,124 162,138 178,138" fill="var(--omr)"/>
+      <text class="svgtxt" x="184" y="137" font-weight="700" style="fill:var(--omr)">평균 20 (56에 끌려옴)</text>
+    </svg>
+    <div class="calc">
+      <div class="ln"><span>평균: (10+12+12+14+16+20+56) ÷ 7 = 140 ÷ 7</span><span class="num">20시간</span></div>
+      <div class="ln"><span>중앙값: 줄 세워 7명 중 4번째</span><span class="num">14시간</span></div>
+      <div class="ln"><span>최빈값: 두 번 나온 값</span><span class="num">12시간</span></div>
+    </div>
+  </div>
+  <div class="say"><p>7명 중 6명이 20시간 이하인데 평균이 20시간. 56시간 공부한 학생 하나가 평균을 끌고 갔어요. 이럴 땐 <b>중앙값 14시간</b>이 "보통 학생"을 더 잘 말해 줘요. 이 끌림이 8화 왜도로 이어집니다.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">평균 (Mean)</span><span>다 더해서 개수로 나눔. 튀는 값(이상값)에 <b>민감</b></span></div>
+    <div class="row"><span class="term">중앙값 (Median)</span><span>크기 순으로 줄 세운 가운데 값. 튀는 값에 <b>둔감</b></span></div>
+    <div class="row"><span class="term">최빈값 (Mode)</span><span>가장 많이 나온 값. 명목척도(가장 많은 혈액형)에도 쓸 수 있음</span></div>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="ep" id="e5">
+  <div class="eph"><span class="no">5화</span><h2>평균이 같은 두 반, 뭐가 다를까: 분산과 표준편차</h2><span class="pg">17쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>A반, B반 둘 다 평균 70점. 그런데 A반은 다 비슷하고 B반은 들쭉날쭉. 이 차이를 숫자로 = <b>평균에서 평균적으로 얼마나 떨어져 있나</b>. 그게 분산, 표준편차.</div>
+  <div class="fig">
+    <svg viewBox="0 0 480 230" role="img" aria-label="평균 70점 선에서 학생별 편차 막대. A반은 -3, -1, 0, +1, +3으로 짧고, B반은 -15, -5, 0, +5, +15로 김">
+      <text class="svgtxt" x="120" y="16" text-anchor="middle" font-weight="700">A반: 67, 69, 70, 71, 73</text>
+      <text class="svgtxt" x="360" y="16" text-anchor="middle" font-weight="700">B반: 55, 65, 70, 75, 85</text>
+      <line x1="20" y1="110" x2="220" y2="110" stroke="var(--ink)" stroke-width="2"/>
+      <line x1="260" y1="110" x2="460" y2="110" stroke="var(--ink)" stroke-width="2"/>
+      <text class="svgmut" x="20" y="105">평균 70</text>
+      <text class="svgmut" x="260" y="105">평균 70</text>
+      <g fill="var(--omr)">
+        <rect x="32" y="110" width="24" height="9"/><rect x="70" y="110" width="24" height="3"/>
+        <rect x="272" y="110" width="24" height="45"/><rect x="310" y="110" width="24" height="15"/>
+      </g>
+      <g fill="var(--blue)">
+        <rect x="146" y="107" width="24" height="3"/><rect x="184" y="101" width="24" height="9"/>
+        <rect x="386" y="95" width="24" height="15"/><rect x="424" y="65" width="24" height="45"/>
+      </g>
+      <rect x="108" y="109" width="24" height="2" fill="var(--muted)"/>
+      <rect x="348" y="109" width="24" height="2" fill="var(--muted)"/>
+      <g class="svgtxt" text-anchor="middle" font-size="11">
+        <text x="44" y="132">−3</text><text x="82" y="126">−1</text><text x="120" y="126">0</text><text x="158" y="100">+1</text><text x="196" y="94">+3</text>
+        <text x="284" y="168">−15</text><text x="322" y="138">−5</text><text x="360" y="126">0</text><text x="398" y="88">+5</text><text x="436" y="58">+15</text>
+      </g>
+      <g class="svgmut" text-anchor="middle">
+        <text x="120" y="190">편차 합 0 · 제곱 합 20</text>
+        <text x="360" y="190">편차 합 0 · 제곱 합 500</text>
+      </g>
+      <text class="svgtxt" x="120" y="214" text-anchor="middle" font-weight="700">분산 20÷5 = 4 · 표준편차 2점</text>
+      <text class="svgtxt" x="360" y="214" text-anchor="middle" font-weight="700">분산 500÷5 = 100 · 표준편차 10점</text>
+    </svg>
+    <div class="legend"><span><i style="background:var(--blue)"></i>평균보다 위 (+)</span><span><i style="background:var(--omr)"></i>평균보다 아래 (−)</span></div>
+    <div class="calc">
+      <div class="ln"><span>① 각자 평균에서 얼마나 떨어졌나(편차) 구하기</span><span class="num">B: −15, −5, 0, +5, +15</span></div>
+      <div class="ln"><span>② 그대로 더하면 0이 되니까 제곱해서 부호 없애기</span><span class="num">225, 25, 0, 25, 225</span></div>
+      <div class="ln"><span>③ 제곱의 평균 = 분산</span><span class="num">500 ÷ 5 = 100</span></div>
+      <div class="ln"><span>④ 단위를 "점"으로 되돌리려고 루트 = 표준편차</span><span class="num">√100 = 10점</span></div>
+    </div>
+  </div>
+  <div class="say"><p>표준편차 10점은 "B반 학생들은 평균 70점에서 <b>대략 10점쯤</b> 떨어져 있다"는 뜻이에요. A반은 2점쯤. 평균은 같아도 반 분위기가 전혀 다르죠.</p></div>
+  <details open><summary>왜 굳이 제곱하나요?</summary><div class="in">
+    <p>평균보다 위(+)와 아래(−)가 <b>정확히 상쇄</b>돼서, 편차를 그냥 더하면 어느 반이든 늘 0이에요. B반도 −15 −5 + 0 + 5 + 15 = 0. 이러면 흩어짐을 못 재요.</p>
+    <p>제곱하면 마이너스가 사라지고, 멀리 떨어진 학생은 더 크게 반영돼요(15점 차이 → 225). 대신 단위가 "점²"이 되어 버려서, 마지막에 루트를 씌워 원래 단위로 돌린 게 <b>표준편차</b>예요.</p>
+  </div></details>
+  <p class="linkh">공식 기호 이름표: σ² = Σ(x − μ)² ÷ N</p>
+  <div class="link">
+    <div class="row"><span class="term">σ² (시그마 제곱)</span><span>분산. 편차 제곱의 평균</span></div>
+    <div class="row"><span class="term">σ (시그마)</span><span>표준편차 = 분산의 제곱근. <b>원래 단위와 같아서</b> 읽기 쉬움</span></div>
+    <div class="row"><span class="term">x − μ</span><span>편차. 각 학생 점수(x)에서 평균(μ)을 뺀 것</span></div>
+    <div class="row"><span class="term">범위</span><span>최대 − 최소. A반 6점, B반 30점. 맨 끝 두 명만 보니 <b>이상값에 민감</b></span></div>
+    <div class="row"><span class="term">IQR</span><span>Q3 − Q1. 줄 세운 뒤 가운데 50%가 차지하는 폭. 양 끝 튀는 값을 안 봄</span></div>
+    <div class="row"><span class="term">Z = (X − μ) / σ</span><span>"평균에서 표준편차 몇 개만큼 떨어졌나". B반 85점 → (85 − 70) ÷ 10 = <b>1.5</b>. 이렇게 바꾼 분포가 <b>표준정규분포</b>(평균 0, 표준편차 1)</span></div>
+  </div>
+  <div class="trap">여기서는 반 전체(모집단)라서 사람 수 N = 5로 나눴어요. 일부만 뽑은 <b>표본</b>의 분산은 <b>n − 1</b>로 나눠요. 이유는 12장 1화에서.</div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="ep" id="e6">
+  <div class="eph"><span class="no">6화</span><h2>점수와 공부시간, 어느 쪽이 더 들쭉날쭉?</h2><span class="pg">17쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>표준편차 8점과 4시간은 단위가 달라 비교가 안 된다. 평균으로 나눠 <b>"평균의 몇 %만큼 흩어졌나"</b>로 바꾸면 단위가 사라진다. 그게 변동계수(CV).</div>
+  <div class="fig">
+    <div class="two">
+      <div class="box"><span class="tag blue">국어 점수</span><h4>평균 80점 · 표준편차 8점</h4><p>8 ÷ 80 × 100 = <b>CV 10%</b></p></div>
+      <div class="box"><span class="tag red">주간 공부시간</span><h4>평균 20시간 · 표준편차 4시간</h4><p>4 ÷ 20 × 100 = <b>CV 20%</b></p></div>
+    </div>
+    <svg viewBox="0 0 400 80" style="max-width:420px;margin-top:12px" role="img" aria-label="CV 막대 비교: 국어 10%, 공부시간 20%">
+      <text class="svgtxt" x="10" y="26">국어</text>
+      <rect x="80" y="12" width="140" height="20" rx="4" fill="var(--blue)"/>
+      <text class="svgtxt" x="228" y="27" font-weight="700">10%</text>
+      <text class="svgtxt" x="10" y="62">공부시간</text>
+      <rect x="80" y="48" width="280" height="20" rx="4" fill="var(--omr)"/>
+      <text class="svgtxt" x="366" y="63" font-weight="700">20%</text>
+    </svg>
+  </div>
+  <div class="say"><p>숫자만 보면 8 &gt; 4라 국어가 더 흩어진 것 같지만, 평균 대비로 보면 <b>공부시간이 2배 더 들쭉날쭉</b>해요.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">변동계수 (CV)</span><span>표준편차 ÷ 평균 × 100. <b>단위가 다른 변수끼리</b> 퍼짐 비교</span></div>
+  </div>
+  <div class="fix">요약노트의 "표준편차<b>에서</b> 평균을 나눈"은 "표준편차<b>를</b> 평균<b>으로</b> 나눈"이 맞아요. 분자가 표준편차예요.</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="ep" id="e7">
+  <div class="eph"><span class="no">7화</span><h2>공부시간이 늘면 점수도 오를까: 공분산과 상관계수</h2><span class="pg">17쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>두 칸이 <b>같은 방향으로 움직이나</b>를 재는 게 공분산. 단위에 따라 숫자가 멋대로 커져 강약을 못 읽으니, <b>−1 ~ 1로 눌러 담은 것</b>이 상관계수.</div>
+  <div class="fig">
+    <svg viewBox="0 0 300 210" style="max-width:360px" role="img" aria-label="학생 5명 공부시간과 점수 산점도. 평균선으로 4칸을 나누면 대부분 오른쪽 위와 왼쪽 아래에 있음">
+      <rect x="150" y="20" width="120" height="85" fill="var(--ok-soft)"/>
+      <rect x="30" y="105" width="120" height="80" fill="var(--ok-soft)"/>
+      <rect x="30" y="20" width="120" height="85" fill="var(--omr-soft)"/>
+      <rect x="150" y="105" width="120" height="80" fill="var(--omr-soft)"/>
+      <line x1="150" y1="20" x2="150" y2="185" stroke="var(--muted)" stroke-dasharray="4 4"/>
+      <line x1="30" y1="105" x2="270" y2="105" stroke="var(--muted)" stroke-dasharray="4 4"/>
+      <text class="svgtxt" x="262" y="36" text-anchor="end" font-weight="700" style="fill:var(--ok)">둘 다 +</text>
+      <text class="svgtxt" x="38" y="178" font-weight="700" style="fill:var(--ok)">둘 다 −</text>
+      <text class="svgmut" x="38" y="34">곱 −</text>
+      <text class="svgmut" x="262" y="178" text-anchor="end">곱 −</text>
+      <g fill="var(--ink)"><circle cx="50" cy="155" r="6"/><circle cx="100" cy="105" r="6"/><circle cx="150" cy="130" r="6"/><circle cx="200" cy="55" r="6"/><circle cx="250" cy="80" r="6"/></g>
+      <g class="svgmut" text-anchor="middle"><text x="50" y="200">1시간</text><text x="100" y="200">2</text><text x="150" y="200">3</text><text x="200" y="200">4</text><text x="250" y="200">5</text></g>
+      <text class="svgmut" x="266" y="119" text-anchor="end">평균 70점</text>
+      <text class="svgmut" x="150" y="14" text-anchor="middle">평균 3시간</text>
+    </svg>
+    <div class="tblwrap" style="margin-top:10px">
+    <table class="act">
+      <tr><th>학생</th><th>공부시간 편차</th><th>점수 편차</th><th>두 편차의 곱</th></tr>
+      <tr><td>1시간 60점</td><td>−2</td><td>−10</td><td><b>+20</b></td></tr>
+      <tr><td>2시간 70점</td><td>−1</td><td>0</td><td>0</td></tr>
+      <tr><td>3시간 65점</td><td>0</td><td>−5</td><td>0</td></tr>
+      <tr><td>4시간 80점</td><td>+1</td><td>+10</td><td><b>+10</b></td></tr>
+      <tr><td>5시간 75점</td><td>+2</td><td>+5</td><td><b>+10</b></td></tr>
+    </table>
+    </div>
+    <div class="calc">
+      <div class="ln"><span>곱의 합 40 ÷ 5명 = 공분산</span><span class="num">+8 (양수 → 같이 오름)</span></div>
+      <div class="ln"><span>공분산 ÷ (시간 표준편차 √2 × 점수 표준편차 √50) = 8 ÷ 10</span><span class="num">상관계수 0.8</span></div>
+    </div>
+  </div>
+  <div class="say"><p>초록 칸(둘 다 평균 위, 둘 다 평균 아래)에 점이 많으면 곱이 +로 쌓여 공분산이 양수. 빨강 칸에 많으면 음수. 고르게 퍼져 있으면 0 근처.</p></div>
+  <div class="link">
+    <div class="row"><span class="term">공분산</span><span>두 변수가 같이 움직이는 정도. 양수 = 양의 관계, 음수 = 음의 관계, 0 = 선형 관계 없음. <b>범위가 정해져 있지 않아 강약 판단 불가</b> (점수를 1000점 만점으로 바꾸면 8 → 80이 되는데 관계는 그대로)</span></div>
+    <div class="row"><span class="term">상관계수</span><span>공분산을 표준화. <b>−1 ~ 1</b>. 1에 가까우면 강한 양의 직선, −1이면 강한 음의 직선. 단위를 바꿔도 0.8 그대로</span></div>
+  </div>
+  <div class="fig">
+    <div class="two">
+      <svg viewBox="0 0 220 150" role="img" aria-label="뒤집힌 U자 모양: 공부시간 중간일 때 점수 최고, 양 끝은 낮음. 공분산은 0">
+        <line x1="20" y1="80" x2="210" y2="80" stroke="var(--muted)" stroke-dasharray="4 4"/><text class="svgmut" x="115" y="96" text-anchor="middle">평균 70점</text>
+        <path d="M30 120 Q 115 -40 200 120" fill="none" stroke="var(--line)" stroke-width="2"/>
+        <g fill="var(--violet)"><circle cx="30" cy="120" r="6"/><circle cx="72" cy="60" r="6"/><circle cx="115" cy="40" r="6"/><circle cx="158" cy="60" r="6"/><circle cx="200" cy="120" r="6"/></g>
+        <text class="svgtxt" x="115" y="140" text-anchor="middle" font-weight="700">공분산 0, 그래도 관계 있음</text>
+      </svg>
+      <div class="box"><h4>공분산 0 ≠ 독립</h4><p>공부시간 1~5시간에 점수 60, 75, 80, 75, 60. 너무 오래 하면 지쳐서 떨어지는 <b>곡선 관계</b>예요. 편차 곱을 더하면 +와 −가 상쇄돼 공분산 0. 공분산은 <b>직선 관계만</b> 잡아내요.</p></div>
+    </div>
+  </div>
+  <div class="trap"><b>독립이면 공분산 = 0</b>은 맞아요. 거꾸로 <b>공분산 = 0이라고 독립은 아님</b>. 위 U자처럼 곡선 관계가 숨어 있을 수 있어요.</div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="ep" id="e8">
+  <div class="eph"><span class="no">8화</span><h2>분포가 한쪽으로 기울었나, 뾰족한가: 왜도와 첨도</h2><span class="pg">17쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>4화의 56시간 학생처럼 한쪽 꼬리가 길면 평균이 그쪽으로 끌려간다. <b>평균은 꼬리를 따라간다.</b> 기운 정도가 왜도, 뾰족한 정도가 첨도.</div>
+  <div class="fig">
+    <svg viewBox="0 0 480 160" role="img" aria-label="왼쪽: 오른쪽 꼬리가 긴 분포, 최빈값 중앙값 평균 순. 오른쪽: 왼쪽 꼬리가 긴 분포, 평균 중앙값 최빈값 순">
+      <text class="svgtxt" x="120" y="16" text-anchor="middle" font-weight="700">왜도 &gt; 0 · 오른쪽 꼬리</text>
+      <text class="svgtxt" x="360" y="16" text-anchor="middle" font-weight="700">왜도 &lt; 0 · 왼쪽 꼬리</text>
+      <line x1="10" y1="125" x2="235" y2="125" stroke="var(--line)"/>
+      <line x1="245" y1="125" x2="470" y2="125" stroke="var(--line)"/>
+      <path d="M15 125 L22 94 L28 72 L35 56 L41 45 L48 39 L54 36 L61 35 L67 36 L74 39 L80 42 L87 46 L94 50 L100 55 L107 60 L113 65 L120 69 L126 74 L133 78 L139 82 L146 86 L152 90 L159 93 L166 96 L172 99 L179 102 L185 104 L192 106 L198 108 L205 110 L211 111 L218 113 L224 114 L231 115" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+      <path d="M465 125 L458 94 L452 72 L445 56 L439 45 L432 39 L426 36 L419 35 L413 36 L406 39 L400 42 L393 46 L386 50 L380 55 L373 60 L367 65 L360 69 L354 74 L347 78 L341 82 L334 86 L328 90 L321 93 L314 96 L308 99 L301 102 L295 104 L288 106 L282 108 L275 110 L269 111 L262 113 L256 114 L249 115" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+      <line x1="60" y1="30" x2="60" y2="125" stroke="var(--muted)" stroke-dasharray="3 3"/>
+      <line x1="90" y1="40" x2="90" y2="125" stroke="var(--ink)" stroke-dasharray="3 3"/>
+      <line x1="105" y1="40" x2="105" y2="125" stroke="var(--omr)" stroke-width="2"/>
+      <line x1="420" y1="30" x2="420" y2="125" stroke="var(--muted)" stroke-dasharray="3 3"/>
+      <line x1="390" y1="40" x2="390" y2="125" stroke="var(--ink)" stroke-dasharray="3 3"/>
+      <line x1="375" y1="40" x2="375" y2="125" stroke="var(--omr)" stroke-width="2"/>
+      <g text-anchor="middle">
+        <text class="svgmut" x="60" y="140">최빈</text><text class="svgtxt" x="90" y="154">중앙</text><text class="svgtxt" x="112" y="140" style="fill:var(--omr)" font-weight="700">평균</text>
+        <text class="svgmut" x="420" y="140">최빈</text><text class="svgtxt" x="390" y="154">중앙</text><text class="svgtxt" x="368" y="140" style="fill:var(--omr)" font-weight="700">평균</text>
+      </g>
+    </svg>
+    <div class="two" style="margin-top:8px">
+      <div class="box"><h4>왜도 &gt; 0</h4><p><b>최빈값 &lt; 중앙값 &lt; 평균</b><br>월급, 공부시간처럼 소수가 아주 큰 경우</p></div>
+      <div class="box"><h4>왜도 &lt; 0</h4><p><b>평균 &lt; 중앙값 &lt; 최빈값</b><br>쉬운 시험처럼 대부분 고득점, 소수만 아주 낮은 경우</p></div>
+    </div>
+  </div>
+  <div class="memo"><b>평균은 꼬리를 따라간다.</b> 꼬리 쪽 끝에 평균, 반대편 봉우리에 최빈값, 그 사이에 중앙값. 왜도 0이면 좌우 대칭이라 셋이 같아요.</div>
+  <div class="fig">
+    <svg viewBox="0 0 240 150" style="max-width:340px" role="img" aria-label="분산이 같은 세 분포: 뾰족한 분포, 정규분포, 납작한 분포">
+      <line x1="15" y1="120" x2="225" y2="120" stroke="var(--line)"/>
+      <path d="M20 120 L25 120 L30 120 L35 120 L40 119 L45 118 L50 115 L55 112 L60 107 L65 102 L70 96 L75 91 L80 86 L85 82 L90 80 L95 78 L100 78 L105 77 L110 77 L115 77 L120 77 L125 77 L130 77 L135 77 L140 78 L145 78 L150 80 L155 82 L160 86 L165 91 L170 96 L175 102 L180 107 L185 112 L190 115 L195 118 L200 119 L205 120 L210 120 L215 120 L220 120" fill="none" stroke="var(--amber)" stroke-width="2.5"/>
+      <path d="M20 119 L25 119 L30 119 L35 118 L40 117 L45 116 L50 114 L55 112 L60 109 L65 106 L70 103 L75 98 L80 94 L85 89 L90 84 L95 80 L100 75 L105 72 L110 69 L115 67 L120 66 L125 67 L130 69 L135 72 L140 75 L145 80 L150 84 L155 89 L160 94 L165 98 L170 103 L175 106 L180 109 L185 112 L190 114 L195 116 L200 117 L205 118 L210 119 L215 119 L220 119" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+      <path d="M20 119 L25 118 L30 118 L35 117 L40 117 L45 116 L50 115 L55 114 L60 113 L65 111 L70 109 L75 106 L80 103 L85 98 L90 93 L95 87 L100 79 L105 70 L110 58 L115 43 L120 25 L125 43 L130 58 L135 70 L140 79 L145 87 L150 93 L155 98 L160 103 L165 106 L170 109 L175 111 L180 113 L185 114 L190 115 L195 116 L200 117 L205 117 L210 118 L215 118 L220 119" fill="none" stroke="var(--violet)" stroke-width="2.5"/>
+      <text class="svgmut" x="120" y="140" text-anchor="middle">세 분포 모두 평균 0, 분산 1</text>
+    </svg>
+    <div class="legend"><span><i style="background:var(--violet)"></i>뾰족: 첨도 &gt; 3</span><span><i style="background:var(--ink)"></i>정규분포: 첨도 = 3</span><span><i style="background:var(--amber)"></i>납작: 첨도 &lt; 3</span></div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">왜도 (Skewness)</span><span>비대칭 정도. 0이면 대칭. 꼬리가 긴 쪽 부호(오른쪽 +, 왼쪽 −)</span></div>
+    <div class="row"><span class="term">첨도 (Kurtosis)</span><span>뾰족한 정도. <b>정규분포 = 3</b>. 클수록 뾰족. 3을 빼서 0을 기준으로 쓰기도 함</span></div>
+  </div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="ep" id="e9">
+  <div class="eph"><span class="no">9화</span><h2>R이 성적표를 한 줄로 요약해 주면: summary()</h2><span class="pg">18쪽</span></div>
+  <div class="core"><small>한 줄 핵심</small>원장님이 수강생 명부를 R에 넣고 summary()를 치면, <b>숫자 칸은 6개 요약값 + 빈칸 수</b>, <b>이름표 칸은 개수만</b> 나온다. 지금까지 배운 걸로 전부 읽힌다.</div>
+  <div class="fig">
+    <p class="linkh" style="margin-top:0">숫자 칸: Age (수강생 나이)</p>
+    <div class="tblwrap">
+    <table class="act">
+      <tr><th>Min.</th><th>1st Qu.</th><th>Median</th><th>Mean</th><th>3rd Qu.</th><th>Max.</th><th>NA's</th></tr>
+      <tr><td class="num">15.0</td><td class="num">19.0</td><td class="num">28.0</td><td class="num">29.7</td><td class="num">38.0</td><td class="num">62.0</td><td class="num">86</td></tr>
+    </table>
+    </div>
+    <p class="linkh">이름표 칸: Class (수강 반)</p>
+    <div class="tblwrap">
+    <table class="act">
+      <tr><th>수학반</th><th>영어반</th><th>국어반</th></tr>
+      <tr><td class="num">120</td><td class="num">95</td><td class="num">70</td></tr>
+    </table>
+    </div>
+  </div>
+  <div class="link">
+    <div class="row"><span class="term">Min. / Max.</span><span>최솟값, 최댓값. 범위 = 62 − 15 = 47</span></div>
+    <div class="row"><span class="term">1st Qu. / 3rd Qu.</span><span>Q1, Q3. 줄 세워 25%, 75% 지점. IQR = 38 − 19 = 19</span></div>
+    <div class="row"><span class="term">Median &lt; Mean</span><span>28.0 &lt; 29.7 → 평균이 오른쪽으로 끌림 → <b>왜도 &gt; 0</b> (오른쪽 꼬리, 나이 많은 소수)</span></div>
+    <div class="row"><span class="term">NA's: 86</span><span>나이를 안 적은 사람(<b>결측값</b>) 86명</span></div>
+    <div class="row"><span class="term">빈도만 나옴</span><span>평균, 사분위수 없이 개수만 나오면 <b>범주형</b>(factor) 변수</span></div>
+  </div>
+  <div class="trap">Mean과 Median 크기만 비교하면 왜도 부호가 나와요. <b>Mean이 크면 왜도 &gt; 0</b>, Mean이 작으면 왜도 &lt; 0.</div>
+</section>
+
+<!-- ============ quiz ============ -->
+<section class="ep" id="qz">
+  <div class="eph"><span class="no">끝</span><h2>확인 8문제</h2></div>
+  <p style="margin:0 0 10px;color:var(--muted)">답을 떠올려 본 뒤 눌러서 확인하세요. 계산 문제는 계산 줄을 보며 따라 해도 돼요.</p>
+  <div class="quiz">
+    <details><summary>온도(섭씨)는 어떤 척도? 절대 0이 있고 사칙연산이 다 되는 척도는?</summary><div class="in"><p>온도는 <b>등간척도</b>(0도가 "없음"이 아님). 절대 0이 있으면 <b>비율척도</b>, 가장 많은 정보를 가진 척도. 학년, 순위는 순서척도.</p></div></details>
+    <details><summary>A, B가 독립일 때 성립하는 것은? 동전 앞면과 뒷면의 관계는?</summary><div class="in"><p>독립이면 <b>P(A∩B) = P(A) × P(B)</b>, P(A|B) = P(A). 동시에 못 나오는 앞면과 뒷면은 <b>배반사건</b>(교집합 0).</p></div></details>
+    <details><summary>이항분포 B(10, 0.3)의 평균과 분산은?</summary><div class="in"><p>평균 np = <b>3</b>, 분산 np(1 − p) = 10 × 0.3 × 0.7 = <b>2.1</b>.</p></div></details>
+    <details><summary>X가 0, 1, 2일 확률이 0.2, 0.5, 0.3이면 E(X)와 Var(X)는?</summary><div class="in"><p>E(X) = 0.5 + 0.6 = <b>1.1</b>. E(X²) = 0.5 + 1.2 = 1.7, Var(X) = 1.7 − 1.21 = <b>0.49</b>.</p></div></details>
+    <details><summary>단위가 다른 두 변수의 퍼짐을 비교하려면?</summary><div class="in"><p><b>변동계수(CV)</b> = 표준편차 ÷ 평균 × 100. 평균으로 나눠 단위가 사라지니까요.</p></div></details>
+    <details><summary>"공분산이 0이면 두 변수는 반드시 독립이다" 맞나?</summary><div class="in"><p><b>틀림.</b> 공분산 0은 직선 관계가 없다는 뜻일 뿐. U자 같은 곡선 관계가 있을 수 있어요. 거꾸로 독립이면 공분산 0은 맞음. 상관계수 범위는 −1 ~ 1.</p></div></details>
+    <details><summary>왜도 &gt; 0일 때 평균, 중앙값, 최빈값 순서는? 정규분포 첨도는?</summary><div class="in"><p>평균이 꼬리(오른쪽)를 따라가서 <b>최빈값 &lt; 중앙값 &lt; 평균</b>. 정규분포 첨도는 <b>3</b>(3을 빼면 0).</p></div></details>
+    <details><summary>summary()에서 Median 28.0 &lt; Mean 29.7이면? 빈도만 나오는 변수는?</summary><div class="in"><p>평균이 더 크니 <b>왜도 &gt; 0</b>. 빈도만 나오면 <b>범주형</b>. NA's는 결측값 개수.</p></div></details>
+  </div>
+  <div class="end">
+    <h3>10장 한 문장</h3>
+    <p>원장님이 성적표를 열어 보니 칸마다 <b>숫자의 급</b>(명목, 순서, 등간, 비율)이 다르고, 반 겹침은 <b>칸 세기</b>(덧셈 정리, 조건부, 독립, 배반)로 풀리고, 숫자 더미는 <b>가운데</b>(평균, 중앙값, 최빈값), <b>흩어짐</b>(분산, 표준편차, CV), <b>같이 움직임</b>(공분산, 상관), <b>모양</b>(왜도, 첨도)으로 요약된다. 다음 장은 "전국 학생을 다 볼 수 없으니 일부만 뽑자".</p>
+  </div>
+</section>

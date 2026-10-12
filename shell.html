@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12141a" media="(prefers-color-scheme: dark)">
+<meta name="description" content="ADsP 18개 단원을 이야기와 그림으로 이해하는 노트">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ADsP 이해">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>ADsP 이해 노트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: 공부용 앱과 같은 한 줄 기둥. 홈 = 과목별 단원 목록(이야기 제목 함께), 단원 = 상단 바(뒤로, 화 칩) + 이야기 조각. */
+/*BASE_CSS*/
+
+/* ---------- page reset (standalone) ---------- */
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+
+/* ---------- shell ---------- */
+[hidden]{display:none!important}
+html{scroll-behavior:auto!important}
+section.ep,header[id],p.part{scroll-margin-top:108px!important}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0 8px;display:grid;gap:8px}
+.bar .r1{display:flex;align-items:center;gap:10px;min-width:0}
+.bar .back{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 14px;font:inherit;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;flex:none}
+.bar .ttl{font-weight:700;font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.bar .ttl .num{color:var(--omr);margin-right:6px}
+.bar>*{min-width:0}
+#chips{min-width:0;overflow:hidden}
+.bar .nav{position:static;border:0;padding:0;background:transparent;max-width:100%}
+.home-h{padding:28px 0 6px;display:grid;gap:10px}
+.home-h .k{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--omr)}
+.home-h h1{margin:0;font-size:30px;line-height:1.3;letter-spacing:-.01em;text-wrap:balance}
+.home-h p{margin:0;color:var(--muted)}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.how div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.5}
+.how b{display:block;font-size:14.5px;margin-bottom:2px}
+@media (max-width:560px){.how{grid-template-columns:1fr}}
+.cont{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:2px solid var(--ink);border-radius:var(--r);padding:12px 16px;width:100%;text-align:left;font:inherit;color:var(--ink);cursor:pointer}
+.cont small{display:block;color:var(--muted);font-size:13px}
+.cont strong{font-size:16.5px}
+.cont .go{font-weight:700;white-space:nowrap}
+.prog{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:13px;color:var(--muted)}
+.prog .meter{flex:1;height:6px;background:var(--sunk);border-radius:99px;overflow:hidden}
+.prog .meter i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.subj{margin-top:30px}
+.subj h2{margin:0;font-size:20px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.subj h2 .tg{font-size:13px;font-weight:700;color:#fff;border-radius:6px;padding:1px 8px}
+.subj .cast{font-size:13.5px;color:var(--muted);margin:4px 0 10px}
+.units{display:grid;gap:6px}
+.unit{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-align:left;width:100%;font:inherit;color:var(--ink);cursor:pointer}
+.unit:hover{border-color:var(--ink)}
+.unit .no{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--muted);text-align:center}
+.unit .nm{min-width:0;font-weight:700;line-height:1.45}
+.unit .nm small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.unit .rt{display:grid;justify-items:end;gap:2px}
+.unit .pg{font-size:12px;color:var(--muted);white-space:nowrap}
+.chip{font-size:12px;border-radius:999px;padding:1px 8px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.read{border-color:var(--ok);color:var(--ok);background:var(--ok-soft)}
+.foot{margin-top:28px;font-size:13px;color:var(--muted)}
+.unav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:28px}
+.unav button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;font:inherit;color:var(--ink);text-align:left;cursor:pointer;min-width:0}
+.unav button small{display:block;color:var(--muted);font-size:12px}
+.unav button b{display:block;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.unav .nx{text-align:right}
+.unav button[hidden]{display:none}
+.markread{display:flex;justify-content:center;margin-top:20px}
+.markread button{border:2px solid var(--ok);background:var(--surface);color:var(--ok);border-radius:999px;padding:8px 18px;font:inherit;font-weight:700;cursor:pointer}
+.markread button.on{background:var(--ok);color:#fff}
+button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+@media (max-width:560px){.act td:first-child{white-space:normal;min-width:72px}.act th,.act td{padding:7px 5px;font-size:13.5px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="bar" id="bar" hidden>
+    <div class="r1"><button class="back" id="back" type="button">← 목록</button><div class="ttl" id="ttl"></div></div>
+    <div id="chips"></div>
+  </div>
+  <main id="view"></main>
+</div>
+
+<!--TEMPLATES-->
+
+<script>
+(function(){
+var UNITS=/*UNITS*/;
+var SUBJ={
+  1:{n:"1과목",t:"데이터 이해",c:"var(--blue)",cast:"주인공: 동네 편의점 사장님. 영수증 한 장에서 시작해 데이터 사이언티스트를 뽑기까지."},
+  2:{n:"2과목",t:"데이터 분석 기획",c:"var(--violet)",cast:"주인공: 커피 프랜차이즈 본사 김 팀장. \"데이터로 뭘 좀 해 봐\"라는 지시를 받고 회사 전체 계획까지."},
+  3:{n:"3과목",t:"데이터 분석",c:"var(--omr)",cast:"주인공: 입시학원 원장님. 성적표 정리에서 시작해 합격 예측 기계를 만들고 채점하기까지."}
+};
+var KEY="adsp-story-v1", st={read:{},last:null};
+try{var raw=localStorage.getItem(KEY); if(raw){var o=JSON.parse(raw); if(o&&typeof o==="object"){st.read=o.read||{}; st.last=o.last||null;}}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+function idx(id){for(var i=0;i<UNITS.length;i++) if(UNITS[i].id===id) return i; return -1}
+function no(u){return String(idx(u.id)+1)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var view=document.getElementById("view"), bar=document.getElementById("bar"), chips=document.getElementById("chips"), ttl=document.getElementById("ttl");
+
+function home(){
+  bar.hidden=true; chips.innerHTML="";
+  var nread=UNITS.filter(function(u){return st.read[u.id]}).length;
+  var h='<header class="home-h"><span class="k">ADsP 이해 노트</span><h1>외우기 전에, 이야기로 이해하기</h1>'+
+    '<p>공부용 앱과 짝을 이루는 이해용 앱이에요. 단원마다 한 사람의 이야기로 흐름을 잡고, 개념은 그림으로 보여 줘요. 왜 이걸 하는지가 먼저 남고, 용어는 그 위에 얹히게.</p>'+
+    '<div class="how"><div><b>시간 없을 때</b>검은 상자 한 줄과 그림만</div><div><b>보통</b>"필기 연결" 칸까지 읽기</div><div><b>여유 있을 때</b>회색 칸(+)도 펼치기</div></div>';
+  if(st.last&&idx(st.last)>=0){var lu=UNITS[idx(st.last)];
+    h+='<button class="cont" type="button" data-u="'+lu.id+'"><span><small>이어 읽기</small><strong>'+no(lu)+'. '+esc(lu.t)+'</strong></span><span class="go">열기 →</span></button>';}
+  h+='<div class="prog"><span>읽음 '+nread+' / '+UNITS.length+'</span><span class="meter"><i style="width:'+Math.round(nread/UNITS.length*100)+'%"></i></span></div></header>';
+  [1,2,3].forEach(function(s){
+    var sj=SUBJ[s];
+    h+='<section class="subj"><h2><span class="tg" style="background:'+sj.c+'">'+sj.n+'</span>'+sj.t+'</h2><p class="cast">'+esc(sj.cast)+'</p><div class="units">';
+    UNITS.filter(function(u){return u.s===s}).forEach(function(u){
+      h+='<button class="unit" type="button" data-u="'+u.id+'"><span class="no">'+no(u)+'</span><span class="nm">'+esc(u.t)+'<small>'+esc(u.h)+'</small></span><span class="rt"><span class="pg">'+esc(u.p)+' · '+u.n+'화</span>'+(st.read[u.id]?'<span class="chip read">읽음</span>':'')+'</span></button>';
+    });
+    h+='</div></section>';
+  });
+  h+='<p class="foot">공부용 앱(문제, 단어장)은 그대로 따로 있어요. 읽음 표시는 이 기기에만 저장돼요.</p>';
+  view.innerHTML=h; window.scrollTo(0,0);
+  document.title="ADsP 이해 노트";
+}
+
+function unit(id){
+  var i=idx(id); if(i<0) return home();
+  var u=UNITS[i], tpl=document.getElementById("t-"+id);
+  view.innerHTML=""; view.appendChild(tpl.content.cloneNode(true));
+  var nav=view.querySelector(".nav"); chips.innerHTML=""; if(nav) chips.appendChild(nav);
+  ttl.innerHTML='<span class="num">'+no(u)+'</span>'+esc(u.t);
+  bar.hidden=false;
+  var prev=UNITS[i-1], next=UNITS[i+1];
+  var end=document.createElement("div");
+  end.innerHTML='<div class="markread"><button type="button" id="mr" class="'+(st.read[id]?"on":"")+'">'+(st.read[id]?"읽음 표시됨 ✓":"다 읽었어요")+'</button></div>'+
+    '<div class="unav"><button type="button" class="pv" '+(prev?'data-u="'+prev.id+'"':'hidden')+'><small>← 이전 단원</small><b>'+(prev?no(prev)+'. '+esc(prev.t):'')+'</b></button>'+
+    '<button type="button" class="nx" '+(next?'data-u="'+next.id+'"':'hidden')+'><small>다음 단원 →</small><b>'+(next?no(next)+'. '+esc(next.t):'')+'</b></button></div>';
+  view.appendChild(end);
+  st.last=id; save();
+  window.scrollTo(0,0);
+  document.title=no(u)+". "+u.t+" · ADsP 이해 노트";
+}
+
+function route(){var h=(location.hash||"").slice(1); if(/^u\d\d$/.test(h)) unit(h); else home();}
+function go(id){ if(location.hash==="#"+id) route(); else location.hash=id; }
+
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-u]"); if(b){e.preventDefault(); go(b.getAttribute("data-u")); return;}
+  if(e.target.closest("#back")){e.preventDefault(); if(location.hash) location.hash=""; else home(); return;}
+  var mr=e.target.closest("#mr"); if(mr){var id=st.last; st.read[id]=!st.read[id]; save(); mr.className=st.read[id]?"on":""; mr.textContent=st.read[id]?"읽음 표시됨 ✓":"다 읽었어요"; return;}
+  var a=e.target.closest('a[href^="#"]');
+  if(a){var t=a.getAttribute("href").slice(1); if(!/^u\d\d$/.test(t)){e.preventDefault(); var el=view.querySelector('[id="'+t+'"]'); if(el){ if(t==="e0") window.scrollTo({top:0}); else el.scrollIntoView({block:"start"}); }}}
+});
+window.addEventListener("hashchange",route);
+route();
+})();
+</script>
+<script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+</body>
+</html>
