@@ -5001,7 +5001,7 @@ button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
       <div class="flow">
         <div class="fh"><b>배깅</b><span class="tag green">동시 가능</span></div>
         <div class="fl"><span>전체 데이터</span><i>→</i><span>복원추출로<br>가방 여러 개</span><i>→</i><span>가방마다<br>모델 공부</span><i>→</i><span class="hi">투표</span></div>
-        <p>각자 <b>다른 문제집</b>으로 공부한 학생들의 회의. 이름도 Bootstrap + Aggregating(합치기).</p>
+        <p>각자 <b>다른 문제집</b>으로 공부한 학생들의 회의. 이름도 Bootstrap + Aggregating(합치기).<br>복원추출이라 가방마다 <b>약 36.8%의 데이터는 한 번도 안 뽑혀요</b>. 이 남은 데이터를 <b>OOB</b>라고 부르고 시험지로 써요.</p>
       </div>
       <div class="flow">
         <div class="fh"><b>부스팅</b><span class="tag red">순서대로만</span></div>
@@ -5023,10 +5023,11 @@ button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
   </div>
 
   <div class="link">
+    <div class="row"><span class="term">36.8%, OOB</span><span>배깅에서 가방마다 한 번도 안 뽑히는 데이터 비율이 약 36.8%. 이 데이터(OOB, Out-Of-Bag)로 따로 시험 없이 성능을 확인</span></div>
     <div class="row"><span class="term">부스팅 종류</span><span>AdaBoost, GBM, <b>XGBoost</b>(GBM보다 빠르고 규제 포함), <b>LightGBM</b>(학습 속도 개선)</span></div>
   </div>
 
-  <details><summary>36.8%는 어디서 나온 숫자?</summary><div class="in">
+  <details><summary>왜 하필 36.8%가 안 뽑힐까?</summary><div class="in">
     <p>복원추출로 100번 뽑을 때 특정 학생 한 명이 <b>한 번도 안 뽑힐</b> 확률: 한 번에 안 뽑힐 확률 0.99를 100번 곱하면 약 0.366. 데이터가 엄청 많아지면 약 <b>36.8%</b>로 수렴해요.</p>
     <p>뜻: 가방마다 <b>약 1/3은 공부에 안 쓰이고 남는다</b>. 이 남은 데이터(OOB, Out-Of-Bag)를 공짜 시험지로 써요.</p>
   </div></details>

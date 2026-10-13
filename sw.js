@@ -1,6 +1,6 @@
 // 오프라인 캐시: 한 번 열어 두면 지하철 등 인터넷이 없어도 열린다.
 // 내용을 고친 뒤에는 VERSION 숫자를 올려야 새 내용이 반영된다 (build.py가 자동으로 올림).
-const VERSION = "adsp-story-4f0b7e42";
+const VERSION = "adsp-story-485d4e28";
 const FILES = ["./", "index.html", "manifest.json", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
